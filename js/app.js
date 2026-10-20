@@ -1,4 +1,5 @@
-import { load, save, addCompany } from "./core/store.js";
+import { load, save, addCompany, toggleMark, KEY } from "./core/store.js";
+import { STATUSES, counts } from "./core/filters.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
 import { renderJobs } from "./ui/cards.js";
@@ -11,6 +12,12 @@ const now = () => new Date().toISOString();
 const empty = $("#list").innerHTML;
 const QUOTA = "Your browser refused to save. Free some space in its storage and try again.";
 let state = startVisit(load(localStorage), now());
+const UI = KEY + ":ui";  // view preferences, kept apart from the data
+let status = "open";
+try {
+  const saved = JSON.parse(localStorage.getItem(UI))?.status;
+  if (Object.hasOwn(STATUSES, saved)) status = saved;
+} catch {}
 
 function persist() {
   try {
@@ -21,14 +28,24 @@ function persist() {
   }
 }
 
+function notSaved() {
+  $("#banners").insertAdjacentHTML("afterbegin", `<div class="banner error" role="alert"><h3>Not saved</h3>${QUOTA}</div>`);
+}
+
 function render() {
   renderSummary(state);
+  const total = counts(state);
+  for (const button of $("#statuses").children) {
+    button.setAttribute("aria-pressed", button.dataset.status === status);
+    button.lastChild.textContent = total[button.dataset.status];
+  }
+  $("#list-title").textContent = STATUSES[status][0];
   if (!state.jobs.length) {
     $("#list").innerHTML = empty;
     $("#count").textContent = "0 results";
     return;
   }
-  const n = renderJobs($("#list"), state, terms($("#q").value));
+  const n = renderJobs($("#list"), state, status, terms($("#q").value));
   $("#count").textContent = `${n} result${n === 1 ? "" : "s"}`;
 }
 
@@ -49,7 +66,7 @@ async function refresh(force) {
   button.disabled = false;
   button.textContent = "Refresh";
   bar.style.width = "0";
-  if (!persist()) $("#banners").insertAdjacentHTML("afterbegin", `<div class="banner error" role="alert"><h3>Not saved</h3>${QUOTA}</div>`);
+  if (!persist()) notSaved();
 }
 
 setupAdd({
@@ -76,6 +93,27 @@ document.addEventListener("keydown", e => {
   e.preventDefault();
   $("#q").focus();
 });
+
+$("#statuses").onclick = e => {
+  const button = e.target.closest("button");
+  if (!button) return;
+  status = button.dataset.status;
+  try { localStorage.setItem(UI, JSON.stringify({ status })); } catch {}
+  render();
+};
+
+$("#list").onclick = e => {
+  const button = e.target.closest(".mark");
+  if (!button) return;
+  const { key, mark } = button.dataset, previous = state;
+  state = toggleMark(state, key, mark, now());
+  const saved = persist();
+  if (!saved) state = previous;
+  render();
+  if (!saved) notSaved();
+  // keep keyboard users in place when the card stays in the list
+  $(`.mark[data-key="${CSS.escape(key)}"][data-mark="${mark}"]`)?.focus();
+};
 
 $("#refresh").onclick = () => refresh(true);
 

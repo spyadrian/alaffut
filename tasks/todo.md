@@ -59,9 +59,9 @@ Afficher les chiffres clés (Open jobs, New, Applications sent, Sources with err
 
 ### Checkpoint 1
 - [x] `npm test` passe
-- [ ] Parcours complet : ajouter une entreprise Greenhouse, recharger, voir New / Disappeared
-- [ ] Rendu conforme à la référence
-- [ ] **Revue avec toi avant de continuer**
+- [x] Parcours complet : ajouter une entreprise Greenhouse, recharger, voir New / Disappeared
+- [x] Rendu conforme à la référence
+- [x] **Revue avec toi avant de continuer**
 
 ---
 
@@ -107,9 +107,9 @@ L'interface ne change pas.
 **Dépendances :** T2 · **Fichiers :** `js/core/detect.js`, `js/core/sources/rss.js`, test + fixtures, `package.json` · **Taille :** S
 
 ### Checkpoint 2
-- [ ] `npm test` passe
-- [ ] Une entreprise réelle par outil ajoutée et relevée sans erreur
-- [ ] Revue rapide avec toi
+- [x] `npm test` passe
+- [x] Une entreprise réelle par outil ajoutée et relevée sans erreur
+- [x] Revue rapide avec toi
 
 ---
 
@@ -126,9 +126,9 @@ L'interface ne change pas.
 
 ### T9 : Statuts et marques
 **Critères d'acceptation :**
-- [ ] Statuts Open, New, Applied, Disappeared, All, Not interested, avec compteurs ; une offre « Not interested » n'apparaît que dans ce dernier.
-- [ ] « I applied » → « ✓ Applied on DD.MM.YYYY » (survol vert) ; « Not interested » → « Show again » dans son statut (survol rouge) ; un second clic annule.
-- [ ] Marques conservées après rechargement ; statut choisi mémorisé.
+- [x] Statuts Open, New, Applied, Disappeared, All, Not interested, avec compteurs ; une offre « Not interested » n'apparaît que dans ce dernier.
+- [x] « I applied » → « ✓ Applied on DD.MM.YYYY » (survol vert) ; « Not interested » → « Show again » dans son statut (survol rouge) ; un second clic annule.
+- [x] Marques conservées après rechargement ; statut choisi mémorisé.
 
 **Vérification :** `npm test` (filtres de statut) ; manuel.
 **Dépendances :** T3 · **Fichiers :** `js/core/store.js`, `js/core/filters.js`, `js/ui/cards.js`, `js/app.js`, test · **Taille :** M

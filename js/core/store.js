@@ -25,3 +25,16 @@ export function addCompany(state, { tool, account }, name, jobs, now) {
     jobs: [...state.jobs, ...jobs.map(job => ({ ...job, key: `${key}:${job.id}`, company: key, spotted: now }))],
   };
 }
+
+// A mark holds the date it was set; setting it again removes it.
+export function toggleMark(state, jobKey, mark, now) {
+  if (mark !== "applied" && mark !== "hidden") throw new Error(`Unknown mark: ${mark}`);
+  return {
+    ...state,
+    jobs: state.jobs.map(job => {
+      if (job.key !== jobKey) return job;
+      const { [mark]: set, ...rest } = job;
+      return set ? rest : { ...rest, [mark]: now };
+    }),
+  };
+}
