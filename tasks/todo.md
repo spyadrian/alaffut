@@ -81,9 +81,9 @@ L'interface ne change pas.
 
 ### T5 : Ashby
 **Critères d'acceptation :**
-- [ ] `jobs.ashbyhq.com/{compte}` reconnu.
-- [ ] Une offre `isListed: false` n'est **jamais** retournée (test dédié).
-- [ ] Lieux secondaires conservés.
+- [x] `jobs.ashbyhq.com/{compte}` reconnu.
+- [x] Une offre `isListed: false` n'est **jamais** retournée (test dédié).
+- [x] Lieux secondaires conservés.
 
 **Vérification :** `npm test` ; ajout manuel d'un compte Ashby.
 **Dépendances :** T2 · **Fichiers :** `js/core/detect.js`, `js/core/sources/ashby.js`, test + fixture · **Taille :** S

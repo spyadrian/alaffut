@@ -7,8 +7,9 @@ const HOSTS = {
   "jobs.lever.co": "lever",
   // EU accounts only answer on the EU API, so the region is part of the tool
   "jobs.eu.lever.co": "lever-eu",
+  "jobs.ashbyhq.com": "ashby",
 };
-const NAMES = { greenhouse: "Greenhouse", lever: "Lever", "lever-eu": "Lever" };
+const NAMES = { greenhouse: "Greenhouse", lever: "Lever", "lever-eu": "Lever", ashby: "Ashby" };
 const ACCOUNT = /^[a-z0-9_-]+$/;
 
 export function detect(input) {
@@ -19,7 +20,7 @@ export function detect(input) {
     return { error: "This doesn't look like a link. Paste the full address, starting with https://" };
   }
   const tool = Object.hasOwn(HOSTS, url.hostname) ? HOSTS[url.hostname] : null;
-  if (!tool) return { error: "This site isn't supported. Paste a link to a job or careers page hosted on Greenhouse or Lever." };
+  if (!tool) return { error: "This site isn't supported. Paste a link to a job or careers page hosted on Greenhouse, Lever or Ashby." };
   const first = url.pathname.split("/")[1] ?? "";
   // embedded Greenhouse boards look like boards.greenhouse.io/embed/job_board?for=acme
   const account = (tool === "greenhouse" && first === "embed" ? url.searchParams.get("for") ?? "" : first).toLowerCase();
