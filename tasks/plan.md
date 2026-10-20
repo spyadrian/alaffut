@@ -96,7 +96,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 - [x] T4 : Lever (y compris UE)
 - [x] T5 : Ashby (jamais `isListed: false`)
 - [x] T6 : SmartRecruiters (paginé)
-- [ ] T7 : RSS / Atom + message clair pour les outils non pris en charge
+- [x] T7 : RSS / Atom + message clair pour les outils non pris en charge
 
 ### Checkpoint 2
 

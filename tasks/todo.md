@@ -99,9 +99,9 @@ L'interface ne change pas.
 
 ### T7 : RSS / Atom et outils non pris en charge
 **Critères d'acceptation :**
-- [ ] Flux RSS 2.0 et Atom lus (titre, lien, date ; lieu absent → « Not specified ») ; testé avec le flux du CERN enregistré.
-- [ ] Un flux bloqué par le navigateur (CORS) donne un message clair, pas une erreur brute.
-- [ ] Workday, Amazon et toute page HTML : message expliquant que l'outil n'est pas pris en charge et pourquoi.
+- [x] Flux RSS 2.0 et Atom lus (titre, lien, date ; lieu absent → « Not specified ») ; testé avec le flux du CERN enregistré.
+- [x] Un flux bloqué par le navigateur (CORS) donne un message clair, pas une erreur brute.
+- [x] Workday, Amazon et toute page HTML : message expliquant que l'outil n'est pas pris en charge et pourquoi.
 
 **Vérification :** `npm test` (avec `linkedom` en dépendance de dev) ; ajout manuel de `https://careers.cern/jobs/feed/`.
 **Dépendances :** T2 · **Fichiers :** `js/core/detect.js`, `js/core/sources/rss.js`, test + fixtures, `package.json` · **Taille :** S

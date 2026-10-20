@@ -16,7 +16,7 @@ export function jobHtml(job, company, fresh = false) {
     <div class="avatar" data-hue="${hue(company)}" aria-hidden="true">${esc(company.slice(0, 1))}</div>
     <div>
       <h4><a ${url ? `href="${esc(url)}"` : ""} target="_blank" rel="noopener">${esc(job.title)}</a></h4>
-      <div class="meta"><b>${esc(company)}</b>${job.location ? `<span>${esc(job.location)}</span>` : ""}${job.published ? `<span>published ${day(job.published)}</span>` : ""}</div>
+      <div class="meta"><b>${esc(company)}</b><span>${esc(job.location || "Not specified")}</span>${job.published ? `<span>published ${day(job.published)}</span>` : ""}</div>
     </div>
     <div class="side">${job.gone ? `<span class="badge gone">Disappeared on ${day(job.gone)}</span>` : fresh ? `<span class="badge new">New</span>` : ""}</div>
   </div>`;
