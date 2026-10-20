@@ -1,7 +1,8 @@
 // The one place that talks to job APIs: the browser fetches them directly.
 import greenhouse from "./sources/greenhouse.js";
+import { lever, leverEu } from "./sources/lever.js";
 
-const SOURCES = { greenhouse };
+const SOURCES = { greenhouse, lever, "lever-eu": leverEu };
 const TIMEOUT = 15000;
 
 export async function getJson(url) {
