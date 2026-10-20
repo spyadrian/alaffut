@@ -2,8 +2,9 @@
 import greenhouse from "./sources/greenhouse.js";
 import { lever, leverEu } from "./sources/lever.js";
 import ashby from "./sources/ashby.js";
+import smartrecruiters from "./sources/smartrecruiters.js";
 
-const SOURCES = { greenhouse, lever, "lever-eu": leverEu, ashby };
+const SOURCES = { greenhouse, lever, "lever-eu": leverEu, ashby, smartrecruiters };
 const TIMEOUT = 15000;
 
 export async function getJson(url) {
@@ -22,17 +23,18 @@ export async function getJson(url) {
   }
 }
 
+// → {jobs}, plus a warning when the list is incomplete.
 export async function readSource({ tool, account }) {
   const source = SOURCES[tool];
-  return source.parse(await getJson(source.url(account)));
+  return source.read ? source.read(account, getJson) : { jobs: source.parse(await getJson(source.url(account))) };
 }
 
-// Read every source, 4 at a time; each answer goes to onResult as {jobs} or {error}, never a throw.
+// Read every source, 4 at a time; each answer goes to onResult as {jobs, warning?} or {error}, never a throw.
 export async function readAll(sources, onResult, read = readSource) {
   const queue = [...sources];
   const worker = async () => {
     for (let source; (source = queue.shift());) {
-      onResult(source, await read(source).then(jobs => ({ jobs }), error => ({ error: error.message })));
+      onResult(source, await read(source).catch(error => ({ error: error.message })));
     }
   };
   await Promise.all(Array.from({ length: Math.min(4, queue.length) }, worker));

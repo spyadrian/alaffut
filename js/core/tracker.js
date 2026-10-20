@@ -13,11 +13,11 @@ export function startVisit(state, now) {
 export const due = (company, now, force = false) =>
   ago(now, company.tried) >= 2 * MINUTE && (force || ago(now, company.checked) >= 15 * MINUTE);
 
-// result is {jobs} after a successful answer, or {error} otherwise.
+// result is {jobs, warning?} after a successful answer, or {error} otherwise; a warning means jobs are missing.
 export function merge(state, key, result, now) {
   const companies = state.companies.map(c => c.key !== key ? c
     : result.error ? { ...c, tried: now, error: result.error }
-    : { ...c, tried: now, checked: now, error: null });
+    : { ...c, tried: now, checked: now, error: null, warning: result.warning ?? null });
   const visit = state.visit && { ...state.visit, seen: now };  // checking a source means the visitor is here
   if (result.error) return { ...state, companies, visit };  // a failed answer says nothing about which jobs are gone
 
@@ -30,7 +30,7 @@ export function merge(state, key, result, now) {
       const { gone, ...open } = { ...job, ...fresh };  // a job that reappears is open again
       return open;
     }
-    return job.gone ? job : { ...job, gone: now };
+    return job.gone || result.warning ? job : { ...job, gone: now };
   });
   for (const [jobKey, job] of found) jobs.push({ ...job, key: jobKey, company: key, spotted: now });
   return { ...state, companies, visit, jobs };

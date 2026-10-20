@@ -1,0 +1,129 @@
+{
+  "offset": 0,
+  "limit": 2,
+  "totalFound": 4,
+  "content": [
+    {
+      "id": "91042746",
+      "name": "INTEGRATEUR HTML",
+      "uuid": "6708d3eb-3829-4ff0-aa5a-d9adf574b7ef",
+      "jobAdId": "88deeb8d-a043-4560-83bd-beae4891eb59",
+      "defaultJobAd": true,
+      "refNumber": "REF6F",
+      "company": {
+        "identifier": "LVMH",
+        "name": "LVMH"
+      },
+      "releasedDate": "2016-03-31T13:27:01.000Z",
+      "location": {
+        "city": "Paris",
+        "region": "\u00cele-de-France",
+        "country": "fr",
+        "remote": false,
+        "hybrid": false,
+        "latitude": "48.85661400000001",
+        "longitude": "2.3522219000000177",
+        "fullLocation": "Paris, \u00cele-de-France, France"
+      },
+      "industry": {
+        "id": "luxury_goods_and_jewelry",
+        "label": "Luxury Goods And Jewelry"
+      },
+      "department": {},
+      "function": {
+        "id": "information_technology",
+        "label": "Information Technology"
+      },
+      "typeOfEmployment": {
+        "id": "permanent",
+        "label": "Full-time"
+      },
+      "experienceLevel": {
+        "id": "executive",
+        "label": "Executive"
+      },
+      "customField": [
+        {
+          "fieldId": "58b807bae4b0c5c4551df974",
+          "fieldLabel": "Brands",
+          "valueId": "default",
+          "valueLabel": "LVMH"
+        },
+        {
+          "fieldId": "COUNTRY",
+          "fieldLabel": "Country/Region",
+          "valueId": "fr",
+          "valueLabel": "France"
+        }
+      ],
+      "visibility": "PUBLIC",
+      "ref": "https://api.smartrecruiters.com/v1/companies/LVMH/postings/91042746",
+      "language": {
+        "code": "en",
+        "label": "English",
+        "labelNative": "English (US)"
+      }
+    },
+    {
+      "id": "91042696",
+      "name": "Women fashion online Buyer M/W",
+      "uuid": "7a8de2da-8c18-4dcf-987f-8d3db478d5b1",
+      "jobAdId": "b2c6da15-4d2b-4992-83e9-ea1ae929843b",
+      "defaultJobAd": true,
+      "refNumber": "REF7S",
+      "company": {
+        "identifier": "LVMH",
+        "name": "LVMH"
+      },
+      "releasedDate": "2016-03-31T13:25:47.000Z",
+      "location": {
+        "city": "Paris",
+        "region": "\u00cele-de-France",
+        "country": "fr",
+        "remote": false,
+        "hybrid": false,
+        "latitude": "48.85661400000001",
+        "longitude": "2.3522219000000177",
+        "fullLocation": "Paris, \u00cele-de-France, France"
+      },
+      "industry": {
+        "id": "luxury_goods_and_jewelry",
+        "label": "Luxury Goods And Jewelry"
+      },
+      "department": {},
+      "function": {
+        "id": "purchasing",
+        "label": "Purchasing"
+      },
+      "typeOfEmployment": {
+        "id": "permanent",
+        "label": "Full-time"
+      },
+      "experienceLevel": {
+        "id": "executive",
+        "label": "Executive"
+      },
+      "customField": [
+        {
+          "fieldId": "58b807bae4b0c5c4551df974",
+          "fieldLabel": "Brands",
+          "valueId": "default",
+          "valueLabel": "LVMH"
+        },
+        {
+          "fieldId": "COUNTRY",
+          "fieldLabel": "Country/Region",
+          "valueId": "fr",
+          "valueLabel": "France"
+        }
+      ],
+      "visibility": "PUBLIC",
+      "ref": "https://api.smartrecruiters.com/v1/companies/LVMH/postings/91042696",
+      "language": {
+        "code": "en",
+        "label": "English",
+        "labelNative": "English (US)"
+      }
+    }
+  ]
+}

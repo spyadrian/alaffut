@@ -12,7 +12,7 @@ test("readSource fetches the adapter URL and parses the answer", async () => {
     assert.equal(url, "https://boards-api.greenhouse.io/v1/boards/bitpanda/jobs");
     return new Response(body);
   };
-  const jobs = await readSource({ tool: "greenhouse", account: "bitpanda" });
+  const { jobs } = await readSource({ tool: "greenhouse", account: "bitpanda" });
   assert.equal(jobs.length, 4);
 });
 
@@ -37,7 +37,7 @@ test("readAll reads 4 sources at most at once and keeps going after a failure", 
     await new Promise(r => setTimeout(r, 5));
     running--;
     if (n === 2) throw new Error("down");
-    return [n];
+    return { jobs: [n] };
   };
   const results = new Map();
   await readAll([1, 2, 3, 4, 5, 6], (n, result) => results.set(n, result), read);

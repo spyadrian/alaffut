@@ -63,3 +63,14 @@ test("due: checked over 15 min ago, or forced; never twice within 2 min", () => 
   assert.equal(due(c, at(3), true), true);
   assert.equal(due({ checked: T0, tried: at(15) }, at(16)), false);
 });
+
+test("a capped answer records its warning and makes no job disappear; a full one clears it", () => {
+  let state = merge(start(), "greenhouse:acme", { jobs: [job("3")], warning: "Only the first 1000 jobs." }, T1);
+  assert.ok(state.jobs.every(j => !j.gone));
+  assert.equal(byId(state, "3").spotted, T1);
+  assert.equal(state.companies[0].warning, "Only the first 1000 jobs.");
+  assert.equal(figures(state).errors, 0);
+  state = merge(state, "greenhouse:acme", { jobs: [job("3")] }, T2);
+  assert.equal(state.companies[0].warning, null);
+  assert.equal(byId(state, "1").gone, T2);
+});

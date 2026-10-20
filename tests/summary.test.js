@@ -18,3 +18,9 @@ test("summaryHtml lists each source in error with its cause, escaped", () => {
 test("summaryHtml shows no banner when every source answered", () => {
   assert.equal(summaryHtml({ companies: [{ key: "a", name: "A", error: null }], jobs: [] }).banners, "");
 });
+
+test("summaryHtml lists a capped source as needing attention without counting it as an error", () => {
+  const html = summaryHtml({ companies: [{ key: "a", name: "Bosch", error: null, warning: "Only the first 1000." }], jobs: [] });
+  assert.ok(html.banners.includes("<b>Bosch</b>: Only the first 1000."));
+  assert.ok(html.figures.includes("<b>0</b><span>sources with errors</span>"));
+});
