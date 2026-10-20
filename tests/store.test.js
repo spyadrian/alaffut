@@ -17,7 +17,7 @@ test("addCompany then save and load keeps the company and its jobs", () => {
   const state = addCompany(load(storage), { tool: "greenhouse", account: "acme" }, " Acme ", [job], "2026-10-20T10:00:00.000Z");
   save(storage, state);
   const again = load(storage);
-  assert.deepEqual(again.companies, [{ key: "greenhouse:acme", tool: "greenhouse", account: "acme", name: "Acme", added: "2026-10-20T10:00:00.000Z" }]);
+  assert.deepEqual(again.companies, [{ key: "greenhouse:acme", tool: "greenhouse", account: "acme", name: "Acme", added: "2026-10-20T10:00:00.000Z", checked: "2026-10-20T10:00:00.000Z", tried: "2026-10-20T10:00:00.000Z", error: null }]);
   assert.deepEqual(again.jobs, [{ ...job, key: "greenhouse:acme:1", company: "greenhouse:acme", spotted: "2026-10-20T10:00:00.000Z" }]);
 });
 

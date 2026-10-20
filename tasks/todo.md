@@ -48,9 +48,9 @@ Afficher les chiffres clés (Open jobs, New, Applications sent, Sources with err
 « Needs attention » avec la cause de chaque erreur.
 
 **Critères d'acceptation :**
-- [ ] `tracker.js` testé : une offre absente d'une réponse réussie passe « Disappeared on DD.MM.YYYY » ; une source en erreur ne fait disparaître aucune offre ; une offre réapparue redevient ouverte.
-- [ ] « New » = repérée depuis la dernière visite (frontière d'une heure) ; le premier relevé d'une entreprise ajoutée n'est pas « New ».
-- [ ] Une source en échec n'empêche pas les autres de s'afficher.
+- [x] `tracker.js` testé : une offre absente d'une réponse réussie passe « Disappeared on DD.MM.YYYY » ; une source en erreur ne fait disparaître aucune offre ; une offre réapparue redevient ouverte.
+- [x] « New » = repérée depuis la dernière visite (frontière d'une heure) ; le premier relevé d'une entreprise ajoutée n'est pas « New ».
+- [x] Une source en échec n'empêche pas les autres de s'afficher.
 
 **Vérification :** `npm test` ; manuel : couper le réseau pour une source (URL de compte inexistant) et vérifier le bandeau.
 **Dépendances :** T2

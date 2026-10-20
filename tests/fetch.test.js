@@ -1,7 +1,7 @@
 import { test, afterEach } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { getJson, readSource } from "../js/core/fetch.js";
+import { getJson, readSource, readAll } from "../js/core/fetch.js";
 
 const realFetch = globalThis.fetch;
 afterEach(() => { globalThis.fetch = realFetch; });
@@ -28,4 +28,21 @@ test("getJson turns failures into readable errors", async () => {
     globalThis.fetch = fake;
     await assert.rejects(getJson("https://example.com"), message);
   }
+});
+
+test("readAll reads 4 sources at most at once and keeps going after a failure", async () => {
+  let running = 0, peak = 0;
+  const read = async n => {
+    peak = Math.max(peak, ++running);
+    await new Promise(r => setTimeout(r, 5));
+    running--;
+    if (n === 2) throw new Error("down");
+    return [n];
+  };
+  const results = new Map();
+  await readAll([1, 2, 3, 4, 5, 6], (n, result) => results.set(n, result), read);
+  assert.equal(peak, 4);
+  assert.deepEqual(results.get(2), { error: "down" });
+  assert.deepEqual(results.get(6), { jobs: [6] });
+  assert.equal(results.size, 6);
 });
