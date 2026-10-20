@@ -38,3 +38,8 @@ test("detect recognises Lever boards and keeps the EU region apart", () => {
   assert.deepEqual(detect("https://jobs.eu.lever.co/everseen"), { tool: "lever-eu", account: "everseen" });
   assert.equal(typeof detect("https://jobs.lever.co/").error, "string");
 });
+
+test("detect recognises Ashby boards", () => {
+  assert.deepEqual(detect("https://jobs.ashbyhq.com/Notion/1fc309c8-da20?utm_source=x"), { tool: "ashby", account: "notion" });
+  assert.equal(typeof detect("https://jobs.ashbyhq.com/").error, "string");
+});
