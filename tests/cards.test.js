@@ -23,3 +23,9 @@ test("jobHtml neutralises hostile data", () => {
   assert.ok(!html.includes("javascript:"));
   assert.ok(html.includes("&lt;img src=x onerror=alert(1)&gt;"));
 });
+
+test("jobHtml marks New and Disappeared jobs", () => {
+  assert.ok(jobHtml(job, "Acme", true).includes('<span class="badge new">New</span>'));
+  assert.ok(jobHtml({ ...job, gone: "2026-10-20T12:00:00.000Z" }, "Acme", true).includes("Disappeared on 20.10.2026"));
+  assert.ok(!jobHtml(job, "Acme").includes("badge"));
+});

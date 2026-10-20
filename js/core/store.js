@@ -21,7 +21,7 @@ export function addCompany(state, { tool, account }, name, jobs, now) {
   if (state.companies.some(c => c.key === key)) throw new Error("You already follow this company.");
   return {
     ...state,
-    companies: [...state.companies, { key, tool, account, name: name.trim() || account, added: now }],
+    companies: [...state.companies, { key, tool, account, name: name.trim() || account, added: now, checked: now, tried: now, error: null }],
     jobs: [...state.jobs, ...jobs.map(job => ({ ...job, key: `${key}:${job.id}`, company: key, spotted: now }))],
   };
 }

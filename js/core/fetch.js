@@ -20,8 +20,18 @@ export async function getJson(url) {
   }
 }
 
-// shortcut: one request at a time, upgrade to 4 in parallel when T3 refreshes every source
 export async function readSource({ tool, account }) {
   const source = SOURCES[tool];
   return source.parse(await getJson(source.url(account)));
+}
+
+// Read every source, 4 at a time; each answer goes to onResult as {jobs} or {error}, never a throw.
+export async function readAll(sources, onResult, read = readSource) {
+  const queue = [...sources];
+  const worker = async () => {
+    for (let source; (source = queue.shift());) {
+      onResult(source, await read(source).then(jobs => ({ jobs }), error => ({ error: error.message })));
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(4, queue.length) }, worker));
 }

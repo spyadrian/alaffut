@@ -98,7 +98,7 @@ dialog h3{margin:0 0 14px;font-size:17px}
 #add-status{margin:0 0 12px;font-size:14px}
 #add-status:empty{display:none}
 .dialog-actions{display:flex;justify-content:flex-end;gap:8px}
-.dialog-actions .more{margin:0}
+.dialog-actions .more,.actions .more{margin:0}
 
 .mobile-filters{display:none}
 @media (max-width:860px){
