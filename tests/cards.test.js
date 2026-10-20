@@ -40,3 +40,17 @@ test("jobHtml highlights search terms in title, company and location", () => {
     assert.ok(html.includes(part), part);
   }
 });
+
+test("jobHtml offers both marks, and shows them once set", () => {
+  const plain = jobHtml({ ...job, key: "a:1" }, "Acme");
+  assert.ok(plain.includes('data-key="a:1" data-mark="applied" aria-pressed="false">I applied</button>'));
+  assert.ok(plain.includes('data-mark="hidden" aria-pressed="false">Not interested</button>'));
+  const marked = jobHtml({ ...job, key: "a:1", applied: "2026-10-20T12:00:00.000Z", hidden: "2026-10-20T12:00:00.000Z", gone: "2026-10-21T12:00:00.000Z" }, "Acme");
+  assert.ok(marked.includes('aria-pressed="true">✓ Applied on 20.10.2026</button>'));
+  assert.ok(marked.includes('aria-pressed="true">Show again</button>'));
+  assert.ok(marked.includes('class="job gone applied"'));
+});
+
+test("jobHtml escapes the job key in its buttons", () => {
+  assert.ok(!jobHtml({ ...job, key: 'a:"><img>' }, "Acme").includes("<img>"));
+});

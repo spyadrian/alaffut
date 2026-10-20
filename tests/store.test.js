@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { load, save, addCompany, KEY } from "../js/core/store.js";
+import { load, save, addCompany, toggleMark, KEY } from "../js/core/store.js";
 
 const memory = () => {
   const data = new Map();
@@ -36,4 +36,16 @@ test("load keeps an unreadable saved state aside instead of losing it", () => {
   storage.setItem(KEY, "{broken");
   assert.deepEqual(load(storage).companies, []);
   assert.equal(storage.getItem(KEY + ":unreadable"), "{broken");
+});
+
+test("toggleMark sets a mark with its date, and a second call removes it", () => {
+  const state = addCompany(load(memory()), { tool: "greenhouse", account: "acme" }, "Acme", [job], "x");
+  const marked = toggleMark(state, "greenhouse:acme:1", "applied", "2026-10-21T08:00:00.000Z");
+  assert.equal(marked.jobs[0].applied, "2026-10-21T08:00:00.000Z");
+  assert.equal(state.jobs[0].applied, undefined);
+  assert.ok(!("applied" in toggleMark(marked, "greenhouse:acme:1", "applied", "y").jobs[0]));
+});
+
+test("toggleMark only accepts the known marks", () => {
+  assert.throws(() => toggleMark({ jobs: [] }, "k", "__proto__", "x"));
 });

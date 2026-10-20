@@ -43,8 +43,8 @@ export function isNew(state, job) {
 }
 
 export const figures = state => ({
-  open: state.jobs.filter(j => !j.gone).length,
-  new: state.jobs.filter(j => isNew(state, j)).length,
+  open: state.jobs.filter(j => !j.gone && !j.hidden).length,
+  new: state.jobs.filter(j => !j.hidden && isNew(state, j)).length,
   applied: state.jobs.filter(j => j.applied).length,
   errors: state.companies.filter(c => c.error).length,
 });
