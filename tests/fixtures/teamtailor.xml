@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:tt="https://teamtailor.com/locations">
+  <channel>
+    <title>Teamtailor</title>
+    <description></description>
+    <link>https://career.teamtailor.com/jobs</link>
+    <item>
+      <title>UK Account Executive - SMB</title>
+      <description></description>
+      <pubDate>Fri, 24 Jul 2026 09:05:16 +0200</pubDate>
+      <link>https://career.teamtailor.com/jobs/8118064-uk-account-executive-smb</link>
+      <remoteStatus>hybrid</remoteStatus>
+      <guid>4ff07fd5-3ac0-4333-8f4c-955380396321</guid>
+      <tt:locations>
+        <tt:location>
+          <tt:name>London</tt:name>
+          <tt:address>16 Laystall Court</tt:address>
+          <tt:zip>EC1R 4</tt:zip>
+          <tt:city>London</tt:city>
+          <tt:country>United Kingdom</tt:country>
+        </tt:location>
+      </tt:locations>
+      <tt:department>Sales</tt:department>
+      <tt:role>Account Executive</tt:role>
+      <tt:division/>
+    </item>
+    <item>
+      <title>Revenue Systems Engineer</title>
+      <description></description>
+      <pubDate>Wed, 14 Oct 2026 14:33:33 +0200</pubDate>
+      <link>https://career.teamtailor.com/jobs/8546033-revenue-systems-engineer</link>
+      <remoteStatus>none</remoteStatus>
+      <guid>5f14f689-77ee-4b85-a1f1-05df74ea2944</guid>
+      <tt:locations>
+        <tt:location>
+          <tt:name>Stockholm</tt:name>
+          <tt:address>Östgötagatan 16</tt:address>
+          <tt:zip>116 21</tt:zip>
+          <tt:city>Stockholm</tt:city>
+          <tt:country>Sweden</tt:country>
+        </tt:location>
+      </tt:locations>
+      <tt:department>CRM</tt:department>
+      <tt:role/>
+      <tt:division/>
+    </item>
+  </channel>
+</rss>

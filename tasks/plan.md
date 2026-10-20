@@ -29,6 +29,10 @@ Prises par défaut (à contester si besoin) :
 - **RSS/Atom** : analysé avec `DOMParser` dans le navigateur. Node n'en a pas : le parseur reçoit le
   `DOMParser` en paramètre et les tests utilisent `linkedom` en **dépendance de développement uniquement**
   (rien n'est livré au visiteur). Seule exception au « zéro dépendance ».
+  Pages : `?paged=N` (WordPress, ex. CERN) suivi tant qu'une page apporte du nouveau, 10 pages au plus ;
+  `rel="next"` (RFC 5005) non géré, aucun flux d'offres réel trouvé qui l'utilise (20.10.2026). Lieu : balise
+  `location` (tout préfixe, ex. `tt:location` de Teamtailor), sinon `city`, sinon `region` + `country`,
+  sinon « Not specified » (pas de champ de secours, décidé le 20.10.2026).
 - **Stockage** : `localStorage`, une seule clé versionnée (`alaffut:v1`). Ordre de grandeur : 5 000 offres
   ≈ 1 Mo, sous la limite de ~5 Mo. Les offres disparues depuis plus de 90 jours sont purgées, sauf si
   marquées « Applied ». Une erreur de quota est affichée clairement avec un appel à exporter.

@@ -15,7 +15,7 @@ async function request(url, unreachable) {
   } catch (error) {
     throw new Error(error?.name === "TimeoutError" ? "The source didn't answer in time." : unreachable);
   }
-  if (response.status === 404) throw new Error("Not found at the source. Check the link.");
+  if (response.status === 404) throw Object.assign(new Error("Not found at the source. Check the link."), { status: 404 });
   if (!response.ok) throw new Error(`The source answered with error ${response.status}.`);
   return response;
 }
@@ -37,7 +37,8 @@ export async function getJson(url) {
 // → {jobs}, plus a warning when the list is incomplete.
 export async function readSource({ tool, account }) {
   const source = SOURCES[tool];
-  return source.read ? source.read(account, getJson) : { jobs: source.parse(await (source.text ? getText : getJson)(source.url(account))) };
+  const get = source.text ? getText : getJson;
+  return source.read ? source.read(account, get) : { jobs: source.parse(await get(source.url(account))) };
 }
 
 // Read every source, 4 at a time; each answer goes to onResult as {jobs, warning?} or {error}, never a throw.
