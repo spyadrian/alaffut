@@ -60,21 +60,28 @@ test("visible combines status, cities, companies and search", () => {
   assert.deepEqual(shown({ companies: new Set(["a"]), cities: new Set(["paris"]), words: ["alp"] }), ["2"]);
 });
 
-test("choices lists every city and company with its count in the current status", () => {
-  const { cities, companies } = choices(listing, "open");
+test("choices lists every city (A → Z, Not specified last) and company with its count in the current status", () => {
+  const { cities, companies } = choices(listing, view());
   assert.deepEqual(cities, [
     { value: "geneve", label: "Genève", count: 1 },
-    { value: "not specified", label: "Not specified", count: 1 },
     { value: "paris", label: "Paris", count: 1 },
     { value: "zurich", label: "Zurich", count: 1 },
+    { value: "not specified", label: "Not specified", count: 1 },
   ]);
   assert.deepEqual(companies, [{ value: "a", label: "Alpha", count: 2 }, { value: "b", label: "beta", count: 1 }]);
-  assert.deepEqual(choices(listing, "gone").cities.map(c => c.count), [2, 0, 0, 0]);
+  assert.deepEqual(choices(listing, view({ status: "gone" })).cities.map(c => c.count), [0, 0, 2, 0]);
+});
+
+test("each list counts with the other filters and the search, but not its own ticks", () => {
+  const ticked = choices(listing, view({ companies: new Set(["b"]), cities: new Set(["paris"]) }));
+  assert.deepEqual(ticked.cities.map(c => c.count), [0, 0, 1, 0]);  // Bolt's jobs only, whatever the city ticks
+  assert.deepEqual(ticked.companies.map(c => c.count), [1, 0]);  // Paris jobs only, whatever the company ticks
+  assert.deepEqual(choices(listing, view({ words: ["mu"] })).companies.map(c => c.count), [1, 0]);
 });
 
 test("choices counts a job once per city and shows its most frequent spelling", () => {
-  const zurich = choices(listing, "all").cities[0];
-  assert.deepEqual(zurich, { value: "zurich", label: "Zurich", count: 3 });
+  const zurich = state => choices(state, view({ status: "all" })).cities.find(c => c.value === "zurich");
+  assert.deepEqual(zurich(listing), { value: "zurich", label: "Zurich", count: 3 });
   const more = { ...listing, jobs: [...listing.jobs, { key: "6", company: "a", title: "X", location: "Zürich", spotted: T0, published: "" }, { key: "7", company: "a", title: "Y", location: "Zürich", spotted: T0, published: "" }] };
-  assert.equal(choices(more, "all").cities[0].label, "Zürich");
+  assert.equal(zurich(more).label, "Zürich");
 });

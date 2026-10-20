@@ -136,7 +136,7 @@ L'interface ne change pas.
 ### T10 : Villes, filtres ville / entreprise, tri
 **Critères d'acceptation :**
 - [x] `cities.js` : ville = ce qui précède la première virgule, chaque lieu joint par « · » ou « ; » compté à part ; regroupement sans casse ni accents (Zürich = Zurich = ZURICH), affiché avec l'orthographe la plus fréquente ; pas de table de variantes (Genève, Geneva et Genf restent séparées) ; lieu vide → « Not specified » ; « Paris · Zurich, CH · Warsaw » → trois villes.
-- [x] Filtres ville et entreprise à cocher avec compteurs, « Show all » pour réinitialiser.
+- [x] Filtres ville et entreprise à cocher, par ordre alphabétique (« Not specified » en dernier), « Show all » pour réinitialiser ; chaque compteur tient compte du statut, de la recherche et de l'autre liste (pas de ses propres cases) ; un choix à 0 est grisé, pas retiré.
 - [x] Tri : Recently spotted, Publication date, Company (A → Z), Title (A → Z).
 
 **Vérification :** `npm test` (« Zurich, Zurich, CHE », « Zürich, CH », « Paris · Zurich · Warsaw »…) ; manuel.

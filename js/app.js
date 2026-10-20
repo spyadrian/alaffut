@@ -44,13 +44,14 @@ function render() {
   }
   $("#list-title").textContent = STATUSES[view.status][0];
   $("#sort").value = view.sort;
-  renderChoices(choices(state, view.status), view);
+  const current = { ...view, words: terms($("#q").value) };
+  renderChoices(choices(state, current), view);
   if (!state.jobs.length) {
     $("#list").innerHTML = empty;
     $("#count").textContent = "0 results";
     return;
   }
-  const n = renderJobs($("#list"), state, { ...view, words: terms($("#q").value) });
+  const n = renderJobs($("#list"), state, current);
   $("#count").textContent = `${n} result${n === 1 ? "" : "s"}`;
 }
 

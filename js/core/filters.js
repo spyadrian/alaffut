@@ -27,36 +27,45 @@ export const SORTS = {
   title: (a, b) => by(a.title, b.title),
 };
 
+// Which filters a job passes. Each checklist counts jobs passing all the others but not its own ticks.
+function passes(state, view, name, job) {
+  return {
+    rest: inStatus(state, view.status, job) && matches([job.title, name[job.company] ?? "", job.location || NOWHERE], view.words),
+    company: !view.companies.size || view.companies.has(job.company),
+    city: !view.cities.size || cities(job.location).some(city => view.cities.has(cityKey(city))),
+  };
+}
+
 // view: {status, sort, words, cities: Set, companies: Set}; an empty set means no filter.
 export function visible(state, view) {
   const name = names(state);
-  return state.jobs.filter(job => inStatus(state, view.status, job)
-      && (!view.companies.size || view.companies.has(job.company))
-      && (!view.cities.size || cities(job.location).some(city => view.cities.has(cityKey(city))))
-      && matches([job.title, name[job.company] ?? "", job.location || NOWHERE], view.words))
-    .sort((a, b) => SORTS[view.sort](a, b, name));
+  return state.jobs.filter(job => {
+    const p = passes(state, view, name, job);
+    return p.rest && p.company && p.city;
+  }).sort((a, b) => SORTS[view.sort](a, b, name));
 }
 
-// Every city and company, with how many jobs of the current status each has.
+// Every city and company, with how many jobs it would add to the list.
 // A city is shown with its most frequent spelling across all jobs.
-export function choices(state, status) {
+export function choices(state, view) {
+  const name = names(state);
   const perCity = new Map(), perCompany = new Map(state.companies.map(c => [c.key, 0]));
   for (const job of state.jobs) {
-    const one = inStatus(state, status, job) ? 1 : 0;
+    const p = passes(state, view, name, job);
     const spelled = new Map();  // city key → its first spelling in this job
     for (const city of cities(job.location)) if (!spelled.has(cityKey(city))) spelled.set(cityKey(city), city);
     for (const [key, city] of spelled) {
       const entry = perCity.get(key) ?? { count: 0, spellings: new Map() };
-      entry.count += one;
+      entry.count += p.rest && p.company ? 1 : 0;
       entry.spellings.set(city, (entry.spellings.get(city) ?? 0) + 1);
       perCity.set(key, entry);
     }
-    perCompany.set(job.company, (perCompany.get(job.company) ?? 0) + one);
+    perCompany.set(job.company, (perCompany.get(job.company) ?? 0) + (p.rest && p.city ? 1 : 0));
   }
-  const name = names(state);
   const usual = spellings => [...spellings].reduce((best, next) => next[1] > best[1] ? next : best)[0];
+  const last = city => city.label === NOWHERE;
   return {
-    cities: [...perCity].map(([key, { count, spellings }]) => ({ value: key, label: usual(spellings), count })).sort((a, b) => b.count - a.count || by(a.label, b.label)),
+    cities: [...perCity].map(([key, { count, spellings }]) => ({ value: key, label: usual(spellings), count })).sort((a, b) => last(a) - last(b) || by(a.label, b.label)),
     companies: state.companies.map(c => ({ value: c.key, label: name[c.key], count: perCompany.get(c.key) })).sort((a, b) => by(a.label, b.label)),
   };
 }
