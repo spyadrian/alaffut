@@ -1,0 +1,87 @@
+[
+  {
+    "id": "499b4746-27b3-4c13-8cd8-cc5dccdbad9c",
+    "text": "DevOps Manager",
+    "hostedUrl": "https://jobs.eu.lever.co/everseen/499b4746-27b3-4c13-8cd8-cc5dccdbad9c",
+    "applyUrl": "https://jobs.eu.lever.co/everseen/499b4746-27b3-4c13-8cd8-cc5dccdbad9c/apply",
+    "createdAt": 1791277894813,
+    "categories": {
+      "commitment": "Full Time Permanent",
+      "department": "R&D",
+      "location": "Cork",
+      "team": "Engineering - DevOps",
+      "allLocations": [
+        "Cork",
+        "Timișoara"
+      ]
+    },
+    "workplaceType": "hybrid",
+    "country": "IE"
+  },
+  {
+    "id": "3f359b17-799c-4670-8d80-12a7afb56164",
+    "text": "AI/ML Engineer I",
+    "hostedUrl": "https://jobs.eu.lever.co/everseen/3f359b17-799c-4670-8d80-12a7afb56164",
+    "applyUrl": "https://jobs.eu.lever.co/everseen/3f359b17-799c-4670-8d80-12a7afb56164/apply",
+    "createdAt": 1789020914972,
+    "categories": {
+      "commitment": "Full Time Permanent",
+      "department": "India",
+      "location": "Pune",
+      "team": "IN IT",
+      "allLocations": [
+        "Pune"
+      ]
+    },
+    "workplaceType": "onsite",
+    "country": "IN"
+  },
+  {
+    "id": "7eda84bb-971b-469e-9d87-f29d4f904a28",
+    "text": "AI/ML Engineer II",
+    "hostedUrl": "https://jobs.eu.lever.co/everseen/7eda84bb-971b-469e-9d87-f29d4f904a28",
+    "applyUrl": "https://jobs.eu.lever.co/everseen/7eda84bb-971b-469e-9d87-f29d4f904a28/apply",
+    "createdAt": 1789092472318,
+    "categories": {
+      "commitment": "Full Time Permanent",
+      "department": "India",
+      "location": "Pune",
+      "team": "IN IT",
+      "allLocations": [
+        "Pune"
+      ]
+    },
+    "workplaceType": "onsite",
+    "country": "IN"
+  },
+  {
+    "id": "9dfaf4a7-2205-4789-b551-d276daa8a6ea",
+    "text": "Interested in Working with Everseen?",
+    "hostedUrl": "https://jobs.eu.lever.co/everseen/9dfaf4a7-2205-4789-b551-d276daa8a6ea",
+    "applyUrl": "https://jobs.eu.lever.co/everseen/9dfaf4a7-2205-4789-b551-d276daa8a6ea/apply",
+    "createdAt": 1749738739153,
+    "categories": {
+      "commitment": "Full Time Permanent",
+      "department": "Talent Pool",
+      "location": "Cork",
+      "team": "Talent Pool",
+      "allLocations": [
+        "Cork",
+        "Barcelona",
+        "Belgrade",
+        "Hyderabad",
+        "London",
+        "Miami, FL",
+        "Pune",
+        "Sydney",
+        "Timișoara",
+        "Melbourne",
+        "Dallas",
+        "Atlanta",
+        "Cincinnati, OH"
+      ]
+    },
+    "workplaceType": "hybrid",
+    "country": "IE"
+  }
+]

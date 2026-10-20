@@ -32,3 +32,9 @@ test("detect gives a readable refusal otherwise", () => {
     assert.equal(result.tool, undefined, url);
   }
 });
+
+test("detect recognises Lever boards and keeps the EU region apart", () => {
+  assert.deepEqual(detect("https://jobs.lever.co/Palantir/3f2a-uuid?lever-source=x"), { tool: "lever", account: "palantir" });
+  assert.deepEqual(detect("https://jobs.eu.lever.co/everseen"), { tool: "lever-eu", account: "everseen" });
+  assert.equal(typeof detect("https://jobs.lever.co/").error, "string");
+});

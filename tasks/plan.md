@@ -93,7 +93,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 ### Checkpoint 1 — revue humaine
 
 ### Phase 2 : autres sources (parallélisables)
-- [ ] T4 : Lever (y compris UE)
+- [x] T4 : Lever (y compris UE)
 - [ ] T5 : Ashby (jamais `isListed: false`)
 - [ ] T6 : SmartRecruiters (paginé)
 - [ ] T7 : RSS / Atom + message clair pour les outils non pris en charge
@@ -127,7 +127,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 |---|---|---|
 | Lever change sa politique CORS (doc : non supporté) | Élevé | Source isolée ; une erreur passe dans « Needs attention » sans casser les autres. Surveiller. |
 | Format réel des API différent de la doc (dates, lieux multiples) | Moyen | Fixtures enregistrées depuis de vraies réponses avant d'écrire chaque adaptateur. |
-| `api.eu.lever.co` jamais testé | Moyen | Le tester en T4 avec un vrai compte UE ; sinon message d'erreur clair. |
+| `api.eu.lever.co` | Résolu | Testé le 20.10.2026 avec `ovoko`, `kwalee`, `everseen` : 200, CORS `*`, même format que l'API US. Ces comptes renvoient 404 sur `api.lever.co` → région gardée dans l'outil (`lever-eu`). |
 | Données tierces qui injectent du code | Élevé | `textContent`/échappement partout, `safeUrl()`, CSP, test avec titre `<img onerror>` et lien `javascript:`. |
 | Quota `localStorage` dépassé | Moyen | Purge à 90 jours, message clair + invitation à exporter. |
 | Lieux trop hétérogènes, villes mal reconnues | Faible | Table de variantes testée ; repli « Not specified » ; table extensible. |

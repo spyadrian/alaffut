@@ -58,7 +58,7 @@ Afficher les chiffres clés (Open jobs, New, Applications sent, Sources with err
 **Taille :** M
 
 ### Checkpoint 1
-- [ ] `npm test` passe
+- [x] `npm test` passe
 - [ ] Parcours complet : ajouter une entreprise Greenhouse, recharger, voir New / Disappeared
 - [ ] Rendu conforme à la référence
 - [ ] **Revue avec toi avant de continuer**
@@ -72,9 +72,9 @@ L'interface ne change pas.
 
 ### T4 : Lever
 **Critères d'acceptation :**
-- [ ] `jobs.lever.co/{compte}` → `api.lever.co`, `jobs.eu.lever.co/{compte}` → `api.eu.lever.co`.
-- [ ] Lieux multiples (`allLocations`) conservés ; date `createdAt` (ms) convertie.
-- [ ] Testé sur fixture réelle ; l'API UE essayée une fois avec un vrai compte (résultat noté dans `plan.md`).
+- [x] `jobs.lever.co/{compte}` → `api.lever.co`, `jobs.eu.lever.co/{compte}` → `api.eu.lever.co`.
+- [x] Lieux multiples (`allLocations`) conservés ; date `createdAt` (ms) convertie.
+- [x] Testé sur fixture réelle ; l'API UE essayée une fois avec un vrai compte (résultat noté dans `plan.md`).
 
 **Vérification :** `npm test` ; ajout manuel d'un compte Lever.
 **Dépendances :** T2 · **Fichiers :** `js/core/detect.js`, `js/core/sources/lever.js`, test + fixture · **Taille :** S
