@@ -23,9 +23,9 @@ test("detect reads the account of an embedded board", () => {
 });
 
 test("detect gives a readable refusal otherwise", () => {
-  for (const url of ["", "not a link", "javascript:alert(1)", "https://example.com/careers",
+  for (const url of ["", "not a link", "javascript:alert(1)", "http://example.com/feed",
                      "https://boards.greenhouse.io/", "https://boards.greenhouse.io/embed/job_board",
-                     "https://evilgreenhouse.io/acme", "https://boards.greenhouse.io/a%22b"]) {
+                     "https://boards.greenhouse.io/a%22b"]) {
     const result = detect(url);
     assert.equal(typeof result.error, "string", url);
     assert.ok(result.error.length > 10, url);
@@ -48,4 +48,15 @@ test("detect recognises SmartRecruiters boards", () => {
   assert.deepEqual(detect("https://jobs.smartrecruiters.com/BoschGroup/744000156501729-supply-chain-intern"), { tool: "smartrecruiters", account: "boschgroup" });
   assert.deepEqual(detect("https://careers.smartrecruiters.com/LVMH"), { tool: "smartrecruiters", account: "lvmh" });
   assert.equal(typeof detect("https://careers.smartrecruiters.com/").error, "string");
+});
+
+test("detect tries any other https link as an RSS or Atom feed", () => {
+  assert.deepEqual(detect(" https://careers.cern/jobs/feed/ "), { tool: "rss", account: "https://careers.cern/jobs/feed/" });
+  assert.deepEqual(detect("https://evilgreenhouse.io/acme"), { tool: "rss", account: "https://evilgreenhouse.io/acme" });
+});
+
+test("detect explains why Workday and Amazon can't be followed", () => {
+  for (const url of ["https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite", "https://wd3.myworkdaysite.com/recruiting/x", "https://www.amazon.jobs/en/jobs/123"]) {
+    assert.match(detect(url).error, /(Workday|Amazon) .*no public feed/, url);
+  }
 });

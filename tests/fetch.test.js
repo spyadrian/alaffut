@@ -1,7 +1,7 @@
 import { test, afterEach } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { getJson, readSource, readAll } from "../js/core/fetch.js";
+import { getJson, getText, readSource, readAll } from "../js/core/fetch.js";
 
 const realFetch = globalThis.fetch;
 afterEach(() => { globalThis.fetch = realFetch; });
@@ -28,6 +28,13 @@ test("getJson turns failures into readable errors", async () => {
     globalThis.fetch = fake;
     await assert.rejects(getJson("https://example.com"), message);
   }
+});
+
+test("readSource reads a feed as text and explains a feed the browser blocks", async () => {
+  globalThis.fetch = async url => new Response(url === "https://careers.cern/jobs/feed/" ? "<rss/>" : "");
+  assert.equal(await getText("https://careers.cern/jobs/feed/"), "<rss/>");
+  globalThis.fetch = async () => { throw new TypeError("Failed to fetch"); };
+  await assert.rejects(readSource({ tool: "rss", account: "https://careers.cern/jobs/feed/" }), /doesn't let other websites read it/);
 });
 
 test("readAll reads 4 sources at most at once and keeps going after a failure", async () => {

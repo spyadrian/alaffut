@@ -16,6 +16,10 @@ test("jobHtml shows title, company, location, publication date and link", () => 
   }
 });
 
+test("jobHtml shows Not specified when the location is missing", () => {
+  assert.ok(jobHtml({ ...job, location: "" }, "Acme").includes("<span>Not specified</span>"));
+});
+
 test("jobHtml neutralises hostile data", () => {
   const html = jobHtml({ ...job, title: "<img src=x onerror=alert(1)>", url: "javascript:alert(1)" }, '"><script>');
   assert.ok(!html.includes("<img"));

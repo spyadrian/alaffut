@@ -37,7 +37,7 @@ export function setupAdd({ getState, onAdd }) {
       const { jobs, warning } = await readSource(source);
       found = { source, jobs };
       say(`${jobs.length} job${jobs.length === 1 ? "" : "s"} found.${warning ? ` ${warning}` : ""}`);
-      name.value = display(source.account);
+      name.value = source.tool === "rss" ? new URL(source.account).hostname.replace(/^www\./, "") : display(source.account);
       $("#add-name-row").hidden = false;
       submit.textContent = "Add";
       name.select();
