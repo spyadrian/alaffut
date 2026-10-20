@@ -1,0 +1,129 @@
+{
+  "offset": 2,
+  "limit": 2,
+  "totalFound": 4,
+  "content": [
+    {
+      "id": "91042629",
+      "name": "Responsable eMerchandising (H/F)",
+      "uuid": "b05d3a0a-de5a-4cae-9b0b-5942ab7bb0b5",
+      "jobAdId": "3c983ae5-6db0-4303-b2a3-e90ba9f68d8e",
+      "defaultJobAd": true,
+      "refNumber": "REF8N",
+      "company": {
+        "identifier": "LVMH",
+        "name": "LVMH"
+      },
+      "releasedDate": "2016-03-31T13:24:40.000Z",
+      "location": {
+        "city": "Paris",
+        "region": "\u00cele-de-France",
+        "country": "fr",
+        "remote": false,
+        "hybrid": false,
+        "latitude": "48.85661400000001",
+        "longitude": "2.3522219000000177",
+        "fullLocation": "Paris, \u00cele-de-France, France"
+      },
+      "industry": {
+        "id": "luxury_goods_and_jewelry",
+        "label": "Luxury Goods And Jewelry"
+      },
+      "department": {},
+      "function": {
+        "id": "purchasing",
+        "label": "Purchasing"
+      },
+      "typeOfEmployment": {
+        "id": "permanent",
+        "label": "Full-time"
+      },
+      "experienceLevel": {
+        "id": "executive",
+        "label": "Executive"
+      },
+      "customField": [
+        {
+          "fieldId": "58b807bae4b0c5c4551df974",
+          "fieldLabel": "Brands",
+          "valueId": "default",
+          "valueLabel": "LVMH"
+        },
+        {
+          "fieldId": "COUNTRY",
+          "fieldLabel": "Country/Region",
+          "valueId": "fr",
+          "valueLabel": "France"
+        }
+      ],
+      "visibility": "PUBLIC",
+      "ref": "https://api.smartrecruiters.com/v1/companies/LVMH/postings/91042629",
+      "language": {
+        "code": "en",
+        "label": "English",
+        "labelNative": "English (US)"
+      }
+    },
+    {
+      "id": "91042321",
+      "name": "Head of customer care (H/F)",
+      "uuid": "f0b07a54-a888-44a0-8e61-fd2bb5702157",
+      "jobAdId": "8cc0ef50-cfbe-4888-89c2-9a7063a204de",
+      "defaultJobAd": true,
+      "refNumber": "REF9R",
+      "company": {
+        "identifier": "LVMH",
+        "name": "LVMH"
+      },
+      "releasedDate": "2016-03-31T13:16:41.000Z",
+      "location": {
+        "city": "Paris",
+        "region": "\u00cele-de-France",
+        "country": "fr",
+        "remote": false,
+        "hybrid": false,
+        "latitude": "48.85661400000001",
+        "longitude": "2.3522219000000177",
+        "fullLocation": "Paris, \u00cele-de-France, France"
+      },
+      "industry": {
+        "id": "luxury_goods_and_jewelry",
+        "label": "Luxury Goods And Jewelry"
+      },
+      "department": {},
+      "function": {
+        "id": "customer_service",
+        "label": "Customer Service"
+      },
+      "typeOfEmployment": {
+        "id": "permanent",
+        "label": "Full-time"
+      },
+      "experienceLevel": {
+        "id": "executive",
+        "label": "Executive"
+      },
+      "customField": [
+        {
+          "fieldId": "58b807bae4b0c5c4551df974",
+          "fieldLabel": "Brands",
+          "valueId": "default",
+          "valueLabel": "LVMH"
+        },
+        {
+          "fieldId": "COUNTRY",
+          "fieldLabel": "Country/Region",
+          "valueId": "fr",
+          "valueLabel": "France"
+        }
+      ],
+      "visibility": "PUBLIC",
+      "ref": "https://api.smartrecruiters.com/v1/companies/LVMH/postings/91042321",
+      "language": {
+        "code": "en",
+        "label": "English",
+        "labelNative": "English (US)"
+      }
+    }
+  ]
+}

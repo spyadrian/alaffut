@@ -90,9 +90,9 @@ L'interface ne change pas.
 
 ### T6 : SmartRecruiters
 **Critères d'acceptation :**
-- [ ] `jobs.smartrecruiters.com/{compte}` et `careers.smartrecruiters.com/{compte}` reconnus.
-- [ ] Pagination suivie jusqu'au total, plafonnée à 10 pages de 100 (au-delà : avertissement dans « Needs attention »).
-- [ ] Lien vers l'offre reconstruit en `https:`.
+- [x] `jobs.smartrecruiters.com/{compte}` et `careers.smartrecruiters.com/{compte}` reconnus.
+- [x] Pagination suivie jusqu'au total, plafonnée à 10 pages de 100 (au-delà : avertissement dans « Needs attention »).
+- [x] Lien vers l'offre reconstruit en `https:`.
 
 **Vérification :** `npm test` (fixtures de deux pages) ; ajout manuel d'un compte.
 **Dépendances :** T2 · **Fichiers :** `js/core/detect.js`, `js/core/sources/smartrecruiters.js`, test + fixtures · **Taille :** S

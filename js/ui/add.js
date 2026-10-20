@@ -34,9 +34,9 @@ export function setupAdd({ getState, onAdd }) {
     submit.disabled = true;
     say("Checking…");
     try {
-      const jobs = await readSource(source);
+      const { jobs, warning } = await readSource(source);
       found = { source, jobs };
-      say(`${jobs.length} job${jobs.length === 1 ? "" : "s"} found.`);
+      say(`${jobs.length} job${jobs.length === 1 ? "" : "s"} found.${warning ? ` ${warning}` : ""}`);
       name.value = display(source.account);
       $("#add-name-row").hidden = false;
       submit.textContent = "Add";

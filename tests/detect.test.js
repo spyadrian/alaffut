@@ -43,3 +43,9 @@ test("detect recognises Ashby boards", () => {
   assert.deepEqual(detect("https://jobs.ashbyhq.com/Notion/1fc309c8-da20?utm_source=x"), { tool: "ashby", account: "notion" });
   assert.equal(typeof detect("https://jobs.ashbyhq.com/").error, "string");
 });
+
+test("detect recognises SmartRecruiters boards", () => {
+  assert.deepEqual(detect("https://jobs.smartrecruiters.com/BoschGroup/744000156501729-supply-chain-intern"), { tool: "smartrecruiters", account: "boschgroup" });
+  assert.deepEqual(detect("https://careers.smartrecruiters.com/LVMH"), { tool: "smartrecruiters", account: "lvmh" });
+  assert.equal(typeof detect("https://careers.smartrecruiters.com/").error, "string");
+});

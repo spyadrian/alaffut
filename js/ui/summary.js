@@ -11,7 +11,7 @@ const local = iso => {
 
 export function summaryHtml(state) {
   const f = figures(state);
-  const broken = state.companies.filter(c => c.error);
+  const broken = state.companies.filter(c => c.error || c.warning);
   return {
     figures: [
       [f.open, "open jobs", ""],
@@ -20,7 +20,7 @@ export function summaryHtml(state) {
       [f.errors, "sources with errors", f.errors ? "red" : ""],
     ].map(([n, label, colour]) => `<div class="figure"><b${colour ? ` class="${colour}"` : ""}>${n}</b><span>${label}</span></div>`).join(""),
     banners: broken.length ? `<div class="banner error" role="alert"><h3>Needs attention</h3><ul>
-      ${broken.map(c => `<li><b>${esc(c.name)}</b>: ${esc(c.error)}</li>`).join("")}</ul></div>` : "",
+      ${broken.map(c => `<li><b>${esc(c.name)}</b>: ${esc(c.error || c.warning)}</li>`).join("")}</ul></div>` : "",
   };
 }
 

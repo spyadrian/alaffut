@@ -95,7 +95,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 ### Phase 2 : autres sources (parallélisables)
 - [x] T4 : Lever (y compris UE)
 - [x] T5 : Ashby (jamais `isListed: false`)
-- [ ] T6 : SmartRecruiters (paginé)
+- [x] T6 : SmartRecruiters (paginé)
 - [ ] T7 : RSS / Atom + message clair pour les outils non pris en charge
 
 ### Checkpoint 2
