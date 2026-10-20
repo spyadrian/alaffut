@@ -86,7 +86,7 @@ blocklist.json ── detect + relevé ;  suggestions.json ── écran d'accue
 Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 
 ### Phase 1 : chemin complet avec une source
-- [ ] T1 : Coquille de la page au design de référence (en anglais), outillage de test, `safe.js`
+- [x] T1 : Coquille de la page au design de référence (en anglais), outillage de test, `safe.js`
 - [ ] T2 : Ajouter une entreprise Greenhouse de bout en bout (coller → vérifier → nommer → offres affichées → conservées)
 - [ ] T3 : Relevé à l'ouverture + suivi des changements (New, Disappeared, sources en erreur, chiffres clés)
 

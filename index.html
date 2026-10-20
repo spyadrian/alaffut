@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>À l'affût — follow job openings at the companies you care about</title>
+<meta name="description" content="Follow job openings at the companies you care about. Free, no account, nothing stored on our servers.">
+<link rel="stylesheet" href="css/style.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand"><div class="logo" aria-hidden="true">✦</div>À l'affût</div>
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search a title, a company, a location…" aria-label="Search" autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+    <div class="actions">
+      <div class="last-run" id="last-run"></div>
+      <button class="button" id="add">Add company</button>
+    </div>
+  </div>
+  <div class="progress"><div id="progress-bar"></div></div>
+</header>
+
+<main>
+  <button class="more mobile-filters" id="show-filters" aria-expanded="false" aria-controls="filters">Filters</button>
+  <aside id="filters">
+    <div>
+      <p class="block-title">Status</p>
+      <div class="segments" id="statuses">
+        <button data-status="open" aria-pressed="true">Open<small>0</small></button>
+        <button data-status="new" aria-pressed="false">New<small>0</small></button>
+        <button data-status="applied" aria-pressed="false">Applied<small>0</small></button>
+        <button data-status="gone" aria-pressed="false">Disappeared<small>0</small></button>
+        <button data-status="all" aria-pressed="false">All<small>0</small></button>
+        <button data-status="hidden" aria-pressed="false">Not interested<small>0</small></button>
+      </div>
+    </div>
+    <div>
+      <p class="block-title"><label for="sort">Sort by</label></p>
+      <select id="sort">
+        <option value="spotted">Recently spotted</option>
+        <option value="published">Publication date</option>
+        <option value="company">Company (A → Z)</option>
+        <option value="title">Title (A → Z)</option>
+      </select>
+    </div>
+    <div>
+      <p class="block-title">Cities <button class="link-button" data-clear="cities" hidden>Show all</button></p>
+      <div class="checklist" id="cities"></div>
+    </div>
+    <div>
+      <p class="block-title">Companies <button class="link-button" data-clear="companies" hidden>Show all</button></p>
+      <div class="checklist" id="companies"></div>
+    </div>
+  </aside>
+
+  <section>
+    <div class="figures" id="figures">
+      <div class="figure"><b>0</b><span>open jobs</span></div>
+      <div class="figure"><b class="green">0</b><span>new since your last visit</span></div>
+      <div class="figure"><b>0</b><span>applications sent</span></div>
+      <div class="figure"><b>0</b><span>sources with errors</span></div>
+    </div>
+    <div id="banners"></div>
+    <div class="list-head"><h2 id="list-title">Open jobs</h2><span id="count">0 results</span></div>
+    <div class="list" id="list">
+      <div class="empty">
+        <p>You're not following any company yet.</p>
+        <p>Paste a link to a job or careers page with <b>Add company</b> to get started.</p>
+      </div>
+    </div>
+    <button class="more" id="more" hidden>Show more</button>
+  </section>
+</main>
+</body>
+</html>

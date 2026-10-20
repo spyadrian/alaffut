@@ -15,9 +15,9 @@ colonne de filtres, zone des résultats avec état vide. Mettre en place `packag
 Écrire `safe.js` (`esc`, `safeUrl`) avec ses tests.
 
 **Critères d'acceptation :**
-- [ ] La page vide s'affiche comme la référence, en clair et en sombre (selon le système), sans texte français.
-- [ ] `safeUrl()` n'accepte que `https:` (refuse `javascript:`, `http:`, `data:`, URL invalides) ; `esc()` neutralise `<>&"'`.
-- [ ] `npm test` passe.
+- [x] La page vide s'affiche comme la référence, en clair et en sombre (selon le système), sans texte français.
+- [x] `safeUrl()` n'accepte que `https:` (refuse `javascript:`, `http:`, `data:`, URL invalides) ; `esc()` neutralise `<>&"'`.
+- [x] `npm test` passe.
 
 **Vérification :** `npm test` ; contrôle visuel côte à côte avec la référence, dans les deux thèmes.
 **Dépendances :** aucune
