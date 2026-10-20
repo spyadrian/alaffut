@@ -1,6 +1,6 @@
 // Which jobs each status shows. A job marked Not interested only appears in that status.
 import { isNew } from "./tracker.js";
-import { cities, NOWHERE } from "./cities.js";
+import { cities, cityKey, NOWHERE } from "./cities.js";
 import { matches } from "./search.js";
 
 export const STATUSES = {
@@ -32,22 +32,31 @@ export function visible(state, view) {
   const name = names(state);
   return state.jobs.filter(job => inStatus(state, view.status, job)
       && (!view.companies.size || view.companies.has(job.company))
-      && (!view.cities.size || cities(job.location).some(city => view.cities.has(city)))
+      && (!view.cities.size || cities(job.location).some(city => view.cities.has(cityKey(city))))
       && matches([job.title, name[job.company] ?? "", job.location || NOWHERE], view.words))
     .sort((a, b) => SORTS[view.sort](a, b, name));
 }
 
 // Every city and company, with how many jobs of the current status each has.
+// A city is shown with its most frequent spelling across all jobs.
 export function choices(state, status) {
   const perCity = new Map(), perCompany = new Map(state.companies.map(c => [c.key, 0]));
   for (const job of state.jobs) {
     const one = inStatus(state, status, job) ? 1 : 0;
-    for (const city of cities(job.location)) perCity.set(city, (perCity.get(city) ?? 0) + one);
+    const spelled = new Map();  // city key → its first spelling in this job
+    for (const city of cities(job.location)) if (!spelled.has(cityKey(city))) spelled.set(cityKey(city), city);
+    for (const [key, city] of spelled) {
+      const entry = perCity.get(key) ?? { count: 0, spellings: new Map() };
+      entry.count += one;
+      entry.spellings.set(city, (entry.spellings.get(city) ?? 0) + 1);
+      perCity.set(key, entry);
+    }
     perCompany.set(job.company, (perCompany.get(job.company) ?? 0) + one);
   }
   const name = names(state);
+  const usual = spellings => [...spellings].reduce((best, next) => next[1] > best[1] ? next : best)[0];
   return {
-    cities: [...perCity].map(([city, count]) => ({ value: city, label: city, count })).sort((a, b) => b.count - a.count || by(a.label, b.label)),
+    cities: [...perCity].map(([key, { count, spellings }]) => ({ value: key, label: usual(spellings), count })).sort((a, b) => b.count - a.count || by(a.label, b.label)),
     companies: state.companies.map(c => ({ value: c.key, label: name[c.key], count: perCompany.get(c.key) })).sort((a, b) => by(a.label, b.label)),
   };
 }

@@ -6,7 +6,7 @@ Site public, gratuit et sans compte qui suit les offres d'emploi des entreprises
 Toutes les requêtes vers les API (Greenhouse, Lever, Ashby, SmartRecruiters, RSS/Atom) partent du
 navigateur ; rien n'est stocké côté serveur. L'état (entreprises suivies, offres vues, marques) vit dans le
 navigateur et s'exporte / s'importe en fichier JSON. Rendu repris de `reference/interface.html`.
-**Tout le site est en anglais** (textes, boutons, statuts, villes : Geneva, Basel, Bern, Zug…).
+**Tout le site est en anglais** (textes, boutons, statuts). Les villes s'affichent telles que les sources les écrivent.
 
 Sources : `reference/BRIEF.md` (exigences), `reference/interface.html` (design).
 
@@ -49,9 +49,10 @@ Prises par défaut (à contester si besoin) :
 - **Sécurité** : le texte venant des API est inséré via `textContent` ou échappé ; tout lien passe par
   `safeUrl()` qui n'accepte que `https:`. CSP stricte via `.htaccess` (Infomaniak = Apache) :
   `script-src 'self'`, `connect-src https:` (les flux RSS ont des domaines arbitraires).
-- **Villes** (décidé le 20.10.2026) : un lieu absent de la table n'est pas rangé sous « Not specified » mais
-  sous son premier morceau tel quel (« Uster, ZH » → « Uster »), pour qu'aucune ville ne manque au filtre.
-  « Remote » est une entrée de la table. « Not specified » ne reste que pour un lieu vide.
+- **Villes** (décidé avec toi le 20.10.2026) : pas de table de variantes, trop arbitraire (certaines villes
+  fusionnées, d'autres non). Une ville = ce qui précède la première virgule de chaque lieu (les lieux multiples
+  sont joints par « · » ou « ; »), regroupée sans casse ni accents et affichée avec son orthographe la plus fréquente.
+  Genève / Geneva / Genf restent donc séparées. Plus tard : rapprocher les lieux d'un référentiel comme GeoNames.
 - **Thème** : clair/sombre selon le système uniquement (pas de bouton), palette du brief.
 
 ## Structure prévue
@@ -68,7 +69,7 @@ js/core/detect.js     URL collée → {tool, account} ou raison du refus
 js/core/sources/*.js  un adaptateur par outil
 js/core/fetch.js      fetch commun (timeout, parallélisme)
 js/core/tracker.js    fusion d'un relevé : new / disappeared / sources en erreur
-js/core/cities.js     table de variantes → villes canoniques
+js/core/cities.js     lieu → villes (première partie de chaque lieu)
 js/core/search.js     normalisation, correspondance, surlignage
 js/core/store.js      schéma, chargement, sauvegarde, export / import, purge
 data/suggestions.json data/blocklist.json
@@ -113,7 +114,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 ### Phase 3 : consulter et marquer
 - [x] T8 : Recherche plein texte avec surlignage, `/` et `Esc`
 - [ ] T9 : Statuts et marques (Applied / Not interested)
-- [ ] T10 : Villes canoniques, filtres ville et entreprise, tri
+- [ ] T10 : Villes, filtres ville et entreprise, tri
 
 ### Checkpoint 3
 
@@ -140,7 +141,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 | `api.eu.lever.co` | Résolu | Testé le 20.10.2026 avec `ovoko`, `kwalee`, `everseen` : 200, CORS `*`, même format que l'API US. Ces comptes renvoient 404 sur `api.lever.co` → région gardée dans l'outil (`lever-eu`). |
 | Données tierces qui injectent du code | Élevé | `textContent`/échappement partout, `safeUrl()`, CSP, test avec titre `<img onerror>` et lien `javascript:`. |
 | Quota `localStorage` dépassé | Moyen | Purge à 90 jours, message clair + invitation à exporter. |
-| Lieux trop hétérogènes, villes mal reconnues | Faible | Table de variantes testée ; un lieu inconnu garde son premier morceau tel quel (doublons possibles, ex. « Winterthour » à côté de « Winterthur » : ajouter la variante à la table) ; table extensible. |
+| Lieux trop hétérogènes : une même ville en plusieurs langues ou orthographes | Moyenne | Accepté pour l'instant (casse et accents seuls regroupés) ; plus tard, référentiel type GeoNames. |
 | Conditions générales des éditeurs non lues | Élevé (juridique) | Bloquant avant T16 : lecture humaine, voir questions ouvertes. |
 
 ## Questions ouvertes (non bloquantes pour commencer)

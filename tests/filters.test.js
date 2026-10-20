@@ -35,10 +35,11 @@ const listing = {
   visit: { since: T0 },
   companies: [{ key: "b", name: "beta", added: T0 }, { key: "a", name: "Alpha", added: T0 }],
   jobs: [
-    { key: "1", company: "b", title: "analyst", location: "Zurich", spotted: T0, published: "2026-09-01" },
-    { key: "2", company: "a", title: "Zeta", location: "Paris · Geneva", spotted: T1, published: "2026-08-01" },
+    { key: "1", company: "b", title: "analyst", location: "Zurich, CH", spotted: T0, published: "2026-09-01" },
+    { key: "2", company: "a", title: "Zeta", location: "Paris · Genève", spotted: T1, published: "2026-08-01" },
     { key: "3", company: "a", title: "Mu", location: "", spotted: T0, published: "2026-10-01" },
     { key: "4", company: "b", title: "Gone", location: "Zürich", spotted: T0, published: "2026-10-02", gone: T1 },
+    { key: "5", company: "b", title: "Gone too", location: "ZURICH · zurich", spotted: T0, published: "2026-10-03", gone: T1 },
   ],
 };
 const view = extra => ({ status: "open", sort: "spotted", words: [], cities: new Set(), companies: new Set(), ...extra });
@@ -52,21 +53,28 @@ test("visible sorts by each order", () => {
 });
 
 test("visible combines status, cities, companies and search", () => {
-  assert.deepEqual(shown({ cities: new Set(["Geneva"]) }), ["2"]);
-  assert.deepEqual(shown({ cities: new Set(["Zurich", "Not specified"]) }), ["3", "1"]);
-  assert.deepEqual(shown({ status: "all", cities: new Set(["Zurich"]) }), ["4", "1"]);
+  assert.deepEqual(shown({ cities: new Set(["geneve"]) }), ["2"]);
+  assert.deepEqual(shown({ cities: new Set(["zurich", "not specified"]) }), ["3", "1"]);
+  assert.deepEqual(shown({ status: "all", cities: new Set(["zurich"]) }), ["5", "4", "1"]);
   assert.deepEqual(shown({ companies: new Set(["b"]) }), ["1"]);
-  assert.deepEqual(shown({ companies: new Set(["a"]), cities: new Set(["Paris"]), words: ["alp"] }), ["2"]);
+  assert.deepEqual(shown({ companies: new Set(["a"]), cities: new Set(["paris"]), words: ["alp"] }), ["2"]);
 });
 
 test("choices lists every city and company with its count in the current status", () => {
   const { cities, companies } = choices(listing, "open");
   assert.deepEqual(cities, [
-    { value: "Geneva", label: "Geneva", count: 1 },
-    { value: "Not specified", label: "Not specified", count: 1 },
-    { value: "Paris", label: "Paris", count: 1 },
-    { value: "Zurich", label: "Zurich", count: 1 },
+    { value: "geneve", label: "Genève", count: 1 },
+    { value: "not specified", label: "Not specified", count: 1 },
+    { value: "paris", label: "Paris", count: 1 },
+    { value: "zurich", label: "Zurich", count: 1 },
   ]);
   assert.deepEqual(companies, [{ value: "a", label: "Alpha", count: 2 }, { value: "b", label: "beta", count: 1 }]);
-  assert.deepEqual(choices(listing, "gone").cities.map(c => c.count), [1, 0, 0, 0]);
+  assert.deepEqual(choices(listing, "gone").cities.map(c => c.count), [2, 0, 0, 0]);
+});
+
+test("choices counts a job once per city and shows its most frequent spelling", () => {
+  const zurich = choices(listing, "all").cities[0];
+  assert.deepEqual(zurich, { value: "zurich", label: "Zurich", count: 3 });
+  const more = { ...listing, jobs: [...listing.jobs, { key: "6", company: "a", title: "X", location: "Zürich", spotted: T0, published: "" }, { key: "7", company: "a", title: "Y", location: "Zürich", spotted: T0, published: "" }] };
+  assert.equal(choices(more, "all").cities[0].label, "Zürich");
 });

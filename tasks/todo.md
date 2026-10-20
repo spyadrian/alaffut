@@ -135,11 +135,11 @@ L'interface ne change pas.
 
 ### T10 : Villes, filtres ville / entreprise, tri
 **Critères d'acceptation :**
-- [x] `cities.js` ramène les variantes à des noms anglais canoniques (Geneva, Zurich, Basel, Bern, Zug, Lucerne… plus les grandes villes d'Europe et d'ailleurs) ; « Paris · Zurich · Warsaw » → trois villes ; « Remote » regroupe le télétravail ; lieu inconnu de la table → son premier morceau tel quel (« Uster, ZH » → « Uster ») ; lieu vide → « Not specified ».
+- [x] `cities.js` : ville = ce qui précède la première virgule, chaque lieu joint par « · » ou « ; » compté à part ; regroupement sans casse ni accents (Zürich = Zurich = ZURICH), affiché avec l'orthographe la plus fréquente ; pas de table de variantes (Genève, Geneva et Genf restent séparées) ; lieu vide → « Not specified » ; « Paris · Zurich, CH · Warsaw » → trois villes.
 - [x] Filtres ville et entreprise à cocher avec compteurs, « Show all » pour réinitialiser.
 - [x] Tri : Recently spotted, Publication date, Company (A → Z), Title (A → Z).
 
-**Vérification :** `npm test` avec les exemples du brief (« Zurich, Zurich, CHE », « Zuerich », « Zürich, CH »…) ; manuel.
+**Vérification :** `npm test` (« Zurich, Zurich, CHE », « Zürich, CH », « Paris · Zurich · Warsaw »…) ; manuel.
 **Dépendances :** T8, T9 · **Fichiers :** `js/core/cities.js`, `js/core/filters.js`, `js/ui/filters.js`, `tests/cities.test.js` · **Taille :** M
 
 ### Checkpoint 3
