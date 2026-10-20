@@ -135,7 +135,7 @@ L'interface ne change pas.
 
 ### T10 : Villes, filtres ville / entreprise, tri
 **Critères d'acceptation :**
-- [x] `cities.js` ramène les variantes à des noms anglais canoniques (Geneva, Zurich, Basel, Bern, Zug, Lucerne… plus les grandes villes d'Europe et d'ailleurs) ; « Paris · Zurich · Warsaw » → trois villes ; rien reconnu → « Not specified ».
+- [x] `cities.js` ramène les variantes à des noms anglais canoniques (Geneva, Zurich, Basel, Bern, Zug, Lucerne… plus les grandes villes d'Europe et d'ailleurs) ; « Paris · Zurich · Warsaw » → trois villes ; « Remote » regroupe le télétravail ; lieu inconnu de la table → son premier morceau tel quel (« Uster, ZH » → « Uster ») ; lieu vide → « Not specified ».
 - [x] Filtres ville et entreprise à cocher avec compteurs, « Show all » pour réinitialiser.
 - [x] Tri : Recently spotted, Publication date, Company (A → Z), Title (A → Z).
 

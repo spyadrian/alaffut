@@ -1,5 +1,6 @@
 // Locations come in every shape ("Zurich, Zurich, CHE", "Zuerich", "Paris · Zurich · Warsaw"):
 // bring them back to canonical English city names, one job possibly in several cities.
+// A place the table does not know keeps its first part as written ("Uster, ZH" → "Uster").
 
 // canonical name → other spellings, separated by "|" (the canonical name itself always counts)
 const VARIANTS = {
@@ -31,6 +32,8 @@ const VARIANTS = {
   "Shanghai": "", "Shenzhen": "", "Taipei": "", "Bangalore": "bengaluru", "Mumbai": "bombay", "Delhi": "new delhi",
   "Hyderabad": "", "Pune": "", "Chennai": "", "Gurgaon": "gurugram", "Sydney": "", "Melbourne": "", "Auckland": "",
   "Dubai": "", "Abu Dhabi": "", "Cape Town": "", "Johannesburg": "", "Lagos": "", "Nairobi": "", "Cairo": "",
+  // Not a city, but where many jobs are
+  "Remote": "fully remote|work from home|home office|homeoffice|teletravail|telework",
 };
 
 export const NOWHERE = "Not specified";
@@ -42,14 +45,20 @@ const norm = s => ` ${s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().re
 const TABLE = Object.entries(VARIANTS).map(([city, others]) =>
   [city, [city, ...others.split("|").filter(Boolean)].map(norm)]);
 
+const known = text => TABLE.map(([city, variants]) => [city, Math.min(...variants.map(v => text.indexOf(v)).filter(i => i >= 0))])
+  .filter(([, at]) => at !== Infinity).sort((a, b) => a[1] - b[1]).map(([city]) => city);
+
 const seen = new Map();  // the same few locations come back on every render
 
+// Sources join several places with " · " (some with ";"); each place gives its cities or its first part.
 export function cities(location) {
   if (!seen.has(location)) {
-    const text = norm(location ?? "");
-    const found = TABLE.map(([city, variants]) => [city, Math.min(...variants.map(v => text.indexOf(v)).filter(i => i >= 0))])
-      .filter(([, at]) => at !== Infinity).sort((a, b) => a[1] - b[1]).map(([city]) => city);
-    seen.set(location, found.length ? found : [NOWHERE]);
+    const places = String(location ?? "").split(/[·;]/).map(place => place.trim()).filter(Boolean);
+    const found = new Set(places.flatMap(place => {
+      const named = known(norm(place));
+      return named.length ? named : [place.split(",")[0].trim()];
+    }));
+    seen.set(location, found.size ? [...found] : [NOWHERE]);
   }
   return seen.get(location);
 }

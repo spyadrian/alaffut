@@ -26,10 +26,21 @@ test("multi-word cities and region prefixes are recognised", () => {
 });
 
 test("only whole words count", () => {
-  assert.deepEqual(cities("Zugspitze"), ["Not specified"]);
-  assert.deepEqual(cities("Bernese Oberland"), ["Not specified"]);
+  assert.deepEqual(cities("Zugspitze"), ["Zugspitze"]);
+  assert.deepEqual(cities("Bernese Oberland, CH"), ["Bernese Oberland"]);
 });
 
-test("nothing recognised gives Not specified", () => {
-  for (const location of ["Remote", "", undefined, "Atlantis"]) assert.deepEqual(cities(location), ["Not specified"]);
+test("a place the table does not know keeps its first part as written", () => {
+  assert.deepEqual(cities("Uster, ZH, Switzerland"), ["Uster"]);
+  assert.deepEqual(cities("Paris · Uster, ZH"), ["Paris", "Uster"]);
+  assert.deepEqual(cities("Uster · Uster, CH"), ["Uster"]);
+});
+
+test("remote jobs are grouped under Remote", () => {
+  for (const location of ["Remote", "Remote - US", "Fully remote", "Work from home", "Télétravail"]) assert.deepEqual(cities(location), ["Remote"], location);
+  assert.deepEqual(cities("Remote · Zurich"), ["Remote", "Zurich"]);
+});
+
+test("an empty location gives Not specified", () => {
+  for (const location of ["", "  ", " · ", undefined]) assert.deepEqual(cities(location), ["Not specified"]);
 });

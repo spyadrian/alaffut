@@ -37,7 +37,7 @@ const listing = {
   jobs: [
     { key: "1", company: "b", title: "analyst", location: "Zurich", spotted: T0, published: "2026-09-01" },
     { key: "2", company: "a", title: "Zeta", location: "Paris · Geneva", spotted: T1, published: "2026-08-01" },
-    { key: "3", company: "a", title: "Mu", location: "Remote", spotted: T0, published: "2026-10-01" },
+    { key: "3", company: "a", title: "Mu", location: "", spotted: T0, published: "2026-10-01" },
     { key: "4", company: "b", title: "Gone", location: "Zürich", spotted: T0, published: "2026-10-02", gone: T1 },
   ],
 };
