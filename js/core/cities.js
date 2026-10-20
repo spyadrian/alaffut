@@ -24,6 +24,7 @@ const VARIANTS = {
   "Cambridge": "", "Oxford": "", "Bristol": "", "Belfast": "", "Glasgow": "", "Leeds": "", "Reykjavik": "", "Tel Aviv": "tel aviv yafo",
   // Elsewhere
   "New York": "nyc|new york city", "San Francisco": "", "Los Angeles": "", "Seattle": "", "Boston": "", "Chicago": "",
+  "Palo Alto": "", "Mountain View": "", "Menlo Park": "", "San Jose": "", "San Diego": "", "Redmond": "",
   "Austin": "", "Denver": "", "Atlanta": "", "Miami": "", "Washington, D.C.": "washington dc", "Toronto": "",
   "Montreal": "", "Vancouver": "", "Mexico City": "ciudad de mexico|cdmx", "São Paulo": "sao paulo", "Buenos Aires": "",
   "Bogotá": "bogota", "Santiago": "", "Singapore": "singapour", "Hong Kong": "", "Tokyo": "", "Seoul": "", "Beijing": "peking",
