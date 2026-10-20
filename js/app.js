@@ -1,10 +1,11 @@
 import { load, save, addCompany, toggleMark, KEY } from "./core/store.js";
-import { STATUSES, counts } from "./core/filters.js";
+import { STATUSES, SORTS, counts, choices } from "./core/filters.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
 import { renderJobs } from "./ui/cards.js";
 import { terms } from "./core/search.js";
 import { renderSummary } from "./ui/summary.js";
+import { renderChoices } from "./ui/filters.js";
 import { setupAdd } from "./ui/add.js";
 
 const $ = s => document.querySelector(s);
@@ -13,11 +14,13 @@ const empty = $("#list").innerHTML;
 const QUOTA = "Your browser refused to save. Free some space in its storage and try again.";
 let state = startVisit(load(localStorage), now());
 const UI = KEY + ":ui";  // view preferences, kept apart from the data
-let status = "open";
+const view = { status: "open", sort: "spotted", cities: new Set(), companies: new Set() };
 try {
-  const saved = JSON.parse(localStorage.getItem(UI))?.status;
-  if (Object.hasOwn(STATUSES, saved)) status = saved;
+  const saved = JSON.parse(localStorage.getItem(UI));
+  if (Object.hasOwn(STATUSES, saved?.status)) view.status = saved.status;
+  if (Object.hasOwn(SORTS, saved?.sort)) view.sort = saved.sort;
 } catch {}
+const remember = () => { try { localStorage.setItem(UI, JSON.stringify({ status: view.status, sort: view.sort })); } catch {} };
 
 function persist() {
   try {
@@ -36,16 +39,18 @@ function render() {
   renderSummary(state);
   const total = counts(state);
   for (const button of $("#statuses").children) {
-    button.setAttribute("aria-pressed", button.dataset.status === status);
+    button.setAttribute("aria-pressed", button.dataset.status === view.status);
     button.lastChild.textContent = total[button.dataset.status];
   }
-  $("#list-title").textContent = STATUSES[status][0];
+  $("#list-title").textContent = STATUSES[view.status][0];
+  $("#sort").value = view.sort;
+  renderChoices(choices(state, view.status), view);
   if (!state.jobs.length) {
     $("#list").innerHTML = empty;
     $("#count").textContent = "0 results";
     return;
   }
-  const n = renderJobs($("#list"), state, status, terms($("#q").value));
+  const n = renderJobs($("#list"), state, { ...view, words: terms($("#q").value) });
   $("#count").textContent = `${n} result${n === 1 ? "" : "s"}`;
 }
 
@@ -97,10 +102,31 @@ document.addEventListener("keydown", e => {
 $("#statuses").onclick = e => {
   const button = e.target.closest("button");
   if (!button) return;
-  status = button.dataset.status;
-  try { localStorage.setItem(UI, JSON.stringify({ status })); } catch {}
+  view.status = button.dataset.status;
+  remember();
   render();
 };
+
+$("#sort").onchange = e => {
+  view.sort = e.target.value;
+  remember();
+  render();
+};
+
+$("#filters").addEventListener("change", e => {
+  const chosen = view[e.target.dataset.list];
+  if (!chosen) return;
+  e.target.checked ? chosen.add(e.target.value) : chosen.delete(e.target.value);
+  render();
+  $(`[data-list="${e.target.dataset.list}"][value="${CSS.escape(e.target.value)}"]`)?.focus();  // the list was redrawn
+});
+
+$("#filters").addEventListener("click", e => {
+  const list = e.target.dataset.clear;
+  if (!list) return;
+  view[list].clear();
+  render();
+});
 
 $("#list").onclick = e => {
   const button = e.target.closest(".mark");

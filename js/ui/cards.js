@@ -1,7 +1,7 @@
 import { esc, safeUrl } from "../core/safe.js";
 import { isNew } from "../core/tracker.js";
-import { matches, highlight } from "../core/search.js";
-import { inStatus } from "../core/filters.js";
+import { highlight } from "../core/search.js";
+import { visible } from "../core/filters.js";
 
 export const day = iso => iso ? `${iso.slice(8, 10)}.${iso.slice(5, 7)}.${iso.slice(0, 4)}` : "";
 
@@ -32,10 +32,10 @@ export function jobHtml(job, company, fresh = false, words = []) {
   </div>`;
 }
 
-export function renderJobs(list, state, status, words = []) {
+export function renderJobs(list, state, view) {
   const names = Object.fromEntries(state.companies.map(c => [c.key, c.name]));
-  const jobs = state.jobs.filter(job => inStatus(state, status, job) && matches([job.title, names[job.company] ?? "", job.location || "Not specified"], words)).sort((a, b) => b.spotted.localeCompare(a.spotted) || b.published.localeCompare(a.published));
-  list.innerHTML = jobs.length ? jobs.map(job => jobHtml(job, names[job.company] ?? "", isNew(state, job), words)).join("") : `<div class="empty">No job matches these filters.</div>`;
+  const jobs = visible(state, view);
+  list.innerHTML = jobs.length ? jobs.map(job => jobHtml(job, names[job.company] ?? "", isNew(state, job), view.words)).join("") : `<div class="empty">No job matches these filters.</div>`;
   // set through the CSSOM, not a style attribute, so the CSP can forbid inline styles
   for (const avatar of list.querySelectorAll(".avatar")) avatar.style.setProperty("--hue", avatar.dataset.hue);
   return jobs.length;

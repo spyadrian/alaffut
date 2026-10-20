@@ -135,9 +135,9 @@ L'interface ne change pas.
 
 ### T10 : Villes, filtres ville / entreprise, tri
 **Critères d'acceptation :**
-- [ ] `cities.js` ramène les variantes à des noms anglais canoniques (Geneva, Zurich, Basel, Bern, Zug, Lucerne… plus les grandes villes d'Europe et d'ailleurs) ; « Paris · Zurich · Warsaw » → trois villes ; rien reconnu → « Not specified ».
-- [ ] Filtres ville et entreprise à cocher avec compteurs, « Show all » pour réinitialiser.
-- [ ] Tri : Recently spotted, Publication date, Company (A → Z), Title (A → Z).
+- [x] `cities.js` ramène les variantes à des noms anglais canoniques (Geneva, Zurich, Basel, Bern, Zug, Lucerne… plus les grandes villes d'Europe et d'ailleurs) ; « Paris · Zurich · Warsaw » → trois villes ; rien reconnu → « Not specified ».
+- [x] Filtres ville et entreprise à cocher avec compteurs, « Show all » pour réinitialiser.
+- [x] Tri : Recently spotted, Publication date, Company (A → Z), Title (A → Z).
 
 **Vérification :** `npm test` avec les exemples du brief (« Zurich, Zurich, CHE », « Zuerich », « Zürich, CH »…) ; manuel.
 **Dépendances :** T8, T9 · **Fichiers :** `js/core/cities.js`, `js/core/filters.js`, `js/ui/filters.js`, `tests/cities.test.js` · **Taille :** M
