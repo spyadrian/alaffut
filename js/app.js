@@ -2,6 +2,7 @@ import { load, save, addCompany } from "./core/store.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
 import { renderJobs } from "./ui/cards.js";
+import { terms } from "./core/search.js";
 import { renderSummary } from "./ui/summary.js";
 import { setupAdd } from "./ui/add.js";
 
@@ -27,7 +28,7 @@ function render() {
     $("#count").textContent = "0 results";
     return;
   }
-  const n = renderJobs($("#list"), state);
+  const n = renderJobs($("#list"), state, terms($("#q").value));
   $("#count").textContent = `${n} result${n === 1 ? "" : "s"}`;
 }
 
@@ -62,6 +63,18 @@ setupAdd({
     }
     render();
   },
+});
+
+$("#q").oninput = render;
+$("#q").onkeydown = e => {
+  if (e.key !== "Escape") return;
+  e.target.value = "";
+  render();
+};
+document.addEventListener("keydown", e => {
+  if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey || e.target.closest("input, textarea, select, [contenteditable]")) return;
+  e.preventDefault();
+  $("#q").focus();
 });
 
 $("#refresh").onclick = () => refresh(true);

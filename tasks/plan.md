@@ -108,7 +108,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 ### Checkpoint 2
 
 ### Phase 3 : consulter et marquer
-- [ ] T8 : Recherche plein texte avec surlignage, `/` et `Esc`
+- [x] T8 : Recherche plein texte avec surlignage, `/` et `Esc`
 - [ ] T9 : Statuts et marques (Applied / Not interested)
 - [ ] T10 : Villes canoniques, filtres ville et entreprise, tri
 

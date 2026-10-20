@@ -33,3 +33,10 @@ test("jobHtml marks New and Disappeared jobs", () => {
   assert.ok(jobHtml({ ...job, gone: "2026-10-20T12:00:00.000Z" }, "Acme", true).includes("Disappeared on 20.10.2026"));
   assert.ok(!jobHtml(job, "Acme").includes("badge"));
 });
+
+test("jobHtml highlights search terms in title, company and location", () => {
+  const html = jobHtml({ ...job, location: "Zürich" }, "Acme", false, ["zurich", "eng", "acm"]);
+  for (const part of ["<mark>Eng</mark>ineer", "<b><mark>Acm</mark>e</b>", "<span><mark>Zürich</mark></span>"]) {
+    assert.ok(html.includes(part), part);
+  }
+});

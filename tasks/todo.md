@@ -117,9 +117,9 @@ L'interface ne change pas.
 
 ### T8 : Recherche
 **Critères d'acceptation :**
-- [ ] Sur titre, entreprise et lieu ; sans accents ni majuscules ; tous les mots doivent correspondre.
-- [ ] Termes surlignés (ambre) sans casser l'échappement (texte échappé avant surlignage, cas `Zürich`/`zurich` couvert).
-- [ ] `/` place le curseur dans la recherche, `Esc` l'efface.
+- [x] Sur titre, entreprise et lieu ; sans accents ni majuscules ; tous les mots doivent correspondre.
+- [x] Termes surlignés (ambre) sans casser l'échappement (texte échappé avant surlignage, cas `Zürich`/`zurich` couvert).
+- [x] `/` place le curseur dans la recherche, `Esc` l'efface.
 
 **Vérification :** `npm test` (`search.test.js`) ; manuel au clavier.
 **Dépendances :** T3 · **Fichiers :** `js/core/search.js`, `js/app.js`, `tests/search.test.js` · **Taille :** S
