@@ -16,4 +16,5 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: lts/*
+      - run: npm ci
       - run: node --test
