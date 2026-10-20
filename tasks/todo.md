@@ -135,11 +135,11 @@ L'interface ne change pas.
 
 ### T10 : Villes, filtres ville / entreprise, tri
 **Critères d'acceptation :**
-- [ ] `cities.js` ramène les variantes à des noms anglais canoniques (Geneva, Zurich, Basel, Bern, Zug, Lucerne… plus les grandes villes d'Europe et d'ailleurs) ; « Paris · Zurich · Warsaw » → trois villes ; rien reconnu → « Not specified ».
-- [ ] Filtres ville et entreprise à cocher avec compteurs, « Show all » pour réinitialiser.
-- [ ] Tri : Recently spotted, Publication date, Company (A → Z), Title (A → Z).
+- [x] `cities.js` : ville = ce qui précède la première virgule, chaque lieu joint par « · » ou « ; » compté à part ; regroupement sans casse ni accents (Zürich = Zurich = ZURICH), affiché avec l'orthographe la plus fréquente ; pas de table de variantes (Genève, Geneva et Genf restent séparées) ; lieu vide → « Not specified » ; « Paris · Zurich, CH · Warsaw » → trois villes.
+- [x] Filtres ville et entreprise à cocher, par ordre alphabétique (« Not specified » en dernier), « Show all » pour réinitialiser ; chaque compteur tient compte du statut, de la recherche et de l'autre liste (pas de ses propres cases) ; un choix à 0 est grisé, pas retiré.
+- [x] Tri : Recently spotted, Publication date, Company (A → Z), Title (A → Z).
 
-**Vérification :** `npm test` avec les exemples du brief (« Zurich, Zurich, CHE », « Zuerich », « Zürich, CH »…) ; manuel.
+**Vérification :** `npm test` (« Zurich, Zurich, CHE », « Zürich, CH », « Paris · Zurich · Warsaw »…) ; manuel.
 **Dépendances :** T8, T9 · **Fichiers :** `js/core/cities.js`, `js/core/filters.js`, `js/ui/filters.js`, `tests/cities.test.js` · **Taille :** M
 
 ### Checkpoint 3

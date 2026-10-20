@@ -1,7 +1,7 @@
 import { esc } from "./safe.js";
 
 // "Zürich" and "zurich" are the same word to someone typing a search.
-const norm = s => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+export const norm = s => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 
 export const terms = query => norm(query).split(/\s+/).filter(Boolean);
 
