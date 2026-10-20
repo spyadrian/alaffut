@@ -21,9 +21,11 @@ function place(item) {
   return text(item, "city") || [text(item, "region"), text(item, "country")].filter(Boolean).join(", ");
 }
 
-function paged(feed, page) {
+// Some sites (CERN) serve each feed page from a copy weeks old; an unseen URL makes them build it afresh.
+function address(feed, page, stamp) {
   const url = new URL(feed);
-  url.searchParams.set("paged", page);
+  if (page > 1) url.searchParams.set("paged", page);
+  url.searchParams.set("_", stamp);
   return url.href;
 }
 
@@ -32,12 +34,12 @@ export default {
 
   // → {jobs, warning?}: later pages are read until one brings nothing new.
   async read(feed, getText, Parser = globalThis.DOMParser) {
-    const jobs = new Map();
+    const jobs = new Map(), stamp = Date.now();
     let full = true;  // stays true if every page read brought new jobs and the last one may not be the end
     for (let page = 1; page <= PAGES; page++) {
       let body;
       try {
-        body = await getText(page === 1 ? feed : paged(feed, page));
+        body = await getText(address(feed, page, stamp));
       } catch (error) {
         if (page === 1) throw error;
         full = error.status !== 404;  // 404 past the last WordPress page is the normal end

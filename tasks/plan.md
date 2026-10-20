@@ -33,6 +33,9 @@ Prises par défaut (à contester si besoin) :
   `rel="next"` (RFC 5005) non géré, aucun flux d'offres réel trouvé qui l'utilise (20.10.2026). Lieu : balise
   `location` (tout préfixe, ex. `tt:location` de Teamtailor), sinon `city`, sinon `region` + `country`,
   sinon « Not specified » (pas de champ de secours, décidé le 20.10.2026).
+  Chaque requête de flux porte `_=<heure du relevé>` : careers.cern servait des copies en cache vieilles de
+  2 à 4 semaines, différentes par page (constaté le 20.10.2026). Essayé sans effet sur Teamtailor, We Work
+  Remotely, Himalayas, python.org, Remotive.
 - **Stockage** : `localStorage`, une seule clé versionnée (`alaffut:v1`). Ordre de grandeur : 5 000 offres
   ≈ 1 Mo, sous la limite de ~5 Mo. Les offres disparues depuis plus de 90 jours sont purgées, sauf si
   marquées « Applied ». Une erreur de quota est affichée clairement avec un appel à exporter.

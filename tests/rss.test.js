@@ -63,23 +63,30 @@ test("rss.parse falls back to plain location, city, then region and country", ()
 });
 
 // A feed of jobs with these ids, and a fake getText serving pages by their paged= value.
+// asked holds the URLs without the cache-busting _ stamp, stamps holds the stamps.
 const feed = ids => `<rss><channel>${ids.map(i => `<item><title>Job ${i}</title><link>https://x.org/${i}</link><guid>${i}</guid></item>`).join("")}</channel></rss>`;
 const range = (from, n) => Array.from({ length: n }, (_, i) => from + i);
 function serve(pageAt) {
-  const asked = [];
+  const asked = [], stamps = [];
   const get = async url => {
-    asked.push(url);
+    const bare = new URL(url);
+    stamps.push(bare.searchParams.get("_"));
+    bare.searchParams.delete("_");
+    asked.push(bare.href);
     const body = pageAt(Number(new URL(url).searchParams.get("paged") ?? 1));
     if (body === 404) throw Object.assign(new Error("Not found at the source. Check the link."), { status: 404 });
     if (body instanceof Error) throw body;
     return body;
   };
-  return { get, asked };
+  return { get, asked, stamps };
 }
 
 test("rss.read follows WordPress pages until the last one", async () => {
-  const { get, asked } = serve(page => page === 1 ? cern : page === 2 ? feed([1, 2]) : 404);
+  const { get, asked, stamps } = serve(page => page === 1 ? cern : page === 2 ? feed([1, 2]) : 404);
   const { jobs, warning } = await rss.read("https://careers.cern/jobs/feed/", get, DOMParser);
+  // a fresh stamp per check gets past stale server copies, the same on every page so they match
+  assert.match(stamps[0], /^\d{13}$/);
+  assert.deepEqual(new Set(stamps).size, 1);
   assert.deepEqual(asked, ["https://careers.cern/jobs/feed/", "https://careers.cern/jobs/feed/?paged=2", "https://careers.cern/jobs/feed/?paged=3"]);
   assert.equal(jobs.length, 12);
   assert.equal(warning, undefined);
