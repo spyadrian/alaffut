@@ -1,0 +1,111 @@
+{
+ "jobs": [
+  {
+   "absolute_url": "https://job-boards.eu.greenhouse.io/bitpanda/jobs/4721614101",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 4403191101,
+   "location": {
+    "name": "Vienna, Vienna, Austria"
+   },
+   "metadata": null,
+   "id": 4721614101,
+   "updated_at": "2026-10-14T04:47:08-04:00",
+   "requisition_id": "1670",
+   "title": "Associate, Phone Support - DACH ",
+   "company_name": "Bitpanda",
+   "first_published": "2025-12-02T05:55:37-05:00",
+   "language": "en",
+   "application_deadline": null
+  },
+  {
+   "absolute_url": "https://job-boards.eu.greenhouse.io/bitpanda/jobs/5005854101",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 4535543101,
+   "location": {
+    "name": "Vienna, Vienna, Austria"
+   },
+   "metadata": null,
+   "id": 5005854101,
+   "updated_at": "2026-10-14T07:50:59-04:00",
+   "requisition_id": "1954",
+   "title": "Associate, Tax",
+   "company_name": "Bitpanda",
+   "first_published": "2026-10-14T05:47:54-04:00",
+   "language": "en",
+   "application_deadline": null
+  },
+  {
+   "absolute_url": "https://job-boards.eu.greenhouse.io/bitpanda/jobs/5001723101",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 4533650101,
+   "location": {
+    "name": "Vienna, Vienna, Austria"
+   },
+   "metadata": null,
+   "id": 5001723101,
+   "updated_at": "2026-10-09T08:30:55-04:00",
+   "requisition_id": "1951",
+   "title": "Business Intelligence Analyst",
+   "company_name": "Bitpanda",
+   "first_published": "2026-10-09T08:30:32-04:00",
+   "language": "en",
+   "application_deadline": null
+  },
+  {
+   "absolute_url": "https://job-boards.eu.greenhouse.io/bitpanda/jobs/4951483101",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 4511730101,
+   "location": {
+    "name": "Vienna, Vienna, Austria"
+   },
+   "metadata": null,
+   "id": 4951483101,
+   "updated_at": "2026-10-14T07:18:08-04:00",
+   "requisition_id": "1923",
+   "title": "Executive Assistant",
+   "company_name": "Bitpanda",
+   "first_published": "2026-09-01T03:54:07-04:00",
+   "language": "en",
+   "application_deadline": null
+  }
+ ],
+ "meta": {
+  "total": 4
+ }
+}

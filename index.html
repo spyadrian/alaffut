@@ -76,5 +76,22 @@
     <button class="more" id="more" hidden>Show more</button>
   </section>
 </main>
+
+<dialog id="add-dialog" aria-labelledby="add-title">
+  <form id="add-form">
+    <h3 id="add-title">Add a company</h3>
+    <label class="field">Link to one of its jobs or to its careers page
+      <input id="add-url" type="url" required placeholder="https://job-boards.greenhouse.io/…" autocomplete="off">
+    </label>
+    <p id="add-status" role="status"></p>
+    <label class="field" id="add-name-row" hidden>Display name
+      <input id="add-name" maxlength="80" autocomplete="off">
+    </label>
+    <div class="dialog-actions">
+      <button type="button" class="more" id="add-cancel">Cancel</button>
+      <button class="button" id="add-submit">Check</button>
+    </div>
+  </form>
+</dialog>
 </body>
 </html>

@@ -31,9 +31,9 @@ enregistre. Les offres apparaissent en cartes (pastille colorée par nom, titre,
 publication, lien vers l'offre d'origine) et sont toujours là après rechargement.
 
 **Critères d'acceptation :**
-- [ ] `detect()` reconnaît les trois formes d'URL Greenhouse (lien d'offre ou page carrière) et renvoie un refus lisible sinon.
-- [ ] L'adaptateur Greenhouse, testé sur une réponse réelle enregistrée, ne garde que titre, lieu, date et lien `https:`.
-- [ ] Ajout → rechargement : entreprise et offres conservées ; une source qui ne répond pas affiche une erreur au lieu d'enregistrer.
+- [x] `detect()` reconnaît les trois formes d'URL Greenhouse (lien d'offre ou page carrière) et renvoie un refus lisible sinon.
+- [x] L'adaptateur Greenhouse, testé sur une réponse réelle enregistrée, ne garde que titre, lieu, date et lien `https:`.
+- [x] Ajout → rechargement : entreprise et offres conservées ; une source qui ne répond pas affiche une erreur au lieu d'enregistrer.
 
 **Vérification :** `npm test` ; manuel avec un vrai compte Greenhouse ; test d'injection (titre `<img src=x onerror=alert(1)>`, lien `javascript:`) sans effet.
 **Dépendances :** T1
