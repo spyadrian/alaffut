@@ -122,7 +122,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 - [x] T11 : Liste des entreprises suivies (renommer, retirer)
 - [x] T12 : Sauvegarde et restauration (fichier JSON)
 - [x] T13 : Suggestions à l'accueil + liste de blocage
-- [ ] T14 : Pied de page, Legal notice, Data & privacy, Support
+- [x] T14 : Pied de page, Legal notice, Data & privacy, Support
 
 ### Checkpoint 4
 
@@ -146,8 +146,9 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 
 ## Questions ouvertes (non bloquantes pour commencer)
 
-- Identité de l'éditeur et adresse de contact pour la Legal notice et les demandes de retrait (T14).
-- Plateforme du lien « Support the project » : Ko-fi, Liberapay ou TWINT (T14).
+- Identité de l'éditeur et adresse de contact : placeholders `[PUBLISHER NAME]`, `[PUBLISHER LOCATION]`,
+  `[CONTACT EMAIL]` dans `legal.html` et `privacy.html`, à remplacer avant T16.
+- Plateforme du lien « Support the project » : Ko-fi, Liberapay ou TWINT. Lien absent du pied de page tant que pas choisi.
 - Liste de suggestions (T13), vérifiée le 21.10.2026, à valider : Proton, GetYourGuide, On, Scandit
   (Greenhouse), ANYbotics, Sonar (Lever), DeepJudge (Ashby), Swissquote, Sportradar, Nexthink
   (SmartRecruiters). CERN écarté : son flux redirige désormais vers une page de connexion.
