@@ -22,3 +22,13 @@ test("welcomeHtml lists the suggestions, escaped", () => {
   assert.ok(html.includes('id="welcome-url"'));
   assert.ok(!html.includes("<b>Acme"));
 });
+
+// Both fields go through the same check, so they must accept the same input.
+test("the welcome field takes a name or a link, like Add company", async () => {
+  const { parseHTML } = await import("linkedom");
+  const page = parseHTML(readFileSync(new URL("../index.html", import.meta.url), "utf8")).document.getElementById("add-url");
+  const welcome = parseHTML(welcomeHtml([])).document.getElementById("welcome-url");
+  assert.equal(welcome.getAttribute("type"), page.getAttribute("type"));
+  assert.equal(welcome.placeholder, page.placeholder);
+  assert.equal(welcome.getAttribute("aria-label"), page.parentElement.firstChild.textContent.trim());  // the dialog's label
+});
