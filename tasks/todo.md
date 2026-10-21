@@ -205,6 +205,39 @@ L'interface ne change pas.
 **Vérification :** outils de dev du navigateur (mode mobile, Lighthouse accessibilité), parcours au clavier, console sans violation CSP.
 **Dépendances :** T1–T14 · **Fichiers :** `css/style.css`, `index.html`, `.htaccess`, `js/core/store.js` · **Taille :** M
 
+### T15a : Ajouter une entreprise par son nom
+**Description :** Dans « Add company », le visiteur peut taper un nom au lieu d'un lien. Le site en tire
+2 ou 3 comptes probables (« Back Market » → `backmarket`, `back-market` : minuscules, sans accents ni
+apostrophes) et les essaie en parallèle sur Greenhouse, Lever (US et EU), Ashby, SmartRecruiters, et sur le
+flux Teamtailor `https://{compte}.teamtailor.com/jobs.rss` (CORS ouvert, 404 si inconnu, vérifié le
+21.10.2026). Les autres flux RSS ne sont pas devinés : le domaine est inconnu et la plupart bloquent le CORS.
+
+**Critères d'acceptation :**
+- [ ] Une saisie qui n'est pas un lien est traitée comme un nom ; un lien garde le comportement actuel.
+- [ ] Résultats trouvés → liste au choix (outil, nombre d'offres, lien vers la page carrière pour vérifier) ; rien n'est ajouté sans que le visiteur choisisse (homonymes).
+- [ ] Seuls les comptes avec au moins une offre sont proposés (SmartRecruiters répond 200 et 0 offre pour une entreprise inconnue) ; la blocklist et les entreprises déjà suivies sont filtrées.
+- [ ] Rien trouvé → message clair : « We couldn't find it ourselves », avec quoi chercher soi-même (le lien d'une offre ou de la page carrière).
+- [ ] Une source qui échoue (délai, erreur) n'empêche pas d'afficher les autres résultats.
+
+**Vérification :** `npm test` (génération des comptes, tri des réponses, sans réseau) ; manuel avec quelques vrais noms, une entreprise inconnue et une bloquée.
+**Dépendances :** T13 · **Fichiers :** `js/core/detect.js` ou nouveau `js/core/lookup.js`, `js/ui/add.js`, `index.html`, `css/style.css`, test · **Taille :** M
+
+### T15b : Afficher les offres par tranches
+**Description :** Aujourd'hui toutes les offres filtrées sont rendues d'un coup, et à chaque action (marque,
+filtre, frappe dans la recherche). Une grosse entreprise Greenhouse peut en avoir plusieurs milliers : page
+lente et pied de page inatteignable. On affiche les 50 premières et un bouton « Show 50 more » en bas,
+plutôt qu'une pagination numérotée (moins de code, pas de retour en haut à chaque page).
+
+**Critères d'acceptation :**
+- [ ] Au plus 50 cartes affichées ; « Show 50 more (N left) » ajoute les suivantes ; le bouton disparaît quand tout est affiché.
+- [ ] Changer de filtre, de tri, de statut ou de recherche revient aux 50 premières ; marquer une offre garde le nombre affiché.
+- [ ] Le compteur « N results » reste le total filtré, pas le nombre affiché.
+- [ ] Le bouton est atteignable au clavier et le focus passe à la première nouvelle carte après un clic.
+- [ ] Le pied de page est atteignable avec 2000 offres suivies, sans ralentissement visible.
+
+**Vérification :** `npm test` (découpage) ; manuel avec une fixture de 2000 offres importée par la sauvegarde.
+**Dépendances :** T15 · **Fichiers :** `js/ui/cards.js`, `js/app.js`, `index.html`, `css/style.css`, test · **Taille :** S
+
 ### T16 : Mise en ligne sur Infomaniak
 **Critères d'acceptation :**
 - [ ] Conditions générales des quatre éditeurs lues par toi (prérequis).
@@ -212,7 +245,7 @@ L'interface ne change pas.
 - [ ] Parcours complet vérifié en production, pour chaque outil.
 
 **Vérification :** manuel en production, en-têtes vérifiés (`curl -I`).
-**Dépendances :** T15 · **Fichiers :** aucun nouveau (éventuellement un script de déploiement) · **Taille :** S
+**Dépendances :** T15, T15a, T15b · **Fichiers :** aucun nouveau (éventuellement un script de déploiement) · **Taille :** S
 
 ### Checkpoint final
 - [ ] Toutes les exigences de `reference/BRIEF.md` couvertes
