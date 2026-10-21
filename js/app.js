@@ -56,11 +56,12 @@ function render() {
   if (!state.companies.length) {
     if (!$("#welcome")) $("#list").innerHTML = welcomeHtml(suggestions);  // keeps what is being typed
     $("#count").textContent = "0 results";
-    $("#more").hidden = true;
+    $("#more").hidden = $("#to-top").hidden = true;
     return;
   }
   const n = renderJobs($("#list"), $("#more"), state, current, shown);
   $("#count").textContent = `${n} result${n === 1 ? "" : "s"}`;
+  $("#to-top").hidden = Math.min(shown, n) <= PAGE;
 }
 
 async function refresh(force) {
