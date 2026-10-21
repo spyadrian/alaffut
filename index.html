@@ -88,10 +88,14 @@
 <dialog id="add-dialog" aria-labelledby="add-title">
   <form id="add-form">
     <h3 id="add-title">Add a company</h3>
-    <label class="field">Link to one of its jobs or to its careers page
-      <input id="add-url" type="url" required placeholder="https://job-boards.greenhouse.io/…" autocomplete="off">
+    <label class="field">Company name, or a link to one of its jobs or to its careers page
+      <input id="add-url" required placeholder="Back Market, or https://…" autocomplete="off">
     </label>
     <p id="add-status" role="status"></p>
+    <fieldset class="choices" id="add-choices" hidden>
+      <legend>Which one is it?</legend>
+      <div id="add-choice-list"></div>
+    </fieldset>
     <label class="field" id="add-name-row" hidden>Display name
       <input id="add-name" maxlength="80" autocomplete="off">
     </label>
