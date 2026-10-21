@@ -60,3 +60,8 @@ test("detect explains why Workday and Amazon can't be followed", () => {
     assert.match(detect(url).error, /(Workday|Amazon) .*no public feed/, url);
   }
 });
+
+test("detect refuses a source on the blocklist", () => {
+  assert.match(detect("https://jobs.lever.co/acme/123", ["lever:acme"]).error, /asked not to be followed/);
+  assert.deepEqual(detect("https://jobs.lever.co/acme", ["greenhouse:acme"]), { tool: "lever", account: "acme" });
+});

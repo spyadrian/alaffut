@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { load, save, addCompany, renameCompany, removeCompany, toggleMark, backup, restore, KEY } from "../js/core/store.js";
+import { load, save, addCompany, renameCompany, removeCompany, dropBlocked, toggleMark, backup, restore, KEY } from "../js/core/store.js";
 
 const memory = () => {
   const data = new Map();
@@ -123,4 +123,12 @@ test("restore keeps only the fields it knows", () => {
   assert.equal(back.companies[0].extra, undefined);
   assert.equal(Object.getPrototypeOf(back.jobs[0]), Object.prototype);
   assert.equal({}.polluted, undefined);
+});
+
+test("dropBlocked removes blocked companies and their jobs, and nothing else", () => {
+  let state = addCompany(load(memory()), { tool: "greenhouse", account: "acme" }, "Acme", [job], "x");
+  state = addCompany(state, { tool: "lever", account: "bolt" }, "Bolt", [job], "x");
+  state = dropBlocked(state, ["greenhouse:acme", "ashby:other"]);
+  assert.deepEqual(state.companies.map(c => c.key), ["lever:bolt"]);
+  assert.deepEqual(state.jobs.map(j => j.key), ["lever:bolt:1"]);
 });

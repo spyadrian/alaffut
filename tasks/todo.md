@@ -170,8 +170,8 @@ L'interface ne change pas.
 
 ### T13 : Suggestions et liste de blocage
 **Critères d'acceptation :**
-- [ ] Liste vide → écran d'accueil avec le champ « paste a link » et des suggestions ajoutables en un clic (`data/suggestions.json`, une dizaine d'entreprises vérifiées à faire valider).
-- [ ] Une source présente dans `data/blocklist.json` est refusée à l'ajout avec un message, n'est plus interrogée, et ses offres disparaissent chez les visiteurs qui la suivaient.
+- [x] Liste vide → écran d'accueil avec le champ « paste a link » et des suggestions ajoutables en un clic (`data/suggestions.json`, une dizaine d'entreprises vérifiées à faire valider).
+- [x] Une source présente dans `data/blocklist.json` est refusée à l'ajout avec un message, n'est plus interrogée, et ses offres disparaissent chez les visiteurs qui la suivaient.
 
 **Vérification :** `npm test` (blocage dans `detect` et au relevé) ; manuel en ajoutant un compte à la blocklist.
 **Dépendances :** T7, T11 · **Fichiers :** `data/suggestions.json`, `data/blocklist.json`, `js/ui/welcome.js`, `js/core/detect.js`, test · **Taille :** M
