@@ -230,7 +230,7 @@ plutôt qu'une pagination numérotée (moins de code, pas de retour en haut à c
 
 **Critères d'acceptation :**
 - [x] Au plus 50 cartes affichées ; « Show 50 more (N left) » ajoute les suivantes ; le bouton disparaît quand tout est affiché.
-- [ ] Changer de filtre, de tri, de statut ou de recherche revient aux 50 premières ; marquer une offre garde le nombre affiché.
+- [x] Changer de filtre, de tri, de statut ou de recherche revient aux 50 premières ; marquer une offre garde le nombre affiché.
 - [x] Le compteur « N results » reste le total filtré, pas le nombre affiché.
 - [x] Le bouton est atteignable au clavier et le focus passe à la première nouvelle carte après un clic.
 - [x] Le pied de page est atteignable avec 2000 offres suivies, sans ralentissement visible.
