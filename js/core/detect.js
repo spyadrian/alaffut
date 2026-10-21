@@ -12,7 +12,8 @@ const HOSTS = {
   "careers.smartrecruiters.com": "smartrecruiters",
 };
 export const NAMES = { rss: "RSS / Atom feed", greenhouse: "Greenhouse", lever: "Lever", "lever-eu": "Lever", ashby: "Ashby", smartrecruiters: "SmartRecruiters" };
-export const ACCOUNT = /^[a-z0-9_-]+$/;
+// dots inside only (Ashby's mistral.ai): a "." or ".." segment would climb the API path
+export const ACCOUNT = /^[a-z0-9_-]+(\.[a-z0-9_-]+)*$/;
 const UNSUPPORTED = [[/(^|\.)(myworkdayjobs|myworkdaysite)\.com$/, "Workday"], [/(^|\.)amazon\.jobs$/, "Amazon"]];
 
 // blocked: "tool:account" keys of the sources whose owners asked to be left out

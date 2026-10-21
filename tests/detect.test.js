@@ -42,6 +42,10 @@ test("detect recognises Lever boards and keeps the EU region apart", () => {
 test("detect recognises Ashby boards", () => {
   assert.deepEqual(detect("https://jobs.ashbyhq.com/Notion/1fc309c8-da20?utm_source=x"), { tool: "ashby", account: "notion" });
   assert.equal(typeof detect("https://jobs.ashbyhq.com/").error, "string");
+  // Mistral AI's account has a dot; dot-only segments would climb the API path
+  assert.deepEqual(detect("https://jobs.ashbyhq.com/mistral.ai"), { tool: "ashby", account: "mistral.ai" });
+  assert.equal(typeof detect("https://jobs.ashbyhq.com/../").error, "string");
+  assert.equal(typeof detect("https://jobs.ashbyhq.com/a..b").error, "string");
 });
 
 test("detect recognises SmartRecruiters boards", () => {
