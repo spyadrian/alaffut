@@ -157,7 +157,10 @@ const dropEdits = () => { renaming.clear(); leaving.clear(); };
 function showEdits() {
   const edited = renaming.size + leaving.size > 0;
   $("#companies-cancel").hidden = !edited;
-  $("#companies-close").textContent = edited ? "Save" : "Close";
+  const close = $("#companies-close");
+  close.textContent = edited ? "Save" : "Close";
+  close.classList.toggle("button", edited);  // blue, like the other main actions
+  close.classList.toggle("more", !edited);
 }
 
 $("#companies-open").onclick = () => { renderCompanies(state); showEdits(); $("#companies-dialog").showModal(); };
