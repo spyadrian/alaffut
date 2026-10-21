@@ -2,7 +2,7 @@ import { load, save, addCompany, renameCompany, removeCompany, dropBlocked, togg
 import { STATUSES, SORTS, counts, choices, prune } from "./core/filters.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
-import { renderJobs } from "./ui/cards.js";
+import { renderJobs, PAGE } from "./ui/cards.js";
 import { terms } from "./core/search.js";
 import { renderSummary } from "./ui/summary.js";
 import { renderChoices } from "./ui/filters.js";
@@ -20,6 +20,7 @@ const [blocklist, suggestions] = await Promise.all(["blocklist", "suggestions"].
 let state = dropBlocked(startVisit(load(localStorage), now()), blocklist);
 const UI = KEY + ":ui";  // view preferences, kept apart from the data
 const view = { status: "open", sort: "spotted", cities: new Set(), companies: new Set() };
+let shown = PAGE;  // back to the first jobs whenever the view changes; marks keep it
 try {
   const saved = JSON.parse(localStorage.getItem(UI));
   if (Object.hasOwn(STATUSES, saved?.status)) view.status = saved.status;
@@ -55,9 +56,10 @@ function render() {
   if (!state.companies.length) {
     if (!$("#welcome")) $("#list").innerHTML = welcomeHtml(suggestions);  // keeps what is being typed
     $("#count").textContent = "0 results";
+    $("#more").hidden = true;
     return;
   }
-  const n = renderJobs($("#list"), state, current);
+  const n = renderJobs($("#list"), $("#more"), state, current, shown);
   $("#count").textContent = `${n} result${n === 1 ? "" : "s"}`;
 }
 
@@ -97,10 +99,11 @@ const add = setupAdd({
 
 setupWelcome($("#list"), add);
 
-$("#q").oninput = render;
+$("#q").oninput = () => { shown = PAGE; render(); };
 $("#q").onkeydown = e => {
   if (e.key !== "Escape") return;
   e.target.value = "";
+  shown = PAGE;
   render();
 };
 document.addEventListener("keydown", e => {
@@ -113,12 +116,14 @@ $("#statuses").onclick = e => {
   const button = e.target.closest("button");
   if (!button) return;
   view.status = button.dataset.status;
+  shown = PAGE;
   remember();
   render();
 };
 
 $("#sort").onchange = e => {
   view.sort = e.target.value;
+  shown = PAGE;
   remember();
   render();
 };
@@ -127,6 +132,7 @@ $("#filters").addEventListener("change", e => {
   const chosen = view[e.target.dataset.list];
   if (!chosen) return;
   e.target.checked ? chosen.add(e.target.value) : chosen.delete(e.target.value);
+  shown = PAGE;
   render();
   $(`[data-list="${e.target.dataset.list}"][value="${CSS.escape(e.target.value)}"]`)?.focus();  // the list was redrawn
 });
@@ -135,6 +141,7 @@ $("#filters").addEventListener("click", e => {
   const list = e.target.dataset.clear;
   if (!list) return;
   view[list].clear();
+  shown = PAGE;
   render();
 });
 
@@ -215,6 +222,13 @@ setupBackup({
     render();
   },
 });
+
+$("#more").onclick = () => {
+  const first = shown;
+  shown += PAGE;
+  render();
+  $("#list").children[first]?.querySelector("a[href], button").focus();  // the first new card
+};
 
 $("#refresh").onclick = () => refresh(true);
 

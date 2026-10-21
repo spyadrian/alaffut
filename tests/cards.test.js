@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { jobHtml, day } from "../js/ui/cards.js";
+import { jobHtml, day, renderJobs } from "../js/ui/cards.js";
 
 const job = { title: "Engineer", location: "Zurich", published: "2026-10-01T09:00:00-04:00", url: "https://example.com/1" };
 
@@ -53,4 +53,23 @@ test("jobHtml offers both marks, and shows them once set", () => {
 
 test("jobHtml escapes the job key in its buttons", () => {
   assert.ok(!jobHtml({ ...job, key: 'a:"><img>' }, "Acme").includes("<img>"));
+});
+
+test("renderJobs shows the first jobs and a button for the rest", async () => {
+  const { parseHTML } = await import("linkedom");
+  const { document } = parseHTML("<div id=list></div><button id=more hidden></button>");
+  const list = document.getElementById("list"), more = document.getElementById("more");
+  const jobs = Array.from({ length: 120 }, (_, i) => ({ ...job, key: `a:${i}`, company: "a", spotted: "2026-10-20T12:00:00.000Z" }));
+  const state = { companies: [{ key: "a", name: "Acme" }], jobs };
+  const view = { status: "all", sort: "spotted", cities: new Set(), companies: new Set(), words: [] };
+
+  assert.equal(renderJobs(list, more, state, view), 120);  // the total, not what is shown
+  assert.equal(list.querySelectorAll(".job").length, 50);
+  assert.equal(more.hidden, false);
+  assert.equal(more.textContent, "Show 50 more (70 left)");
+  renderJobs(list, more, state, view, 100);
+  assert.equal(more.textContent, "Show 20 more (20 left)");
+  renderJobs(list, more, state, view, 150);
+  assert.equal(list.querySelectorAll(".job").length, 120);
+  assert.equal(more.hidden, true);
 });

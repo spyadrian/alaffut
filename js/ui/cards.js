@@ -32,11 +32,16 @@ export function jobHtml(job, company, fresh = false, words = []) {
   </div>`;
 }
 
-export function renderJobs(list, state, view) {
+export const PAGE = 50;
+
+// Only the first `shown` jobs are drawn; `more` offers the next ones. Returns the total.
+export function renderJobs(list, more, state, view, shown = PAGE) {
   const names = Object.fromEntries(state.companies.map(c => [c.key, c.name]));
-  const jobs = visible(state, view);
-  list.innerHTML = jobs.length ? jobs.map(job => jobHtml(job, names[job.company] ?? "", isNew(state, job), view.words)).join("") : `<div class="empty">No job matches these filters.</div>`;
+  const jobs = visible(state, view), left = jobs.length - shown;
+  list.innerHTML = jobs.length ? jobs.slice(0, shown).map(job => jobHtml(job, names[job.company] ?? "", isNew(state, job), view.words)).join("") : `<div class="empty">No job matches these filters.</div>`;
   // set through the CSSOM, not a style attribute, so the CSP can forbid inline styles
   for (const avatar of list.querySelectorAll(".avatar")) avatar.style.setProperty("--hue", avatar.dataset.hue);
+  more.hidden = left <= 0;
+  more.textContent = `Show ${Math.min(PAGE, left)} more (${left} left)`;
   return jobs.length;
 }
