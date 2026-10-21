@@ -189,7 +189,7 @@ L'interface ne change pas.
 ### Checkpoint 4
 - [x] `npm test` passe
 - [x] Parcours d'un nouveau visiteur : accueil → suggestion → offres → marque → export → import ailleurs (`tests/journey.test.js`)
-- [ ] Revue avec toi
+- [x] Revue avec toi
 
 ---
 
