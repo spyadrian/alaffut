@@ -2,7 +2,7 @@
   --bg:#f5f5f2;--card:#ffffff;--card2:#fafaf7;--text:#1b1b19;--muted:#6b6b64;--line:#e4e4de;
   --accent:#2f5bd3;--accent-soft:#e8eefc;--green:#137a45;--green-soft:#e3f4ea;--red:#b3261e;--red-soft:#fbe9e7;
   --amber:#8a5a00;--amber-soft:#fdf1d8;--shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.04);
-  --avatar-l:38%;  /* lightness of the letter in company avatars */
+  --avatar-l:29%;  /* lightness of the letter in company avatars: 4.5:1 on every hue */
 }
 @media (prefers-color-scheme:dark){:root{
   --bg:#121211;--card:#1c1c1a;--card2:#222220;--text:#ecece6;--muted:#a2a29a;--line:#31312d;
@@ -38,7 +38,6 @@ aside{position:sticky;top:84px;display:flex;flex-direction:column;gap:18px;max-h
 .segments{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:4px}
 .segments button{border:0;background:transparent;border-radius:7px;padding:6px 8px;cursor:pointer;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
 .segments button[aria-pressed=true]{background:var(--card);color:var(--text);box-shadow:var(--shadow);font-weight:600}
-.segments small{opacity:.7}
 .segments button:last-child:nth-child(odd){grid-column:span 2}
 select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
 .checklist{display:flex;flex-direction:column;gap:1px}
@@ -69,7 +68,8 @@ select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10
 .list{display:flex;flex-direction:column;gap:8px}
 .job{position:relative;display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow);transition:border-color .15s,transform .15s}
 .job:hover{border-color:var(--accent);transform:translateY(-1px)}
-.job.gone{opacity:.62}
+.job.gone{background:var(--card2)}
+.job.gone h4{color:var(--muted)}  /* greyed without opacity, so text keeps AA contrast */
 .job.applied{border-left:3px solid var(--accent)}
 .job h4 a{text-decoration:none}
 .job h4 a::after{content:"";position:absolute;inset:0;border-radius:12px}  /* the whole card is clickable */
@@ -110,7 +110,7 @@ dialog h3{margin:0 0 14px;font-size:17px}
 .rename:hover,.rename:focus{border-color:var(--line);background:var(--card2)}
 .remove{min-width:76px}  /* Remove and Undo take the same room */
 .remove:not([aria-pressed=true]):hover{border-color:var(--red);color:var(--red)}
-.companies li.leaving>:not(.remove){opacity:.5}
+.companies li.leaving .rename{color:var(--muted)}
 .companies li.leaving .rename{text-decoration:line-through}
 .dialog-actions .more,.actions .more{margin:0}
 
@@ -129,14 +129,15 @@ dialog h3{margin:0 0 14px;font-size:17px}
   .last-run{display:none}
   .actions{gap:8px}
   .actions .more,.actions .button{padding:8px 12px}
-  main{grid-template-columns:1fr;padding:16px;gap:12px}
+  main{grid-template-columns:minmax(0,1fr);padding:16px;gap:12px}  /* a wide card can't stretch the page */
   aside{position:static;max-height:none;overflow:visible;padding:0;display:none}
   aside.open{display:flex}
   .mobile-filters{display:block;width:100%;margin:0}
   .figures{grid-template-columns:repeat(2,1fr)}
   .job{grid-template-columns:36px 1fr;padding:12px}
   .avatar{width:36px;height:36px}
-  .side{grid-column:2;flex-direction:row;align-items:center;justify-content:flex-start}
+  .side{grid-column:2;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start}
+  .marks{flex-wrap:wrap}
 }
 
 footer{max-width:1240px;margin:0 auto;padding:24px 20px 32px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted)}
