@@ -16,7 +16,7 @@ export function companyHtml(company, jobs) {
       <input class="rename" data-key="${esc(company.key)}" value="${esc(company.name)}" maxlength="80" aria-label="Name of ${esc(company.name)}" autocomplete="off">
       <div class="meta"><span>${NAMES[company.tool] ?? esc(company.tool)}</span><span>${open} open job${open === 1 ? "" : "s"}</span>${check}</div>
     </div>
-    <button class="mark remove" data-key="${esc(company.key)}">Remove</button>
+    <button class="mark remove" data-key="${esc(company.key)}" aria-pressed="false">Remove</button>
   </li>`;
 }
 

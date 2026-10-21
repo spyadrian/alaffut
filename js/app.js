@@ -1,5 +1,5 @@
 import { load, save, addCompany, renameCompany, removeCompany, toggleMark, KEY } from "./core/store.js";
-import { STATUSES, SORTS, counts, choices } from "./core/filters.js";
+import { STATUSES, SORTS, counts, choices, prune } from "./core/filters.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
 import { renderJobs } from "./ui/cards.js";
@@ -37,6 +37,7 @@ function notSaved() {
 }
 
 function render() {
+  prune(state, view);
   renderSummary(state);
   const total = counts(state);
   for (const button of $("#statuses").children) {
@@ -156,19 +157,27 @@ $("#company-list").addEventListener("change", e => {
   if (!saved) notSaved();
 });
 
+// Remove only greys a company out; it leaves when the list is closed, so a second click undoes it.
+const leaving = new Set();
 $("#company-list").addEventListener("click", e => {
   const button = e.target.closest(".remove");
   if (!button) return;
-  const { key } = button.dataset, previous = state;
-  if (!confirm(`Stop following ${state.companies.find(c => c.key === key).name}? Its jobs and your marks on them will be removed.`)) return;
-  state = removeCompany(state, key);
+  const { key } = button.dataset, gone = !leaving.delete(key);
+  if (gone) leaving.add(key);
+  button.closest("li").classList.toggle("leaving", gone);
+  button.setAttribute("aria-pressed", gone);
+  button.textContent = gone ? "Undo" : "Remove";
+});
+
+$("#companies-dialog").addEventListener("close", () => {
+  if (!leaving.size) return;
+  const previous = state;
+  for (const key of leaving) state = removeCompany(state, key);
+  leaving.clear();
   const saved = persist();
-  if (saved) view.companies.delete(key);
-  else state = previous;
+  if (!saved) state = previous;
   render();
   if (!saved) notSaved();
-  renderCompanies(state);
-  $("#companies-close").focus();  // the button was redrawn
 });
 
 $("#refresh").onclick = () => refresh(true);

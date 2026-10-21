@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { STATUSES, inStatus, counts, visible, choices } from "../js/core/filters.js";
+import { STATUSES, inStatus, counts, visible, choices, prune } from "../js/core/filters.js";
 
 const T0 = "2026-10-20T10:00:00.000Z", T1 = "2026-10-20T12:00:00.000Z";
 const state = {
@@ -93,4 +93,11 @@ test("search, status, city, company and sort combine", () => {
   assert.deepEqual(shown({ ...all, status: "open" }), []);
   assert.deepEqual(shown({ ...all, companies: new Set(["a"]) }), []);
   assert.deepEqual(shown({ ...all, words: ["gone", "too"] }), ["5"]);
+});
+
+test("prune drops ticked cities and companies that no longer exist, and keeps the others", () => {
+  const ticked = view({ cities: new Set(["zurich", "lyon"]), companies: new Set(["a", "gone"]) });
+  prune(listing, ticked);
+  assert.deepEqual([...ticked.cities], ["zurich"]);
+  assert.deepEqual([...ticked.companies], ["a"]);
 });
