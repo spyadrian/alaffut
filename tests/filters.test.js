@@ -85,3 +85,12 @@ test("choices counts a job once per city and shows its most frequent spelling", 
   const more = { ...listing, jobs: [...listing.jobs, { key: "6", company: "a", title: "X", location: "Zürich", spotted: T0, published: "" }, { key: "7", company: "a", title: "Y", location: "Zürich", spotted: T0, published: "" }] };
   assert.equal(zurich(more).label, "Zürich");
 });
+
+test("search, status, city, company and sort combine", () => {
+  const all = { status: "all", words: ["gone"], cities: new Set(["zurich"]), companies: new Set(["b"]) };
+  assert.deepEqual(shown(all), ["5", "4"]);
+  assert.deepEqual(shown({ ...all, sort: "title" }), ["4", "5"]);
+  assert.deepEqual(shown({ ...all, status: "open" }), []);
+  assert.deepEqual(shown({ ...all, companies: new Set(["a"]) }), []);
+  assert.deepEqual(shown({ ...all, words: ["gone", "too"] }), ["5"]);
+});
