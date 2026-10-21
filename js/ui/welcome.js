@@ -1,10 +1,10 @@
-// The first screen: paste a link, or follow a suggested company in one click.
+// The first screen: type a name or paste a link, or follow a suggested company in one click.
 import { esc } from "../core/safe.js";
 
 export const welcomeHtml = suggestions => `<div class="empty" id="welcome">
-  <p>You're not following any company yet. Paste a link to one of its jobs or to its careers page.</p>
+  <p>You're not following any company yet. Type its name, or paste a link to one of its jobs or to its careers page.</p>
   <form class="welcome-form" id="welcome-form">
-    <input id="welcome-url" type="url" required placeholder="https://…" aria-label="Link to a job or careers page" autocomplete="off">
+    <input id="welcome-url" required placeholder="Back Market, or https://…" aria-label="Company name, or a link to one of its jobs or to its careers page" autocomplete="off">
     <button class="button">Add</button>
   </form>
   ${suggestions.length ? `<p>Or start with one of these companies:</p>
@@ -12,7 +12,7 @@ export const welcomeHtml = suggestions => `<div class="empty" id="welcome">
   <p id="welcome-status" role="status"></p>
 </div>`;
 
-// open(url): the "Add company" dialog, already checking; quick(url, name): adds without asking.
+// open(text): the "Add company" dialog, already checking a name or a link; quick(url, name): adds without asking.
 export function setupWelcome(list, { open, quick }) {
   list.addEventListener("submit", e => {
     if (e.target.id !== "welcome-form") return;
