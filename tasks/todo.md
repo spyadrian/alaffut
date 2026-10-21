@@ -229,11 +229,11 @@ lente et pied de page inatteignable. On affiche les 50 premières et un bouton �
 plutôt qu'une pagination numérotée (moins de code, pas de retour en haut à chaque page).
 
 **Critères d'acceptation :**
-- [ ] Au plus 50 cartes affichées ; « Show 50 more (N left) » ajoute les suivantes ; le bouton disparaît quand tout est affiché.
+- [x] Au plus 50 cartes affichées ; « Show 50 more (N left) » ajoute les suivantes ; le bouton disparaît quand tout est affiché.
 - [ ] Changer de filtre, de tri, de statut ou de recherche revient aux 50 premières ; marquer une offre garde le nombre affiché.
-- [ ] Le compteur « N results » reste le total filtré, pas le nombre affiché.
-- [ ] Le bouton est atteignable au clavier et le focus passe à la première nouvelle carte après un clic.
-- [ ] Le pied de page est atteignable avec 2000 offres suivies, sans ralentissement visible.
+- [x] Le compteur « N results » reste le total filtré, pas le nombre affiché.
+- [x] Le bouton est atteignable au clavier et le focus passe à la première nouvelle carte après un clic.
+- [x] Le pied de page est atteignable avec 2000 offres suivies, sans ralentissement visible.
 
 **Vérification :** `npm test` (découpage) ; manuel avec une fixture de 2000 offres importée par la sauvegarde.
 **Dépendances :** T15 · **Fichiers :** `js/ui/cards.js`, `js/app.js`, `index.html`, `css/style.css`, test · **Taille :** S

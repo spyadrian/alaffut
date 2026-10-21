@@ -129,7 +129,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 ### Phase 5 : finition et mise en ligne
 - [x] T15 : Mobile, accessibilité, CSP
 - [x] T15a : Ajouter une entreprise par son nom
-- [ ] T15b : Afficher les offres par tranches (« Show 50 more »)
+- [x] T15b : Afficher les offres par tranches (« Show 50 more »)
 - [ ] T16 : Mise en ligne sur Infomaniak
 
 ### Checkpoint final
