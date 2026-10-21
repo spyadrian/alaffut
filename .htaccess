@@ -1,0 +1,6 @@
+# The page only loads its own files; job data is fetched by the browser from the https APIs.
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; connect-src https:; script-src 'self'; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "no-referrer"
+</IfModule>

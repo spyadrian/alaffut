@@ -197,9 +197,10 @@ L'interface ne change pas.
 
 ### T15 : Mobile, accessibilité, CSP
 **Critères d'acceptation :**
-- [ ] Sous 860 px : une colonne, filtres derrière « Filters », pas de défilement horizontal.
-- [ ] Tout faisable au clavier, focus visible, contrastes AA vérifiés dans les deux thèmes (y compris pastilles et badges).
-- [ ] `.htaccess` : CSP (`default-src 'self'; connect-src https:; script-src 'self'; style-src 'self'`…), aucun script ni style inline restant ; quota `localStorage` dépassé → message clair.
+- [x] Sous 860 px : une colonne, filtres derrière « Filters », pas de défilement horizontal.
+- [x] Focus visible, contrastes AA vérifiés dans les deux thèmes (y compris pastilles et badges).
+- [ ] Parcours complet au clavier, fait par toi dans un vrai navigateur.
+- [x] `.htaccess` : CSP (`default-src 'self'; connect-src https:; script-src 'self'; style-src 'self'`…), aucun script ni style inline restant ; quota `localStorage` dépassé → message clair.
 
 **Vérification :** outils de dev du navigateur (mode mobile, Lighthouse accessibilité), parcours au clavier, console sans violation CSP.
 **Dépendances :** T1–T14 · **Fichiers :** `css/style.css`, `index.html`, `.htaccess`, `js/core/store.js` · **Taille :** M
