@@ -143,8 +143,8 @@ L'interface ne change pas.
 **Dépendances :** T8, T9 · **Fichiers :** `js/core/cities.js`, `js/core/filters.js`, `js/ui/filters.js`, `tests/cities.test.js` · **Taille :** M
 
 ### Checkpoint 3
-- [ ] `npm test` passe
-- [ ] Recherche + statut + ville + entreprise + tri se combinent correctement
+- [x] `npm test` passe
+- [x] Recherche + statut + ville + entreprise + tri se combinent correctement
 - [ ] Revue avec toi
 
 ---
