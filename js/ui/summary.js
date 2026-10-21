@@ -18,16 +18,37 @@ export function summaryHtml(state) {
       [f.new, "new since your last visit", "green"],
       [f.applied, "applications sent", ""],
       [f.errors, "sources with errors", f.errors ? "red" : ""],
-    ].map(([n, label, colour]) => `<div class="figure"><b${colour ? ` class="${colour}"` : ""}>${n}</b><span>${label}</span></div>`).join(""),
-    banners: broken.length ? `<div class="banner error" role="alert"><h3>Needs attention</h3><ul>
+    ].map(([n, label, colour]) => `<b${colour ? ` class="${colour}"` : ""}>${n}</b><span>${label}</span>`)
+      // the errors figure brings back a hidden banner
+      .map((inner, i) => i === 3 && broken.length ? `<button class="figure" data-errors>${inner}</button>` : `<div class="figure">${inner}</div>`).join(""),
+    banners: broken.length ? `<div class="banner error" role="alert" data-dismiss><h3>Needs attention <button class="link-button">Hide</button></h3><ul>
       ${broken.map(c => `<li><b>${esc(c.name)}</b>: ${esc(c.error || c.warning)}</li>`).join("")}</ul></div>` : "",
   };
+}
+
+// The banner the user hid stays hidden until its content changes.
+let banner = "", hidden = "";
+
+export function setupSummary() {
+  $("#banners").addEventListener("click", e => {
+    const box = e.target.closest("[data-dismiss]");
+    if (!box) return;
+    hidden = banner;
+    box.remove();
+  });
+  $("#figures").addEventListener("click", e => {
+    if (!e.target.closest("[data-errors]") || !hidden) return;
+    hidden = "";
+    $("#banners").insertAdjacentHTML("beforeend", banner);
+  });
 }
 
 export function renderSummary(state) {
   const html = summaryHtml(state);
   $("#figures").innerHTML = html.figures;
-  $("#banners").innerHTML = html.banners;
+  banner = html.banners;
+  if (!banner) hidden = "";  // a problem that comes back later is shown again
+  $("#banners").innerHTML = banner === hidden ? "" : banner;
   const last = state.companies.map(c => c.checked).filter(Boolean).sort().at(-1);
   $("#last-run").innerHTML = last ? `Last check<br>${local(last)}` : "";
 }

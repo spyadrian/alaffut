@@ -4,7 +4,7 @@ import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
 import { renderJobs, PAGE } from "./ui/cards.js";
 import { terms } from "./core/search.js";
-import { renderSummary } from "./ui/summary.js";
+import { renderSummary, setupSummary } from "./ui/summary.js";
 import { renderChoices } from "./ui/filters.js";
 import { setupAdd } from "./ui/add.js";
 import { renderCompanies } from "./ui/companies.js";
@@ -99,6 +99,7 @@ const add = setupAdd({
 });
 
 setupWelcome($("#list"), add);
+setupSummary();
 
 $("#q").oninput = () => { shown = PAGE; render(); };
 $("#q").onkeydown = e => {

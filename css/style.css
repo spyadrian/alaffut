@@ -36,10 +36,11 @@ main{max-width:1240px;margin:0 auto;padding:20px;display:grid;grid-template-colu
 aside{position:sticky;top:84px;display:flex;flex-direction:column;gap:18px;max-height:calc(100vh - 100px);overflow:auto;padding:0 10px 8px 0;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
 .block-title{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin:0 0 8px;display:flex;justify-content:space-between}
 .segments{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:4px}
-.segments button{border:0;background:transparent;border-radius:7px;padding:6px 8px;cursor:pointer;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.segments button{border:0;background:transparent;border-radius:7px;padding:6px 8px;cursor:pointer;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:6px;white-space:nowrap}
 .segments button[aria-pressed=true]{background:var(--card);color:var(--text);box-shadow:var(--shadow);font-weight:600}
 .segments button:last-child:nth-child(odd){grid-column:span 2}
-select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+select{width:100%;padding:8px 32px 8px 10px;border:1px solid var(--line);border-radius:10px;appearance:none;cursor:pointer;
+  background:linear-gradient(45deg,transparent 50%,var(--muted) 50%) calc(100% - 17px) 55%/5px 5px no-repeat,linear-gradient(135deg,var(--muted) 50%,transparent 50%) calc(100% - 12px) 55%/5px 5px no-repeat,var(--card)}  /* our own arrow: the native one sits at the very edge, and the CSP forbids an image */
 .checklist{display:flex;flex-direction:column;gap:1px}
 .checklist label{display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px}
 .checklist label:hover{background:var(--card2)}
@@ -61,6 +62,10 @@ select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10
 .banner ul{margin:6px 0 0;padding-left:18px;font-size:14px}
 .banner .muted{color:var(--muted);font-size:13px}
 .banner.error{border-color:var(--red);background:var(--red-soft)}
+.banner[data-dismiss]{cursor:pointer}
+.banner h3 .link-button{float:right;font-weight:400}
+button.figure{text-align:left;cursor:pointer;font:inherit}
+button.figure:hover{border-color:var(--red)}
 
 .list-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 10px;gap:12px}
 .list-head h2{margin:0;font-size:16px}
