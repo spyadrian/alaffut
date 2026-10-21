@@ -113,14 +113,14 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 
 ### Phase 3 : consulter et marquer
 - [x] T8 : Recherche plein texte avec surlignage, `/` et `Esc`
-- [ ] T9 : Statuts et marques (Applied / Not interested)
-- [ ] T10 : Villes, filtres ville et entreprise, tri
+- [x] T9 : Statuts et marques (Applied / Not interested)
+- [x] T10 : Villes, filtres ville et entreprise, tri
 
 ### Checkpoint 3
 
 ### Phase 4 : gérer sa liste et cadre légal
-- [ ] T11 : Liste des entreprises suivies (renommer, retirer)
-- [ ] T12 : Sauvegarde et restauration (fichier JSON)
+- [x] T11 : Liste des entreprises suivies (renommer, retirer)
+- [x] T12 : Sauvegarde et restauration (fichier JSON)
 - [ ] T13 : Suggestions à l'accueil + liste de blocage
 - [ ] T14 : Pied de page, Legal notice, Data & privacy, Support
 

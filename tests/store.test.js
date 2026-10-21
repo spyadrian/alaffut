@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { load, save, addCompany, renameCompany, removeCompany, toggleMark, KEY } from "../js/core/store.js";
+import { load, save, addCompany, renameCompany, removeCompany, toggleMark, backup, restore, KEY } from "../js/core/store.js";
 
 const memory = () => {
   const data = new Map();
@@ -62,4 +62,65 @@ test("removeCompany drops the company and its jobs only", () => {
   state = removeCompany(state, "greenhouse:acme");
   assert.deepEqual(state.companies.map(c => c.key), ["lever:bolt"]);
   assert.deepEqual(state.jobs.map(j => j.key), ["lever:bolt:1"]);
+});
+
+const followed = () => {
+  let state = addCompany(load(memory()), { tool: "greenhouse", account: "acme" }, "Acme", [job], "2026-10-20T10:00:00.000Z");
+  state = addCompany(state, { tool: "rss", account: "https://example.com/jobs.xml" }, "Feed", [], "2026-10-20T10:00:00.000Z");
+  return { ...toggleMark(state, "greenhouse:acme:1", "applied", "2026-10-21T08:00:00.000Z"), visit: { since: "a", seen: "b" } };
+};
+const file = changes => JSON.stringify({ ...JSON.parse(backup(followed(), "2026-10-21T09:00:00.000Z")), ...changes });
+
+test("backup is a dated, versioned file with companies, jobs and marks", () => {
+  const data = JSON.parse(backup(followed(), "2026-10-21T09:00:00.000Z"));
+  assert.equal(data.app, "alaffut");
+  assert.equal(data.version, 1);
+  assert.equal(data.exported, "2026-10-21T09:00:00.000Z");
+  assert.deepEqual(data.companies, followed().companies);
+  assert.equal(data.jobs[0].applied, "2026-10-21T08:00:00.000Z");
+  assert.equal(data.visit, undefined);
+});
+
+test("restore after an emptied browser gives back the same companies, jobs and marks", () => {
+  const fresh = { ...load(memory()), visit: { since: "c", seen: "d" } };
+  const back = restore(fresh, backup(followed(), "x"));
+  assert.deepEqual(back, { ...followed(), visit: fresh.visit });
+});
+
+test("restore refuses what isn't a backup", () => {
+  for (const text of ["{broken", "null", "[]", JSON.stringify({ version: 1, companies: [], jobs: [] })])
+    assert.throws(() => restore(load(memory()), text), /isn't a backup/);
+});
+
+test("restore refuses another version", () => {
+  assert.throws(() => restore(load(memory()), file({ version: 2 })), /version/);
+});
+
+test("restore refuses damaged or hostile content", () => {
+  const [acme, feed] = followed().companies, [one] = followed().jobs;
+  const bad = [
+    { companies: "nope" },
+    { jobs: [{ ...one, url: "javascript:alert(1)" }] },
+    { jobs: [{ ...one, url: "http://example.com/1" }] },
+    { jobs: [{ ...one, title: 3 }] },
+    { jobs: [{ ...one, applied: {} }] },
+    { jobs: [{ ...one, company: "greenhouse:other", key: "greenhouse:other:1" }] },
+    { jobs: [one, one] },
+    { companies: [{ ...acme, tool: "workday", key: "workday:acme" }, feed] },
+    { companies: [{ ...acme, account: "../x", key: "greenhouse:../x" }, feed] },
+    { companies: [{ ...acme, key: "greenhouse:other" }, feed] },
+    { companies: [acme, { ...feed, account: "http://example.com/jobs.xml", key: "rss:http://example.com/jobs.xml" }] },
+    { companies: [{ ...acme, name: "  " }, feed] },
+    { companies: [acme, acme, feed] },
+  ];
+  for (const changes of bad) assert.throws(() => restore(load(memory()), file(changes)), /damaged/, JSON.stringify(changes));
+});
+
+test("restore keeps only the fields it knows", () => {
+  const [acme, feed] = followed().companies, [one] = followed().jobs;
+  const text = file({ companies: [{ ...acme, extra: "<script>" }, feed], jobs: [JSON.parse(JSON.stringify(one).replace("{", '{"__proto__":{"polluted":1},'))] });
+  const back = restore(load(memory()), text);
+  assert.equal(back.companies[0].extra, undefined);
+  assert.equal(Object.getPrototypeOf(back.jobs[0]), Object.prototype);
+  assert.equal({}.polluted, undefined);
 });

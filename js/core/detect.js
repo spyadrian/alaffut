@@ -12,7 +12,7 @@ const HOSTS = {
   "careers.smartrecruiters.com": "smartrecruiters",
 };
 export const NAMES = { rss: "RSS / Atom feed", greenhouse: "Greenhouse", lever: "Lever", "lever-eu": "Lever", ashby: "Ashby", smartrecruiters: "SmartRecruiters" };
-const ACCOUNT = /^[a-z0-9_-]+$/;
+export const ACCOUNT = /^[a-z0-9_-]+$/;
 const UNSUPPORTED = [[/(^|\.)(myworkdayjobs|myworkdaysite)\.com$/, "Workday"], [/(^|\.)amazon\.jobs$/, "Amazon"]];
 
 export function detect(input) {

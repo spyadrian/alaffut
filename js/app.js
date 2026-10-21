@@ -8,6 +8,7 @@ import { renderSummary } from "./ui/summary.js";
 import { renderChoices } from "./ui/filters.js";
 import { setupAdd } from "./ui/add.js";
 import { renderCompanies } from "./ui/companies.js";
+import { setupBackup } from "./ui/backup.js";
 
 const $ = s => document.querySelector(s);
 const now = () => new Date().toISOString();
@@ -178,6 +179,21 @@ $("#companies-dialog").addEventListener("close", () => {
   if (!saved) state = previous;
   render();
   if (!saved) notSaved();
+});
+
+setupBackup({
+  getState: () => state,
+  onRestore(next) {
+    const previous = state;
+    state = next;
+    if (!persist()) {
+      state = previous;
+      throw new Error(QUOTA);
+    }
+    leaving.clear();  // the list it referred to is gone
+    renderCompanies(state);
+    render();
+  },
 });
 
 $("#refresh").onclick = () => refresh(true);
