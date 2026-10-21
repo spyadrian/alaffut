@@ -1,5 +1,5 @@
-import { load, save, addCompany, toggleMark, KEY } from "./core/store.js";
-import { STATUSES, SORTS, counts, choices } from "./core/filters.js";
+import { load, save, addCompany, renameCompany, removeCompany, toggleMark, KEY } from "./core/store.js";
+import { STATUSES, SORTS, counts, choices, prune } from "./core/filters.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
 import { renderJobs } from "./ui/cards.js";
@@ -7,6 +7,7 @@ import { terms } from "./core/search.js";
 import { renderSummary } from "./ui/summary.js";
 import { renderChoices } from "./ui/filters.js";
 import { setupAdd } from "./ui/add.js";
+import { renderCompanies } from "./ui/companies.js";
 
 const $ = s => document.querySelector(s);
 const now = () => new Date().toISOString();
@@ -36,6 +37,7 @@ function notSaved() {
 }
 
 function render() {
+  prune(state, view);
   renderSummary(state);
   const total = counts(state);
   for (const button of $("#statuses").children) {
@@ -141,6 +143,42 @@ $("#list").onclick = e => {
   // keep keyboard users in place when the card stays in the list
   $(`.mark[data-key="${CSS.escape(key)}"][data-mark="${mark}"]`)?.focus();
 };
+
+$("#companies-open").onclick = () => { renderCompanies(state); $("#companies-dialog").showModal(); };
+$("#companies-close").onclick = () => $("#companies-dialog").close();
+
+$("#company-list").addEventListener("change", e => {
+  const { key } = e.target.dataset, previous = state;
+  state = renameCompany(state, key, e.target.value);
+  const saved = persist();
+  if (!saved) state = previous;
+  e.target.value = state.companies.find(c => c.key === key).name;  // an empty name is refused
+  render();
+  if (!saved) notSaved();
+});
+
+// Remove only greys a company out; it leaves when the list is closed, so a second click undoes it.
+const leaving = new Set();
+$("#company-list").addEventListener("click", e => {
+  const button = e.target.closest(".remove");
+  if (!button) return;
+  const { key } = button.dataset, gone = !leaving.delete(key);
+  if (gone) leaving.add(key);
+  button.closest("li").classList.toggle("leaving", gone);
+  button.setAttribute("aria-pressed", gone);
+  button.textContent = gone ? "Undo" : "Remove";
+});
+
+$("#companies-dialog").addEventListener("close", () => {
+  if (!leaving.size) return;
+  const previous = state;
+  for (const key of leaving) state = removeCompany(state, key);
+  leaving.clear();
+  const saved = persist();
+  if (!saved) state = previous;
+  render();
+  if (!saved) notSaved();
+});
 
 $("#refresh").onclick = () => refresh(true);
 

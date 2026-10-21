@@ -69,3 +69,12 @@ export function choices(state, view) {
     companies: state.companies.map(c => ({ value: c.key, label: name[c.key], count: perCompany.get(c.key) })).sort((a, b) => by(a.label, b.label)),
   };
 }
+
+// A ticked city or company that no job or followed company has anymore stops filtering.
+export function prune(state, view) {
+  const exists = {
+    cities: new Set(state.jobs.flatMap(job => cities(job.location).map(cityKey))),
+    companies: new Set(state.companies.map(c => c.key)),
+  };
+  for (const list of ["cities", "companies"]) for (const value of view[list]) if (!exists[list].has(value)) view[list].delete(value);
+}

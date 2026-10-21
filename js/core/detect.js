@@ -11,7 +11,7 @@ const HOSTS = {
   "jobs.smartrecruiters.com": "smartrecruiters",
   "careers.smartrecruiters.com": "smartrecruiters",
 };
-const NAMES = { greenhouse: "Greenhouse", lever: "Lever", "lever-eu": "Lever", ashby: "Ashby", smartrecruiters: "SmartRecruiters" };
+export const NAMES = { rss: "RSS / Atom feed", greenhouse: "Greenhouse", lever: "Lever", "lever-eu": "Lever", ashby: "Ashby", smartrecruiters: "SmartRecruiters" };
 const ACCOUNT = /^[a-z0-9_-]+$/;
 const UNSUPPORTED = [[/(^|\.)(myworkdayjobs|myworkdaysite)\.com$/, "Workday"], [/(^|\.)amazon\.jobs$/, "Amazon"]];
 

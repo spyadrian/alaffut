@@ -38,3 +38,15 @@ export function toggleMark(state, jobKey, mark, now) {
     }),
   };
 }
+
+// An empty name keeps the current one.
+export const renameCompany = (state, key, name) => ({
+  ...state,
+  companies: state.companies.map(c => c.key === key && name.trim() ? { ...c, name: name.trim() } : c),
+});
+
+export const removeCompany = (state, key) => ({
+  ...state,
+  companies: state.companies.filter(c => c.key !== key),
+  jobs: state.jobs.filter(job => job.company !== key),
+});

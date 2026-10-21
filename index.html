@@ -20,6 +20,7 @@
     <div class="actions">
       <div class="last-run" id="last-run"></div>
       <button class="more" id="refresh">Refresh</button>
+      <button class="more" id="companies-open">Companies</button>
       <button class="button" id="add">Add company</button>
     </div>
   </div>
@@ -93,6 +94,15 @@
       <button class="button" id="add-submit">Check</button>
     </div>
   </form>
+</dialog>
+
+<dialog id="companies-dialog" aria-labelledby="companies-title">
+  <h3 id="companies-title">Your companies</h3>
+  <p class="hint">Click a name to rename it. Removed companies leave when you close this list.</p>
+  <ul class="companies" id="company-list"></ul>
+  <div class="dialog-actions">
+    <button class="more" id="companies-close" autofocus>Close</button>
+  </div>
 </dialog>
 </body>
 </html>

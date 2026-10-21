@@ -6,7 +6,7 @@ import { visible } from "../core/filters.js";
 export const day = iso => iso ? `${iso.slice(8, 10)}.${iso.slice(5, 7)}.${iso.slice(0, 4)}` : "";
 
 // Same name, same colour: a hue from 0 to 359.
-function hue(name) {
+export function hue(name) {
   let h = 0;
   for (const c of name) h = (h * 31 + c.charCodeAt(0)) % 360;
   return h;
