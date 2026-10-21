@@ -151,21 +151,29 @@ $("#list").onclick = e => {
   $(`.mark[data-key="${CSS.escape(key)}"][data-mark="${mark}"]`)?.focus();
 };
 
-$("#companies-open").onclick = () => { renderCompanies(state); $("#companies-dialog").showModal(); };
-$("#companies-close").onclick = () => $("#companies-dialog").close();
+// Renames and removals wait until Save closes the list; Cancel or Esc drops them.
+const renaming = new Map(), leaving = new Set();
+const dropEdits = () => { renaming.clear(); leaving.clear(); };
+function showEdits() {
+  const edited = renaming.size + leaving.size > 0;
+  $("#companies-cancel").hidden = !edited;
+  $("#companies-close").textContent = edited ? "Save" : "Close";
+}
 
-$("#company-list").addEventListener("change", e => {
-  const { key } = e.target.dataset, previous = state;
-  state = renameCompany(state, key, e.target.value);
-  const saved = persist();
-  if (!saved) state = previous;
-  e.target.value = state.companies.find(c => c.key === key).name;  // an empty name is refused
-  render();
-  if (!saved) notSaved();
+$("#companies-open").onclick = () => { renderCompanies(state); showEdits(); $("#companies-dialog").showModal(); };
+$("#companies-close").onclick = () => $("#companies-dialog").close();
+$("#companies-cancel").onclick = () => { dropEdits(); $("#companies-dialog").close(); };
+$("#companies-dialog").addEventListener("cancel", dropEdits);  // Esc
+
+// An empty name, or the current one, is no change.
+$("#company-list").addEventListener("input", e => {
+  const { key } = e.target.dataset, name = e.target.value.trim();
+  if (!name || name === state.companies.find(c => c.key === key).name) renaming.delete(key);
+  else renaming.set(key, name);
+  showEdits();
 });
 
-// Remove only greys a company out; it leaves when the list is closed, so a second click undoes it.
-const leaving = new Set();
+// Remove only greys a company out, so a second click undoes it.
 $("#company-list").addEventListener("click", e => {
   const button = e.target.closest(".remove");
   if (!button) return;
@@ -174,13 +182,15 @@ $("#company-list").addEventListener("click", e => {
   button.closest("li").classList.toggle("leaving", gone);
   button.setAttribute("aria-pressed", gone);
   button.textContent = gone ? "Undo" : "Remove";
+  showEdits();
 });
 
 $("#companies-dialog").addEventListener("close", () => {
-  if (!leaving.size) return;
+  if (!renaming.size && !leaving.size) return;
   const previous = state;
+  for (const [key, name] of renaming) state = renameCompany(state, key, name);
   for (const key of leaving) state = removeCompany(state, key);
-  leaving.clear();
+  dropEdits();
   const saved = persist();
   if (!saved) state = previous;
   render();
@@ -196,8 +206,9 @@ setupBackup({
       state = previous;
       throw new Error(QUOTA);
     }
-    leaving.clear();  // the list it referred to is gone
+    dropEdits();  // the list they referred to is gone
     renderCompanies(state);
+    showEdits();
     render();
   },
 });

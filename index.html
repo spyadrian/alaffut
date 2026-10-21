@@ -104,13 +104,14 @@
 
 <dialog id="companies-dialog" aria-labelledby="companies-title">
   <h3 id="companies-title">Your companies</h3>
-  <p class="hint">Click a name to rename it. Removed companies leave when you close this list.</p>
+  <p class="hint">Click a name to rename it. Nothing changes until you click Save.</p>
   <ul class="companies" id="company-list"></ul>
   <p id="backup-status" role="status"></p>
   <div class="dialog-actions">
     <button class="more" id="export">Export</button>
     <button class="more" id="import">Import</button>
     <input type="file" id="import-file" accept=".json,application/json" hidden>
+    <button class="more" id="companies-cancel" hidden>Cancel</button>
     <button class="more" id="companies-close" autofocus>Close</button>
   </div>
 </dialog>
