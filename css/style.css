@@ -136,3 +136,15 @@ dialog h3{margin:0 0 14px;font-size:17px}
   .avatar{width:36px;height:36px}
   .side{grid-column:2;flex-direction:row;align-items:center;justify-content:flex-start}
 }
+
+footer{max-width:1240px;margin:0 auto;padding:24px 20px 32px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted)}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--accent)}
+footer span{margin-left:auto}
+.brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
+.page{display:block;max-width:720px;margin:0 auto;padding:28px 20px 40px}
+.page h1{margin:0 0 18px;font-size:24px}
+.page h2{margin:26px 0 8px;font-size:16px}
+.page p,.page li{color:var(--text)}
+.page a{color:var(--accent)}
+.page .muted{color:var(--muted);font-size:13px}

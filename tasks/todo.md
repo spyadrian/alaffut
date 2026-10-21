@@ -178,9 +178,10 @@ L'interface ne change pas.
 
 ### T14 : Pied de page et pages légales
 **Critères d'acceptation :**
-- [ ] Pied de page : Legal notice, Data & privacy, « Independent site, not affiliated with the companies listed », Support the project.
-- [ ] `legal.html` : éditeur, contact, procédure de demande de retrait ; `privacy.html` : aucune donnée côté serveur, stockage local, requêtes faites par le navigateur vers les API citées, pas de pistage.
-- [ ] Même style que la page principale.
+- [x] Pied de page : Legal notice, Data & privacy, « Independent site, not affiliated with the companies listed ». Support the project : reporté, plateforme pas encore choisie (21.10.2026).
+- [x] `legal.html` : éditeur, contact, procédure de demande de retrait ; `privacy.html` : aucune donnée côté serveur, stockage local, requêtes faites par le navigateur vers les API citées, pas de pistage.
+- [x] Même style que la page principale.
+- [ ] Remplacer `[PUBLISHER NAME]`, `[PUBLISHER LOCATION]`, `[CONTACT EMAIL]` dans `legal.html` et `privacy.html` (avant T16).
 
 **Vérification :** manuel ; liens valides.
 **Dépendances :** T1 (identité éditeur et plateforme de soutien à fournir) · **Fichiers :** `index.html`, `legal.html`, `privacy.html`, `css/style.css` · **Taille :** S
