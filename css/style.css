@@ -100,6 +100,10 @@ dialog h3{margin:0 0 14px;font-size:17px}
 .field input{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--text);font-size:15px}
 #add-status,#backup-status{margin:0 0 12px;font-size:14px}
 #add-status:empty,#backup-status:empty{display:none}
+.choices{border:0;margin:0 0 12px;padding:0;font-size:14px}
+.choices legend{padding:0;margin-bottom:6px;font-size:13px;color:var(--muted)}
+.choices label{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.choices a{margin-left:auto;color:var(--accent)}
 #import{margin-right:auto}
 .dialog-actions{display:flex;justify-content:flex-end;gap:8px}
 .hint{margin:-8px 0 8px;font-size:13px;color:var(--muted)}

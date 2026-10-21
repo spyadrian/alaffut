@@ -213,11 +213,11 @@ flux Teamtailor `https://{compte}.teamtailor.com/jobs.rss` (CORS ouvert, 404 si 
 21.10.2026). Les autres flux RSS ne sont pas devinés : le domaine est inconnu et la plupart bloquent le CORS.
 
 **Critères d'acceptation :**
-- [ ] Une saisie qui n'est pas un lien est traitée comme un nom ; un lien garde le comportement actuel.
-- [ ] Résultats trouvés → liste au choix (outil, nombre d'offres, lien vers la page carrière pour vérifier) ; rien n'est ajouté sans que le visiteur choisisse (homonymes).
-- [ ] Seuls les comptes avec au moins une offre sont proposés (SmartRecruiters répond 200 et 0 offre pour une entreprise inconnue) ; la blocklist et les entreprises déjà suivies sont filtrées.
-- [ ] Rien trouvé → message clair : « We couldn't find it ourselves », avec quoi chercher soi-même (le lien d'une offre ou de la page carrière).
-- [ ] Une source qui échoue (délai, erreur) n'empêche pas d'afficher les autres résultats.
+- [x] Une saisie qui n'est pas un lien est traitée comme un nom ; un lien garde le comportement actuel.
+- [x] Résultats trouvés → liste au choix (outil, nombre d'offres, lien vers la page carrière pour vérifier) ; rien n'est ajouté sans que le visiteur choisisse (homonymes).
+- [x] Seuls les comptes avec au moins une offre sont proposés (SmartRecruiters répond 200 et 0 offre pour une entreprise inconnue) ; la blocklist et les entreprises déjà suivies sont filtrées.
+- [x] Rien trouvé → message clair : « We couldn't find it ourselves », avec quoi chercher soi-même (le lien d'une offre ou de la page carrière).
+- [x] Une source qui échoue (délai, erreur) n'empêche pas d'afficher les autres résultats.
 
 **Vérification :** `npm test` (génération des comptes, tri des réponses, sans réseau) ; manuel avec quelques vrais noms, une entreprise inconnue et une bloquée.
 **Dépendances :** T13 · **Fichiers :** `js/core/detect.js` ou nouveau `js/core/lookup.js`, `js/ui/add.js`, `index.html`, `css/style.css`, test · **Taille :** M

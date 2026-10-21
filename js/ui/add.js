@@ -1,6 +1,8 @@
-// "Add company": paste a link → check the source → name it → save.
-import { detect } from "../core/detect.js";
+// "Add company": paste a link, or type a name and pick a match → check the source → name it → save.
+import { detect, NAMES } from "../core/detect.js";
 import { readSource } from "../core/fetch.js";
+import { isName, lookup } from "../core/lookup.js";
+import { esc } from "../core/safe.js";
 
 const $ = s => document.querySelector(s);
 const display = account => account.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
@@ -8,11 +10,24 @@ const display = account => account.replace(/[-_]+/g, " ").replace(/\b\w/g, c => 
 // blocked: the sources nobody may follow. Returns open(url), to start a check, and quick(url, name), to add without asking.
 export function setupAdd({ getState, onAdd, blocked }) {
   const dialog = $("#add-dialog"), form = $("#add-form"), link = $("#add-url"), name = $("#add-name");
-  const status = $("#add-status"), submit = $("#add-submit");
+  const status = $("#add-status"), submit = $("#add-submit"), choices = $("#add-choices"), list = $("#add-choice-list");
   let found = null;  // {source, jobs} once the source has answered
+  let matches = [];  // what a name lookup found, until the visitor picks one
 
   const say = (text, error = false) => { status.textContent = text; status.classList.toggle("red", error); };
-  const reset = () => { found = null; $("#add-name-row").hidden = true; submit.textContent = "Check"; say(""); };
+  const reset = () => {
+    found = null;
+    matches = [];
+    list.innerHTML = "";  // hidden required radios would block the form
+    choices.hidden = $("#add-name-row").hidden = true;
+    submit.textContent = "Check";
+    say("");
+  };
+  const showName = value => {
+    name.value = value;
+    $("#add-name-row").hidden = false;
+    submit.textContent = "Add";
+  };
 
   // → {source, jobs, warning?}, or throws a readable error
   async function check(url) {
@@ -25,6 +40,29 @@ export function setupAdd({ getState, onAdd, blocked }) {
   $("#add").onclick = () => { form.reset(); reset(); dialog.showModal(); };
   $("#add-cancel").onclick = () => dialog.close();
   link.oninput = reset;
+  // homonyms are common, so a name lookup adds nothing until the visitor picks
+  list.onchange = e => {
+    found = matches[e.target.value];
+    say(found.warning ?? "");
+    showName(link.value.trim());
+  };
+
+  async function search(text) {
+    const skip = [...blocked, ...getState().companies.map(c => c.key)];
+    matches = await lookup(text, skip);
+    if (!matches.length) {
+      say("We couldn't find it ourselves. Paste the link to one of its jobs or to its careers page instead.", true);
+      return;
+    }
+    say("");
+    list.innerHTML = matches.map(({ source, jobs }, i) => `<label>
+      <input type="radio" name="add-choice" value="${i}" required>
+      ${source.tool === "rss" ? "Teamtailor" : NAMES[source.tool]} · ${jobs.length} job${jobs.length === 1 ? "" : "s"}
+      <a href="${esc(source.page)}" target="_blank" rel="noopener">${esc(source.page.replace("https://", ""))}</a>
+    </label>`).join("");
+    choices.hidden = false;
+    list.querySelector("input").focus();
+  }
 
   form.onsubmit = async e => {
     e.preventDefault();
@@ -38,14 +76,16 @@ export function setupAdd({ getState, onAdd, blocked }) {
       return;
     }
     submit.disabled = true;
-    say("Checking…");
     try {
+      if (isName(link.value)) {
+        say("Searching…");
+        return await search(link.value.trim());
+      }
+      say("Checking…");
       const { source, jobs, warning } = await check(link.value);
       found = { source, jobs };
       say(`${jobs.length} job${jobs.length === 1 ? "" : "s"} found.${warning ? ` ${warning}` : ""}`);
-      name.value = source.tool === "rss" ? new URL(source.account).hostname.replace(/^www\./, "") : display(source.account);
-      $("#add-name-row").hidden = false;
-      submit.textContent = "Add";
+      showName(source.tool === "rss" ? new URL(source.account).hostname.replace(/^www\./, "") : display(source.account));
       name.select();
     } catch (error) {
       say(error.message, true);
