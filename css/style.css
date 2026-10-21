@@ -97,8 +97,9 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 dialog h3{margin:0 0 14px;font-size:17px}
 .field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted);margin-bottom:12px}
 .field input{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--text);font-size:15px}
-#add-status{margin:0 0 12px;font-size:14px}
-#add-status:empty{display:none}
+#add-status,#backup-status{margin:0 0 12px;font-size:14px}
+#add-status:empty,#backup-status:empty{display:none}
+#import{margin-right:auto}
 .dialog-actions{display:flex;justify-content:flex-end;gap:8px}
 .hint{margin:-8px 0 8px;font-size:13px;color:var(--muted)}
 .companies{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto}

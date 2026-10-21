@@ -161,9 +161,9 @@ L'interface ne change pas.
 
 ### T12 : Sauvegarde et restauration
 **Critères d'acceptation :**
-- [ ] « Export » télécharge un fichier JSON daté et versionné (entreprises, offres, marques).
-- [ ] « Import » valide le fichier (version, types, liens `https:`) et remplace l'état après confirmation ; un fichier invalide est refusé avec un message clair sans rien toucher.
-- [ ] Aller-retour export → navigateur vidé → import : état identique.
+- [x] « Export » télécharge un fichier JSON daté et versionné (entreprises, offres, marques).
+- [x] « Import » valide le fichier (version, types, liens `https:`) et remplace l'état après confirmation ; un fichier invalide est refusé avec un message clair sans rien toucher.
+- [x] Aller-retour export → navigateur vidé → import : état identique.
 
 **Vérification :** `npm test` (validation, fichiers malformés ou hostiles) ; manuel dans une fenêtre privée.
 **Dépendances :** T9 · **Fichiers :** `js/core/store.js`, `js/ui/backup.js`, `tests/store.test.js` · **Taille :** S
