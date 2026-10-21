@@ -123,10 +123,10 @@ dialog h3{margin:0 0 14px;font-size:17px}
 
 .mobile-filters{display:none}
 @media (max-width:860px){
-  .bar{flex-wrap:wrap;padding:12px 16px}
+  .bar{flex-wrap:wrap;padding:12px 16px;position:relative}
   .search{order:3;flex-basis:100%;max-width:none}
   .search kbd{display:none}
-  .last-run{display:none}
+  .last-run{position:absolute;top:10px;right:16px}  /* in the free space beside the logo */
   .actions{gap:8px}
   .actions .more,.actions .button{padding:8px 12px}
   main{grid-template-columns:minmax(0,1fr);padding:16px;gap:12px}  /* a wide card can't stretch the page */
@@ -136,6 +136,9 @@ dialog h3{margin:0 0 14px;font-size:17px}
   .figures{grid-template-columns:repeat(2,1fr)}
   .job{grid-template-columns:36px 1fr;padding:12px}
   .avatar{width:36px;height:36px}
+  #companies-dialog .dialog-actions{display:grid;grid-template-columns:1fr 1fr}  /* Export | Import, then Cancel | Save */
+  #import{margin:0}
+  #companies-cancel[hidden]+#companies-close{grid-column:span 2}
   .side{grid-column:2;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start}
   .marks{flex-wrap:wrap}
 }
