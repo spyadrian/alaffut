@@ -187,8 +187,8 @@ L'interface ne change pas.
 **Dépendances :** T1 (identité éditeur et plateforme de soutien à fournir) · **Fichiers :** `index.html`, `legal.html`, `privacy.html`, `css/style.css` · **Taille :** S
 
 ### Checkpoint 4
-- [ ] `npm test` passe
-- [ ] Parcours d'un nouveau visiteur : accueil → suggestion → offres → marque → export → import ailleurs
+- [x] `npm test` passe
+- [x] Parcours d'un nouveau visiteur : accueil → suggestion → offres → marque → export → import ailleurs (`tests/journey.test.js`)
 - [ ] Revue avec toi
 
 ---
