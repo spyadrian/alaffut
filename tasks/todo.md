@@ -145,7 +145,7 @@ L'interface ne change pas.
 ### Checkpoint 3
 - [x] `npm test` passe
 - [x] Recherche + statut + ville + entreprise + tri se combinent correctement
-- [ ] Revue avec toi
+- [x] Revue avec toi
 
 ---
 
@@ -153,8 +153,8 @@ L'interface ne change pas.
 
 ### T11 : Entreprises suivies
 **Critères d'acceptation :**
-- [ ] Liste des entreprises suivies (pastille, nom, outil, nombre d'offres, état du dernier relevé), dans le style existant.
-- [ ] Renommer met à jour cartes, filtres et recherche ; retirer (avec confirmation) supprime l'entreprise et ses offres.
+- [x] Liste des entreprises suivies (pastille, nom, outil, nombre d'offres, état du dernier relevé), dans le style existant.
+- [x] Renommer met à jour cartes, filtres et recherche ; retirer (avec confirmation) supprime l'entreprise et ses offres.
 
 **Vérification :** manuel ; `npm test` pour les fonctions de `store.js`.
 **Dépendances :** T3 · **Fichiers :** `js/ui/companies.js`, `js/core/store.js`, `index.html`, test · **Taille :** S

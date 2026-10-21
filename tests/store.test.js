@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { load, save, addCompany, toggleMark, KEY } from "../js/core/store.js";
+import { load, save, addCompany, renameCompany, removeCompany, toggleMark, KEY } from "../js/core/store.js";
 
 const memory = () => {
   const data = new Map();
@@ -48,4 +48,18 @@ test("toggleMark sets a mark with its date, and a second call removes it", () =>
 
 test("toggleMark only accepts the known marks", () => {
   assert.throws(() => toggleMark({ jobs: [] }, "k", "__proto__", "x"));
+});
+
+test("renameCompany trims the new name and keeps the old one when it is empty", () => {
+  const state = addCompany(load(memory()), { tool: "greenhouse", account: "acme" }, "Acme", [job], "x");
+  assert.equal(renameCompany(state, "greenhouse:acme", "  Acme Corp ").companies[0].name, "Acme Corp");
+  assert.equal(renameCompany(state, "greenhouse:acme", "   ").companies[0].name, "Acme");
+});
+
+test("removeCompany drops the company and its jobs only", () => {
+  let state = addCompany(load(memory()), { tool: "greenhouse", account: "acme" }, "Acme", [job], "x");
+  state = addCompany(state, { tool: "lever", account: "bolt" }, "Bolt", [job], "x");
+  state = removeCompany(state, "greenhouse:acme");
+  assert.deepEqual(state.companies.map(c => c.key), ["lever:bolt"]);
+  assert.deepEqual(state.jobs.map(j => j.key), ["lever:bolt:1"]);
 });
