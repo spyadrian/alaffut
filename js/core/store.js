@@ -53,6 +53,8 @@ export const removeCompany = (state, key) => ({
   jobs: state.jobs.filter(job => job.company !== key),
 });
 
+export const dropBlocked = (state, blocked) => blocked.reduce(removeCompany, state);
+
 // A backup holds what the visitor follows and marked, not the current visit.
 export const backup = (state, now) =>
   JSON.stringify({ app: "alaffut", version: 1, exported: now, companies: state.companies, jobs: state.jobs }, null, 1);

@@ -73,8 +73,8 @@ select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10
 .job.applied{border-left:3px solid var(--accent)}
 .job h4 a{text-decoration:none}
 .job h4 a::after{content:"";position:absolute;inset:0;border-radius:12px}  /* the whole card is clickable */
-.mark{position:relative;z-index:1;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:3px 10px;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted)}
-.mark:hover{border-color:var(--accent);color:var(--accent)}
+.mark,.suggestion{position:relative;z-index:1;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:3px 10px;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted)}
+.mark:hover,.suggestion:hover{border-color:var(--accent);color:var(--accent)}
 .mark[aria-pressed=true]{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
 .marks{display:flex;gap:6px}
 .mark[data-mark=applied]:hover{border-color:var(--green);color:var(--green)}
@@ -111,6 +111,13 @@ dialog h3{margin:0 0 14px;font-size:17px}
 .companies li.leaving>:not(.remove){opacity:.5}
 .companies li.leaving .rename{text-decoration:line-through}
 .dialog-actions .more,.actions .more{margin:0}
+
+.welcome-form{display:flex;gap:8px;max-width:520px;margin:0 auto 22px}
+.welcome-form input{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--text);font-size:15px}
+.suggestions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+.suggestion{font-size:13px;padding:6px 12px;color:var(--text)}
+.suggestion:disabled{opacity:.5;cursor:progress}
+#welcome-status:empty{display:none}
 
 .mobile-filters{display:none}
 @media (max-width:860px){

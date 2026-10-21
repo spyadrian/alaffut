@@ -15,7 +15,15 @@ export const NAMES = { rss: "RSS / Atom feed", greenhouse: "Greenhouse", lever: 
 export const ACCOUNT = /^[a-z0-9_-]+$/;
 const UNSUPPORTED = [[/(^|\.)(myworkdayjobs|myworkdaysite)\.com$/, "Workday"], [/(^|\.)amazon\.jobs$/, "Amazon"]];
 
-export function detect(input) {
+// blocked: "tool:account" keys of the sources whose owners asked to be left out
+export function detect(input, blocked = []) {
+  const source = find(input);
+  return blocked.includes(`${source.tool}:${source.account}`)
+    ? { error: "This company asked not to be followed on À l'affût." }
+    : source;
+}
+
+function find(input) {
   let url;
   try {
     url = new URL(String(input ?? "").trim());

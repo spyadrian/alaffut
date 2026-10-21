@@ -1,0 +1,12 @@
+[
+ { "name": "Proton", "url": "https://job-boards.greenhouse.io/proton" },
+ { "name": "GetYourGuide", "url": "https://job-boards.greenhouse.io/getyourguide" },
+ { "name": "On", "url": "https://job-boards.greenhouse.io/onrunning" },
+ { "name": "Scandit", "url": "https://job-boards.greenhouse.io/scandit" },
+ { "name": "ANYbotics", "url": "https://jobs.lever.co/anybotics" },
+ { "name": "Sonar", "url": "https://jobs.lever.co/sonarsource" },
+ { "name": "DeepJudge", "url": "https://jobs.ashbyhq.com/deepjudge" },
+ { "name": "Swissquote", "url": "https://jobs.smartrecruiters.com/swissquote" },
+ { "name": "Sportradar", "url": "https://jobs.smartrecruiters.com/sportradar" },
+ { "name": "Nexthink", "url": "https://jobs.smartrecruiters.com/nexthink" }
+]

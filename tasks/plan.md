@@ -121,7 +121,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 ### Phase 4 : gérer sa liste et cadre légal
 - [x] T11 : Liste des entreprises suivies (renommer, retirer)
 - [x] T12 : Sauvegarde et restauration (fichier JSON)
-- [ ] T13 : Suggestions à l'accueil + liste de blocage
+- [x] T13 : Suggestions à l'accueil + liste de blocage
 - [ ] T14 : Pied de page, Legal notice, Data & privacy, Support
 
 ### Checkpoint 4
@@ -148,7 +148,9 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 
 - Identité de l'éditeur et adresse de contact pour la Legal notice et les demandes de retrait (T14).
 - Plateforme du lien « Support the project » : Ko-fi, Liberapay ou TWINT (T14).
-- Contenu de la liste de suggestions : je proposerai une dizaine d'entreprises vérifiées (CERN, sociétés
-  suisses sur Greenhouse / Lever / Ashby / SmartRecruiters), à valider (T13).
+- Liste de suggestions (T13), vérifiée le 21.10.2026, à valider : Proton, GetYourGuide, On, Scandit
+  (Greenhouse), ANYbotics, Sonar (Lever), DeepJudge (Ashby), Swissquote, Sportradar, Nexthink
+  (SmartRecruiters). CERN écarté : son flux redirige désormais vers une page de connexion.
+  `data/blocklist.json` = liste de clés `"outil:compte"` (ex. `"lever:acme"`, `"rss:https://…"`).
 - Lecture des conditions générales globales de Greenhouse, Lever, Ashby et SmartRecruiters : à faire
   par toi avant la mise en ligne (T16).

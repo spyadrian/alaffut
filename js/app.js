@@ -1,4 +1,4 @@
-import { load, save, addCompany, renameCompany, removeCompany, toggleMark, KEY } from "./core/store.js";
+import { load, save, addCompany, renameCompany, removeCompany, dropBlocked, toggleMark, KEY } from "./core/store.js";
 import { STATUSES, SORTS, counts, choices, prune } from "./core/filters.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
@@ -9,12 +9,15 @@ import { renderChoices } from "./ui/filters.js";
 import { setupAdd } from "./ui/add.js";
 import { renderCompanies } from "./ui/companies.js";
 import { setupBackup } from "./ui/backup.js";
+import { welcomeHtml, setupWelcome } from "./ui/welcome.js";
 
 const $ = s => document.querySelector(s);
 const now = () => new Date().toISOString();
-const empty = $("#list").innerHTML;
 const QUOTA = "Your browser refused to save. Free some space in its storage and try again.";
-let state = startVisit(load(localStorage), now());
+// shortcut: a file that fails to load counts as empty, so its blocked sources are still read until it loads again
+const [blocklist, suggestions] = await Promise.all(["blocklist", "suggestions"].map(name =>
+  fetch(`data/${name}.json`).then(response => response.json()).catch(() => [])));
+let state = dropBlocked(startVisit(load(localStorage), now()), blocklist);
 const UI = KEY + ":ui";  // view preferences, kept apart from the data
 const view = { status: "open", sort: "spotted", cities: new Set(), companies: new Set() };
 try {
@@ -49,8 +52,8 @@ function render() {
   $("#sort").value = view.sort;
   const current = { ...view, words: terms($("#q").value) };
   renderChoices(choices(state, current), view);
-  if (!state.jobs.length) {
-    $("#list").innerHTML = empty;
+  if (!state.companies.length) {
+    if (!$("#welcome")) $("#list").innerHTML = welcomeHtml(suggestions);  // keeps what is being typed
     $("#count").textContent = "0 results";
     return;
   }
@@ -78,8 +81,9 @@ async function refresh(force) {
   if (!persist()) notSaved();
 }
 
-setupAdd({
+const add = setupAdd({
   getState: () => state,
+  blocked: blocklist,
   onAdd(source, name, jobs) {
     const previous = state;
     state = addCompany(state, source, name, jobs, now());
@@ -90,6 +94,8 @@ setupAdd({
     render();
   },
 });
+
+setupWelcome($("#list"), add);
 
 $("#q").oninput = render;
 $("#q").onkeydown = e => {
@@ -185,7 +191,7 @@ setupBackup({
   getState: () => state,
   onRestore(next) {
     const previous = state;
-    state = next;
+    state = dropBlocked(next, blocklist);
     if (!persist()) {
       state = previous;
       throw new Error(QUOTA);
