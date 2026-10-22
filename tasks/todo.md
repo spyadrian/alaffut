@@ -238,6 +238,25 @@ plutôt qu'une pagination numérotée (moins de code, pas de retour en haut à c
 **Vérification :** `npm test` (découpage) ; manuel avec une fixture de 2000 offres importée par la sauvegarde.
 **Dépendances :** T15 · **Fichiers :** `js/ui/cards.js`, `js/app.js`, `index.html`, `css/style.css`, test · **Taille :** S
 
+### T15c : Règles sur les titres
+**Description :** Le visiteur pose des règles sur les mots des titres, à la place d'une recherche à retaper.
+Rouge : exclure (« senior » si on ne l'est pas). Vert : prioriser, ces offres passent en tête de liste
+(« junior »). Jaune : obliger, seules les offres qui ont au moins un des mots jaunes restent (« engineer »,
+« developer »). Un bloc « Title rules » dans les filtres : un champ pour ajouter un mot, des pastilles qu'un
+clic fait passer rouge → vert → jaune, et une croix pour les retirer.
+
+**Critères d'acceptation :**
+- [ ] Un mot correspond au mot entier, sans tenir compte de la casse ni des accents (« senior » n'attrape pas « seniority » ; « ingenieur » attrape « Ingénieur »).
+- [ ] Rouge : l'offre est masquée. Si un titre a un mot rouge et un mot vert, le rouge gagne.
+- [ ] Jaune : avec plusieurs mots jaunes, il suffit d'en avoir un (l'un ou l'autre). Sans mot jaune, pas de contrainte.
+- [ ] Vert : les offres avec un mot vert passent en tête, dans l'ordre du tri choisi ; les autres suivent dans le même ordre.
+- [ ] Les compteurs des statuts, des entreprises, des villes et « N results » tiennent compte des règles.
+- [ ] Les règles sont conservées entre deux visites et incluses dans l'Export/Import ; une ancienne sauvegarde sans règles s'importe toujours.
+- [ ] Pastilles utilisables au clavier ; la couleur n'est pas la seule information (nom de la règle lisible par un lecteur d'écran).
+
+**Vérification :** `npm test` (mot entier, accents, rouge contre vert, jaune « l'un ou l'autre », ordre, compteurs, sauvegarde) ; manuel avec quelques règles sur une vraie liste, en clair, sombre et mobile.
+**Dépendances :** T10, T12, T15b · **Fichiers :** `js/core/filters.js`, `js/core/store.js`, `js/app.js`, nouveau `js/ui/rules.js`, `index.html`, `css/style.css`, tests · **Taille :** M
+
 ### T16 : Mise en ligne sur Infomaniak
 **Critères d'acceptation :**
 - [ ] Conditions générales des quatre éditeurs lues par toi (prérequis).

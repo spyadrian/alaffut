@@ -130,6 +130,7 @@ Détail (critères, vérifications, fichiers) dans `tasks/todo.md`.
 - [x] T15 : Mobile, accessibilité, CSP
 - [x] T15a : Ajouter une entreprise par son nom
 - [x] T15b : Afficher les offres par tranches (« Show 50 more »)
+- [ ] T15c : Règles sur les titres (exclure, prioriser, obliger)
 - [ ] T16 : Mise en ligne sur Infomaniak
 
 ### Checkpoint final
