@@ -32,8 +32,8 @@ mark{background:var(--amber-soft);color:inherit;border-radius:3px;padding:0 1px}
 .progress{height:3px;background:transparent}
 .progress div{height:100%;width:0;background:var(--accent);transition:width .3s}
 
-main{max-width:1240px;margin:0 auto;padding:20px;display:grid;grid-template-columns:280px 1fr;gap:14px;align-items:start}  /* 260px of filters + room for their scrollbar */
-aside{position:sticky;top:84px;display:flex;flex-direction:column;gap:18px;max-height:calc(100vh - 100px);overflow:auto;padding:0 10px 8px 0;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+main{max-width:1240px;margin:0 auto;padding:20px;display:grid;grid-template-columns:300px 1fr;gap:14px;align-items:start}  /* 280px of filters + room for their scrollbar */
+aside{position:sticky;top:84px;display:flex;flex-direction:column;gap:18px;max-height:calc(100vh - 100px);overflow:auto;padding:0 10px 8px 4px;margin-left:-4px;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:var(--line) transparent}  /* the 4px on the left keep focus rings from being clipped */
 .block-title{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin:0 0 8px;display:flex;justify-content:space-between}
 .segments{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:4px}
 .segments button{border:0;background:transparent;border-radius:7px;padding:6px 8px;cursor:pointer;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:6px;white-space:nowrap}
@@ -154,7 +154,7 @@ dialog h3{margin:0 0 14px;font-size:17px}
   .actions{gap:8px}
   .actions .more,.actions .button{padding:8px 12px}
   main{grid-template-columns:minmax(0,1fr);padding:16px;gap:12px}  /* a wide card can't stretch the page */
-  aside{position:static;max-height:none;overflow:visible;padding:0;display:none}
+  aside{position:static;max-height:none;overflow:visible;padding:0;margin:0;display:none}
   aside.open{display:flex}
   .mobile-filters{display:block;width:100%;margin:0}
   .figures{grid-template-columns:repeat(2,1fr)}
