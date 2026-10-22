@@ -13,6 +13,7 @@ test("summaryHtml lists each source in error with its cause, escaped", () => {
   assert.ok(!html.banners.includes("Fine"));
   assert.ok(html.figures.includes('<b class="red">1</b><span>sources with errors</span>'));
   assert.ok(html.figures.includes("<b>1</b><span>open jobs</span>"));
+  assert.ok(html.figures.includes('<button class="figure" data-errors>'));
 });
 
 test("summaryHtml shows no banner when every source answered", () => {
