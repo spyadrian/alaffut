@@ -32,6 +32,13 @@ export function highlight(text, words, first = []) {
       for (let k = i; k < i + w.length; k++) hit[owner[k]] = true;
     }
   }
+  // each word is matched on its own, so the spaces between two marked words are marked too, to read as one
+  for (let i = 1; i < chars.length; i++) {
+    if (hit[i] || !hit[i - 1]) continue;
+    let j = i;
+    while (/\s/.test(chars[j] ?? "")) j++;
+    if (j > i && hit[j]) for (let k = i; k < j; k++) hit[k] = true;
+  }
   for (const rule of first) {
     // after wordsOf, a rule is letters and digits only, so it is safe inside a pattern
     const pattern = new RegExp(`(?<![\\p{L}\\p{N}])${wordsOf(rule).trim().split(" ").join("[^\\p{L}\\p{N}]+")}(?![\\p{L}\\p{N}])`, "gu");

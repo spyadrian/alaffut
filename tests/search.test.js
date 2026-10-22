@@ -44,3 +44,9 @@ test("highlight puts whole first words in bold green, nested cleanly with search
   assert.equal(highlight("Junior Dev", terms("jun"), ["junior"]), `${first}<mark>Jun</mark>ior</strong> Dev`);
   assert.equal(highlight("junior-dev", terms("r-d"), ["junior"]), `${first}junio<mark>r</mark></strong><mark>-d</mark>ev`);
 });
+
+test("highlight joins two marked words over the spaces between them", () => {
+  assert.equal(highlight("Junior Engineer", terms("junior engineer")), "<mark>Junior Engineer</mark>");
+  assert.equal(highlight("Junior  Data Engineer", terms("junior engineer")), "<mark>Junior</mark>  Data <mark>Engineer</mark>");
+  assert.equal(highlight("Junior Engineer", terms("junior")), "<mark>Junior</mark> Engineer");
+});
