@@ -5,6 +5,10 @@ export const norm = s => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase()
 
 export const terms = query => norm(query).split(/\s+/).filter(Boolean);
 
+// A title rule matches whole words: padded with spaces, "senior" can't match inside "seniority".
+export const wordsOf = text => ` ${norm(text).split(/[^\p{L}\p{N}]+/u).filter(Boolean).join(" ")} `;
+export const hasWords = (text, words) => wordsOf(text).includes(words);
+
 // Joined with a newline so a term never matches across two fields.
 export const matches = (texts, words) => {
   const text = norm(texts.join("\n"));

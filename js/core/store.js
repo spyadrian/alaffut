@@ -1,9 +1,10 @@
 // Everything the visitor follows lives in their browser, under one versioned key.
 import { NAMES, ACCOUNT } from "./detect.js";
 import { safeUrl } from "./safe.js";
+import { wordsOf } from "./search.js";
 
 export const KEY = "alaffut:v1";
-const empty = () => ({ version: 1, companies: [], jobs: [] });
+const empty = () => ({ version: 1, companies: [], jobs: [], rules: [] });
 
 export function load(storage) {
   const raw = storage.getItem(KEY);
@@ -53,11 +54,28 @@ export const removeCompany = (state, key) => ({
   jobs: state.jobs.filter(job => job.company !== key),
 });
 
+// Title rules: a new word hides jobs, and a click moves it on to the next kind.
+export const RULES = ["exclude", "prioritise", "require"];
+const sameWord = (rule, word) => wordsOf(rule.word) === wordsOf(word);
+
+export function addRule(state, word) {
+  word = word.trim();
+  if (wordsOf(word) === "  " || state.rules.some(rule => sameWord(rule, word))) return state;
+  return { ...state, rules: [...state.rules, { word, kind: "exclude" }] };
+}
+
+export const nextRule = (state, word) => ({
+  ...state,
+  rules: state.rules.map(rule => sameWord(rule, word) ? { ...rule, kind: RULES[(RULES.indexOf(rule.kind) + 1) % RULES.length] } : rule),
+});
+
+export const removeRule = (state, word) => ({ ...state, rules: state.rules.filter(rule => !sameWord(rule, word)) });
+
 export const dropBlocked = (state, blocked) => blocked.reduce(removeCompany, state);
 
 // A backup holds what the visitor follows and marked, not the current visit.
 export const backup = (state, now) =>
-  JSON.stringify({ app: "alaffut", version: 1, exported: now, companies: state.companies, jobs: state.jobs }, null, 1);
+  JSON.stringify({ app: "alaffut", version: 1, exported: now, companies: state.companies, jobs: state.jobs, rules: state.rules }, null, 1);
 
 const COMPANY = { key: 1, tool: 1, account: 1, name: 1, added: 1, checked: 1, tried: 1, error: 0, warning: 0 };
 const JOB = { key: 1, company: 1, id: 1, title: 1, location: 1, published: 1, url: 1, spotted: 1, gone: 0, applied: 0, hidden: 0 };
@@ -103,7 +121,11 @@ export function restore(state, text) {
       if (!safeUrl(job.url)) throw new Error(`the job "${job.title}" has an unsafe link`);
     }
     unique(jobs);
-    return { ...state, companies, jobs };
+    if (data.rules === undefined) return { ...state, companies, jobs };  // a backup from before rules existed
+    if (!Array.isArray(data.rules)) throw new Error("the title rules aren't a list");
+    const rules = data.rules.map(rule => pick(rule, { word: 1, kind: 1 }));
+    for (const rule of rules) if (!RULES.includes(rule.kind) || wordsOf(rule.word) === "  ") throw new Error(`the title rule "${rule.word}" isn't valid`);
+    return { ...state, companies, jobs, rules };
   } catch (error) {
     throw new Error(`This backup is damaged and can't be imported: ${error.message}.`);
   }

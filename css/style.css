@@ -49,6 +49,18 @@ select{width:100%;padding:8px 32px 8px 10px;border:1px solid var(--line);border-
 .checklist small{color:var(--muted);font-variant-numeric:tabular-nums}
 .checklist .none span{color:var(--muted)}
 .checklist:empty::before{content:"None yet";font-size:13px;color:var(--muted);padding:0 8px}
+.rule-form{display:flex;gap:6px}
+.rule-form input{flex:1;min-width:0;padding:7px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.rule-form .more{margin:0;padding:7px 12px}
+.rule-hint{margin:6px 0 0;font-size:12px;color:var(--muted)}
+.rules{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.rules:empty{display:none}
+.rule{display:flex;align-items:center;border-radius:999px;font-size:13px;--c:var(--red);--soft:var(--red-soft);background:var(--soft);color:var(--c)}
+.rule.prioritise{--c:var(--green);--soft:var(--green-soft)}
+.rule.require{--c:var(--amber);--soft:var(--amber-soft)}
+.rule button{border:0;background:none;color:inherit;cursor:pointer;padding:3px 4px 3px 10px;font-weight:600}
+.rule small{font-weight:400;margin-left:6px}
+.rule .rule-remove{padding:3px 10px 3px 4px;font-size:15px;line-height:1}
 .link-button{border:0;background:none;color:var(--accent);cursor:pointer;padding:0;font-size:13px}
 
 .figures{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}

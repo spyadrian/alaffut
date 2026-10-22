@@ -246,13 +246,13 @@ Rouge : exclure (« senior » si on ne l'est pas). Vert : prioriser, ces offres 
 clic fait passer rouge → vert → jaune, et une croix pour les retirer.
 
 **Critères d'acceptation :**
-- [ ] Un mot correspond au mot entier, sans tenir compte de la casse ni des accents (« senior » n'attrape pas « seniority » ; « ingenieur » attrape « Ingénieur »).
-- [ ] Rouge : l'offre est masquée. Si un titre a un mot rouge et un mot vert, le rouge gagne.
-- [ ] Jaune : avec plusieurs mots jaunes, il suffit d'en avoir un (l'un ou l'autre). Sans mot jaune, pas de contrainte.
-- [ ] Vert : les offres avec un mot vert passent en tête, dans l'ordre du tri choisi ; les autres suivent dans le même ordre.
-- [ ] Les compteurs des statuts, des entreprises, des villes et « N results » tiennent compte des règles.
-- [ ] Les règles sont conservées entre deux visites et incluses dans l'Export/Import ; une ancienne sauvegarde sans règles s'importe toujours.
-- [ ] Pastilles utilisables au clavier ; la couleur n'est pas la seule information (nom de la règle lisible par un lecteur d'écran).
+- [x] Un mot correspond au mot entier, sans tenir compte de la casse ni des accents (« senior » n'attrape pas « seniority » ; « ingenieur » attrape « Ingénieur »).
+- [x] Rouge : l'offre est masquée. Si un titre a un mot rouge et un mot vert, le rouge gagne.
+- [x] Jaune : avec plusieurs mots jaunes, il suffit d'en avoir un (l'un ou l'autre). Sans mot jaune, pas de contrainte.
+- [x] Vert : les offres avec un mot vert passent en tête, dans l'ordre du tri choisi ; les autres suivent dans le même ordre.
+- [x] Les compteurs des statuts, des entreprises, des villes et « N results » tiennent compte des règles.
+- [x] Les règles sont conservées entre deux visites et incluses dans l'Export/Import ; une ancienne sauvegarde sans règles s'importe toujours.
+- [x] Pastilles utilisables au clavier ; la couleur n'est pas la seule information (nom de la règle lisible par un lecteur d'écran).
 
 **Vérification :** `npm test` (mot entier, accents, rouge contre vert, jaune « l'un ou l'autre », ordre, compteurs, sauvegarde) ; manuel avec quelques règles sur une vraie liste, en clair, sombre et mobile.
 **Dépendances :** T10, T12, T15b · **Fichiers :** `js/core/filters.js`, `js/core/store.js`, `js/app.js`, nouveau `js/ui/rules.js`, `index.html`, `css/style.css`, tests · **Taille :** M
