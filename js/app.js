@@ -1,4 +1,4 @@
-import { load, save, addCompany, renameCompany, removeCompany, dropBlocked, toggleMark, KEY } from "./core/store.js";
+import { load, save, addCompany, renameCompany, removeCompany, dropBlocked, toggleMark, addRule, nextRule, removeRule, KEY } from "./core/store.js";
 import { STATUSES, SORTS, counts, choices, prune } from "./core/filters.js";
 import { startVisit, due, merge } from "./core/tracker.js";
 import { readAll } from "./core/fetch.js";
@@ -6,6 +6,7 @@ import { renderJobs, PAGE } from "./ui/cards.js";
 import { terms } from "./core/search.js";
 import { renderSummary, setupSummary } from "./ui/summary.js";
 import { renderChoices } from "./ui/filters.js";
+import { renderRules } from "./ui/rules.js";
 import { setupAdd } from "./ui/add.js";
 import { renderCompanies } from "./ui/companies.js";
 import { setupBackup } from "./ui/backup.js";
@@ -53,6 +54,7 @@ function render() {
   $("#sort").value = view.sort;
   const current = { ...view, words: terms($("#q").value) };
   renderChoices(choices(state, current), view);
+  renderRules(state);
   if (!state.companies.length) {
     if (!$("#welcome")) $("#list").innerHTML = welcomeHtml(suggestions);  // keeps what is being typed
     $("#count").textContent = "0 results";
@@ -146,6 +148,31 @@ $("#filters").addEventListener("click", e => {
   shown = PAGE;
   render();
 });
+
+// Rules change what is listed, so the list goes back to its first jobs.
+function changeRules(next, focus) {
+  const previous = state;
+  state = next;
+  const saved = persist();
+  if (!saved) state = previous;
+  shown = PAGE;
+  render();
+  if (!saved) notSaved();
+  focus?.();
+}
+
+$("#rule-form").onsubmit = e => {
+  e.preventDefault();
+  changeRules(addRule(state, $("#rule-word").value));
+  $("#rule-word").value = "";
+};
+
+$("#rules").onclick = e => {
+  const button = e.target.closest("button");
+  if (!button) return;
+  const { word } = button.dataset, kind = button.classList.contains("rule-kind");
+  changeRules((kind ? nextRule : removeRule)(state, word), () => (kind ? $(`.rule-kind[data-word="${CSS.escape(word)}"]`) : $("#rule-word")).focus());
+};
 
 $("#list").onclick = e => {
   const button = e.target.closest(".mark");

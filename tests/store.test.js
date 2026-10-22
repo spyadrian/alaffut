@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { load, save, addCompany, renameCompany, removeCompany, dropBlocked, toggleMark, backup, restore, KEY } from "../js/core/store.js";
+import { load, save, addCompany, renameCompany, removeCompany, dropBlocked, toggleMark, backup, restore, addRule, nextRule, removeRule, KEY } from "../js/core/store.js";
 
 const memory = () => {
   const data = new Map();
@@ -9,7 +9,7 @@ const memory = () => {
 const job = { id: "1", title: "Engineer", location: "Zurich", published: "2026-10-01T00:00:00Z", url: "https://example.com/1" };
 
 test("load starts empty", () => {
-  assert.deepEqual(load(memory()), { version: 1, companies: [], jobs: [] });
+  assert.deepEqual(load(memory()), { version: 1, companies: [], jobs: [], rules: [] });
 });
 
 test("addCompany then save and load keeps the company and its jobs", () => {
@@ -112,6 +112,10 @@ test("restore refuses damaged or hostile content", () => {
     { companies: [acme, { ...feed, account: "http://example.com/jobs.xml", key: "rss:http://example.com/jobs.xml" }] },
     { companies: [{ ...acme, name: "  " }, feed] },
     { companies: [acme, acme, feed] },
+    { rules: "nope" },
+    { rules: [{ word: "senior", kind: "maybe" }] },
+    { rules: [{ word: 3, kind: "exclude" }] },
+    { rules: [{ word: " ! ", kind: "exclude" }] },
   ];
   for (const changes of bad) assert.throws(() => restore(load(memory()), file(changes)), /damaged/, JSON.stringify(changes));
 });
@@ -131,4 +135,34 @@ test("dropBlocked removes blocked companies and their jobs, and nothing else", (
   state = dropBlocked(state, ["greenhouse:acme", "ashby:other"]);
   assert.deepEqual(state.companies.map(c => c.key), ["lever:bolt"]);
   assert.deepEqual(state.jobs.map(j => j.key), ["lever:bolt:1"]);
+});
+
+test("addRule adds a trimmed word as an exclusion, once", () => {
+  let state = addRule(load(memory()), "  Senior ");
+  assert.deepEqual(state.rules, [{ word: "Senior", kind: "exclude" }]);
+  for (const same of ["sénior", "SENIOR", "", " - "]) assert.equal(addRule(state, same), state);
+  state = addRule(state, "Machine learning");
+  assert.equal(state.rules.length, 2);
+});
+
+test("nextRule turns red, green, yellow, then red again; removeRule drops the word", () => {
+  let state = addRule(load(memory()), "junior");
+  const kinds = [];
+  for (let i = 0; i < 3; i++) kinds.push((state = nextRule(state, "junior")).rules[0].kind);
+  assert.deepEqual(kinds, ["prioritise", "require", "exclude"]);
+  assert.deepEqual(removeRule(state, "junior").rules, []);
+});
+
+test("rules go into the backup and come back, and an older backup without them keeps the current ones", () => {
+  const ruled = addRule(followed(), "senior");
+  assert.deepEqual(JSON.parse(backup(ruled, "x")).rules, ruled.rules);
+  assert.deepEqual(restore(load(memory()), backup(ruled, "x")).rules, ruled.rules);
+  const old = file({ rules: undefined });
+  assert.deepEqual(restore(addRule(load(memory()), "lead"), old).rules, [{ word: "lead", kind: "exclude" }]);
+});
+
+test("a state saved before rules existed loads with none", () => {
+  const storage = memory();
+  storage.setItem(KEY, JSON.stringify({ version: 1, companies: [], jobs: [] }));
+  assert.deepEqual(load(storage).rules, []);
 });

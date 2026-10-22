@@ -101,3 +101,42 @@ test("prune drops ticked cities and companies that no longer exist, and keeps th
   assert.deepEqual([...ticked.cities], ["zurich"]);
   assert.deepEqual([...ticked.companies], ["a"]);
 });
+
+const ruled = rules => ({
+  visit: { since: T0 },
+  rules,
+  companies: [{ key: "a", name: "Acme", added: T0 }],
+  jobs: [
+    { key: "senior", company: "a", title: "Senior Engineer", location: "Paris", spotted: T0 },
+    { key: "junior", company: "a", title: "Junior Developer", location: "Paris", spotted: T0 },
+    { key: "both", company: "a", title: "Senior/Junior Engineer", location: "Lyon", spotted: T0 },
+    { key: "seniority", company: "a", title: "Seniority analyst", location: "Paris", spotted: T1 },
+    { key: "ingenieur", company: "a", title: "Ingénieur logiciel", location: "Paris", spotted: T1 },
+  ],
+});
+const ruledKeys = rules => visible(ruled(rules), { status: "open", sort: "spotted", words: [], cities: new Set(), companies: new Set() }).map(job => job.key);
+
+test("a rule matches whole words, ignoring case and accents", () => {
+  assert.deepEqual(ruledKeys([{ word: "senior", kind: "exclude" }]), ["seniority", "ingenieur", "junior"]);
+  assert.deepEqual(ruledKeys([{ word: "INGENIEUR", kind: "require" }]), ["ingenieur"]);
+});
+
+test("an excluded word wins over a prioritised one", () => {
+  assert.deepEqual(ruledKeys([{ word: "senior", kind: "exclude" }, { word: "junior", kind: "prioritise" }]), ["junior", "seniority", "ingenieur"]);
+});
+
+test("required words: one of them is enough", () => {
+  assert.deepEqual(ruledKeys([{ word: "engineer", kind: "require" }, { word: "developer", kind: "require" }]), ["senior", "junior", "both"]);
+});
+
+test("prioritised jobs come first, each group in the chosen order", () => {
+  assert.deepEqual(ruledKeys([{ word: "junior", kind: "prioritise" }]), ["junior", "both", "seniority", "ingenieur", "senior"]);
+});
+
+test("status counts and checklists leave out what the rules hide", () => {
+  const state = ruled([{ word: "senior", kind: "exclude" }]);
+  assert.equal(counts(state).open, 3);
+  const c = choices(state, { status: "open", words: [], cities: new Set(), companies: new Set() });
+  assert.deepEqual(c.cities.map(city => [city.label, city.count]), [["Lyon", 0], ["Paris", 3]]);
+  assert.equal(c.companies[0].count, 3);
+});

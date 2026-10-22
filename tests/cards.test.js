@@ -41,6 +41,12 @@ test("jobHtml highlights search terms in title, company and location", () => {
   }
 });
 
+test("jobHtml shows first words in the title only", () => {
+  const html = jobHtml({ ...job, title: "Junior Engineer", location: "Junior City" }, "Junior Ltd", false, [], ["junior"]);
+  assert.ok(html.includes('<strong class="first">Junior</strong> Engineer'));
+  assert.equal(html.split("first").length, 2);
+});
+
 test("jobHtml offers both marks, and shows them once set", () => {
   const plain = jobHtml({ ...job, key: "a:1" }, "Acme");
   assert.ok(plain.includes('data-key="a:1" data-mark="applied" aria-pressed="false">I applied</button>'));

@@ -35,3 +35,12 @@ test("highlight escapes before marking and never breaks an entity", () => {
   assert.equal(highlight("<img src=x onerror=alert(1)>", terms("img")), "&lt;<mark>img</mark> src=x onerror=alert(1)&gt;");
   assert.equal(highlight("R&D", terms("r&d")), "<mark>R&amp;D</mark>");
 });
+
+test("highlight puts whole first words in bold green, nested cleanly with search marks", () => {
+  const first = '<strong class="first">';
+  assert.equal(highlight("Junior Engineer", [], ["junior"]), `${first}Junior</strong> Engineer`);
+  assert.equal(highlight("Juniority lead", [], ["junior"]), "Juniority lead");
+  assert.equal(highlight("Machine-Learning Ingénieur", [], ["machine learning", "INGENIEUR"]), `${first}Machine-Learning</strong> ${first}Ingénieur</strong>`);
+  assert.equal(highlight("Junior Dev", terms("jun"), ["junior"]), `${first}<mark>Jun</mark>ior</strong> Dev`);
+  assert.equal(highlight("junior-dev", terms("r-d"), ["junior"]), `${first}junio<mark>r</mark></strong><mark>-d</mark>ev`);
+});
